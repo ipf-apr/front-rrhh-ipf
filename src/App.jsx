@@ -1,22 +1,19 @@
-import { useState } from 'react'
-import './App.css'
-import NavBar from './components/NavBar'
-import Footer from './components/Footer'
-import Index from './components/Index'
+import "./App.css";
+import NavBar from "./components/NavBar";
+import Footer from "./components/Footer";
+import Main from "./components/Main";
 
 function App() {
-
   return (
     <>
       {/* NavBar */}
       <NavBar />
-
-      <Index />
-
+      {/* Main */}
+      <Main />
       {/* Footer */}
       <Footer />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -1,4 +1,4 @@
-export const Main = () => {
+export const Dashboard = () => {
   return (
     <div className="container-fluid py-5 px-md-5 col">
       <header className="d-flex align-items-center justify-content-between">
