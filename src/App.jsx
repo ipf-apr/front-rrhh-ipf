@@ -1,12 +1,20 @@
+import { useState } from 'react'
 import './App.css'
+import NavBar from './components/NavBar'
+import Footer from './components/Footer'
+import Index from './components/Index'
 
 function App() {
 
   return (
     <>
-      {/* Header */}
-      {/* Main */}
-      {/* Footer     */}
+      {/* NavBar */}
+      <NavBar />
+
+      <Index />
+
+      {/* Footer */}
+      <Footer />
     </>
   )
 }
