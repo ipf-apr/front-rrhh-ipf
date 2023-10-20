@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export const Aside = () => {
+function Aside() {
   return (
     <aside
       id="aside"
@@ -22,7 +22,7 @@ export const Aside = () => {
       <div className="offcanvas-body">
         <ul className="nav nav-pills w-100 flex-column g-3">
           <li className="nav-item">
-            <Link to="/" className="nav-link active text-white">
+            <Link to="/dashboard" className="nav-link active text-white">
               Inicio
             </Link>
           </li>
@@ -48,9 +48,9 @@ export const Aside = () => {
           </a>
           <ul className="collapse" id="collapseMenuAdmin">
             <li>
-              <a href="/users" className="nav-link text-white" aria-current="page">
+              <Link to="/users" className="nav-link text-white" aria-current="page">
                 Usuarios
-              </a>
+              </Link>
             </li>
             <li>
               <Link to="/categories" className="nav-link text-white">
@@ -80,3 +80,4 @@ export const Aside = () => {
     </aside>
   );
 };
+export default Aside;

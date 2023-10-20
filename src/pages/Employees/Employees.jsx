@@ -27,9 +27,9 @@ function Employees() {
                     <input placeholder="Nombres" className="form-control col" type="search" name="sName" id="sName"/>
                     <div className="form-control col">
                       <select className="form-select" name="promotion" id="sPromotion">
-                        <option value="" selected>--Seleccionar Condición Promocion--</option>
-                        <option value="1">Habilitado</option>
-                        <option value="0">Inhabilitado</option>
+                        <option defaultValue="">--Seleccionar Condición Promocion--</option>
+                        <option defaultValue="1">Habilitado</option>
+                        <option defaultValue="0">Inhabilitado</option>
                       </select>
                     </div>
                     <div className="d-flex flex-row m-2  justify-content-end gap-2">

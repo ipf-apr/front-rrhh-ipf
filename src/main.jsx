@@ -1,25 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+
+import { BrowserRouter } from "react-router-dom";
 
 import App from "./App.jsx";
-import Login from "./pages/Login/Login.jsx";
-
-
-const router = createBrowserRouter([
-  {
-    path : "/",
-    element: <App/>
-  },
-  {
-    path : "/login",
-    element: <Login/>
-  }
-])
-
+import { AuthContextProvider } from "./contexts/AuthContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router}/>
+    <AuthContextProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </AuthContextProvider>
   </React.StrictMode>
 );
