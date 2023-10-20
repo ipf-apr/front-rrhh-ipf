@@ -1,6 +1,16 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
 
 function Aside() {
+
+  const authContext = useContext(AuthContext);
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    authContext.logoutUser();
+  };
+
   return (
     <aside
       id="aside"
@@ -48,7 +58,11 @@ function Aside() {
           </a>
           <ul className="collapse" id="collapseMenuAdmin">
             <li>
-              <Link to="/users" className="nav-link text-white" aria-current="page">
+              <Link
+                to="/users"
+                className="nav-link text-white"
+                aria-current="page"
+              >
                 Usuarios
               </Link>
             </li>
@@ -61,7 +75,7 @@ function Aside() {
               <Link to="/job-positions" className="nav-link text-white">
                 Puestos Laborales
               </Link>
-            </li>            
+            </li>
             <li>
               <Link to="/skills" className="nav-link text-white">
                 Habilidades
@@ -70,14 +84,13 @@ function Aside() {
           </ul>
         </ul>
         <div className="position-absolute bottom-0 mb-5">
-          <form action="/logout" method="POST">
-            <button type="submit" className="btn btn-outline-primary">
+            <button onClick={handleLogout} type="button" className="btn btn-outline-primary">
               Cerrar sesión
             </button>
-          </form>
+          
         </div>
       </div>
     </aside>
   );
-};
+}
 export default Aside;
