@@ -1,11 +1,19 @@
 import { Dashboard } from "../pages/Dashboard/Dashboard";
 import { Aside } from "../pages/Aside/Aside";
+import NavBar from "./NavBar";
+import Footer from "./Footer";
 function Main() {
   return (
-    <div className="d-flex">
-      <Aside />
-      <Dashboard />
-    </div>
+    <>
+      {/* NavBar */}
+      <NavBar />
+      <div className="d-flex">
+        <Aside />
+        <Dashboard />
+      </div>
+      {/* Footer */}
+      <Footer />
+    </>
   );
 }
 
