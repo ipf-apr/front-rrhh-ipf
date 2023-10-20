@@ -1,18 +1,17 @@
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
-import NavBar from "./components/NavBar";
-import Footer from "./components/Footer";
-import Main from "./components/Main";
+
+import Main from "./components/Main.jsx";
+import Login from "./pages/Login/Login.jsx";
+import Employees from "./pages/Employees/Employees.jsx"
 
 function App() {
   return (
-    <>
-      {/* NavBar */}
-      <NavBar />
-      {/* Main */}
-      <Main />
-      {/* Footer */}
-      <Footer />
-    </>
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/"  element={<Main />}/>
+      <Route path="/employees" element={<Employees />} />
+    </Routes>
   );
 }
 

@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export const Aside = () => {
   return (
     <aside
@@ -20,18 +22,18 @@ export const Aside = () => {
       <div className="offcanvas-body">
         <ul className="nav nav-pills w-100 flex-column g-3">
           <li className="nav-item">
-            <a href="/" className="nav-link active text-white">
+            <Link to="/" className="nav-link active text-white">
               Inicio
-            </a>
+            </Link>
           </li>
           <li>
-            <a
-              href="/employees"
+            <Link
+              to="/employees"
               className="nav-link text-white"
               aria-current="page"
             >
               Empleados
-            </a>
+            </Link>
           </li>
           <a
             className="nav-link text-white dropdown-toggle"
@@ -51,9 +53,19 @@ export const Aside = () => {
               </a>
             </li>
             <li>
-              <a href="/categories" className="nav-link text-white">
+              <Link to="/categories" className="nav-link text-white">
                 Categorías
-              </a>
+              </Link>
+            </li>
+            <li>
+              <Link to="/job-positions" className="nav-link text-white">
+                Puestos Laborales
+              </Link>
+            </li>            
+            <li>
+              <Link to="/skills" className="nav-link text-white">
+                Habilidades
+              </Link>
             </li>
           </ul>
         </ul>
