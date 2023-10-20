@@ -1,19 +1,17 @@
-import { useContext, useEffect, useState} from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
-  const authContext = useContext(AuthContext);
+  const { loginUser, isAuthenticated } = useContext(AuthContext);
 
   useEffect(
     function () {
-      console.log('authContext.isAuthenticated()')
-      console.log(authContext.isAuthenticated())
-      if (authContext.isAuthenticated()) {
-        navigate("/");
+      if (isAuthenticated()) {
+        return navigate("/");
       }
     },
-    [authContext.isAuthenticated]
+    [isAuthenticated]
   );
 
   const [authForm, setAuthForm] = useState({
@@ -23,11 +21,11 @@ function Login() {
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {    
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const { username, password } = authForm;
     try {
-      await authContext.loginUser({ username, password });
+      await loginUser({ username, password });
       navigate("/");
     } catch (error) {
       return alert("error al iniciar sesión: " + error);
@@ -36,7 +34,6 @@ function Login() {
 
   const handleOnChange = ({ target }) => {
     setAuthForm({ ...authForm, [target.name]: target.value });
-    console.log(authForm);
   };
 
   return (
@@ -51,36 +48,38 @@ function Login() {
           className="col-11 col-lg-4 text-start p-4 rounded border border-2 shadow-sm mx-auto"
         >
           <div className="d-flex flex-column p-2">
-            <label className="form-label" htmlFor="username">
-              Nombre de usuario
-            </label>
-            <input
-              className="form-control"
-              type="text"
-              name="username"
-              id="username"
-              value={authForm.username}
-              onChange={handleOnChange}
-            />
+            <div className="text-center font-monospace">
+              <h2>Iniciar Sesión</h2>
+            </div>
+            <div className="form-floating mb-3">
+              <input
+                className="form-control"
+                type="text"
+                name="username"
+                id="username"
+                placeholder="userexample"
+                value={authForm.username}
+                onChange={handleOnChange}
+              />
+              <label htmlFor="username">Nombre de usuario</label>
+            </div>
           </div>
           <div className="d-flex flex-column p-2">
-            <label className="form-label" htmlFor="password">
-              Contraseña
-            </label>
-            <input
-              className="form-control"
-              type="password"
-              name="password"
-              id="password"
-              value={authForm.password}
-              onChange={handleOnChange}
-            />
+            <div className="form-floating mb-3">
+              <input
+                className="form-control"
+                type="password"
+                name="password"
+                id="password"
+                placeholder="passwordexample"
+                value={authForm.password}
+                onChange={handleOnChange}
+              />
+              <label htmlFor="password">Contraseña</label>
+            </div>
           </div>
           <div className="mt-3">
-            <button
-              type="submit"
-              className="btn btn-primary w-100"
-            >
+            <button type="submit" className="btn btn-primary w-100">
               Iniciar Sesión
             </button>
           </div>

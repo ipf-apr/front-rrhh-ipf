@@ -31,8 +31,6 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   const isAuthenticated = () => {
-    console.log("isAuthenticated");
-    console.log(token);
     return token != null;
   };
 

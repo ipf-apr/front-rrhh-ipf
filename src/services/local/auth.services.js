@@ -1,7 +1,6 @@
 import { URL } from "../../utils/constants.js";
 
 export const login = async ({ username, password }) => {
-  console.log(URL);
   const response = await fetch(URL + "/login", {
     method: "POST",
     headers: {
