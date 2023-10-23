@@ -1,32 +1,27 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext.jsx";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 function Login() {
   const { loginUser, isAuthenticated } = useContext(AuthContext);
-
-  useEffect(
-    function () {
-      if (isAuthenticated()) {
-        return navigate("/");
-      }
-    },
-    [isAuthenticated]
-  );
 
   const [authForm, setAuthForm] = useState({
     username: "",
     password: "",
   });
 
-  const navigate = useNavigate();
+
+  if (isAuthenticated()) {
+    return <Navigate to="/" replace />;
+  } 
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { username, password } = authForm;
     try {
       await loginUser({ username, password });
-      navigate("/");
+      <Navigate to="/" replace />;
     } catch (error) {
       return alert("error al iniciar sesión: " + error);
     }
