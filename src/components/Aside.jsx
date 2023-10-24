@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 
 function Aside() {
@@ -32,18 +32,18 @@ function Aside() {
       <div className="offcanvas-body">
         <ul className="nav nav-pills w-100 flex-column g-3">
           <li className="nav-item">
-            <Link to="/dashboard" className="nav-link active text-white">
+            <NavLink to="/dashboard" className="nav-link text-white">
               Inicio
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link
+            <NavLink
               to="/employees"
               className="nav-link text-white"
               aria-current="page"
             >
               Empleados
-            </Link>
+            </NavLink>
           </li>
           <a
             className="nav-link text-white dropdown-toggle"
@@ -58,28 +58,28 @@ function Aside() {
           </a>
           <ul className="collapse" id="collapseMenuAdmin">
             <li>
-              <Link
+              <NavLink
                 to="/users"
                 className="nav-link text-white"
                 aria-current="page"
               >
                 Usuarios
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link to="/categories" className="nav-link text-white">
+              <NavLink to="/categories" className="nav-link text-white">
                 Categorías
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link to="/job-positions" className="nav-link text-white">
+              <NavLink to="/job-positions" className="nav-link text-white">
                 Puestos Laborales
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link to="/skills" className="nav-link text-white">
+              <NavLink to="/skills" className="nav-link text-white">
                 Habilidades
-              </Link>
+              </NavLink>
             </li>
           </ul>
         </ul>
