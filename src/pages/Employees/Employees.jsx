@@ -133,21 +133,21 @@ export const Employees = () => {
               </tr>
             </thead>
             <tbody>
-              {employees.length == 0 ? (
-                isLoading.current ? (
-                  <tr>
-                    <td colSpan={8}>
-                      <Spinner />
-                    </td>
-                  </tr>
-                ) : (
-                  <tr>
-                    <td colSpan={8} className="text-center">
-                      No hay empleados registrados aún.
-                    </td>
-                  </tr>
-                )
-              ) : (
+              {isLoading.current && (
+                <tr>
+                  <td colSpan={8}>
+                    <Spinner />
+                  </td>
+                </tr>
+              )}
+              {employees.length == 0 && !isLoading.current && (
+                <tr>
+                  <td colSpan={8} className="text-center">
+                    No hay empleados registrados aún.
+                  </td>
+                </tr>
+              )}
+              {employees.length != 0 &&
                 employees.map((employee, index) => {
                   const dateIn =
                     employee.Categories[0]?.CategoryEmployee.datePromotion;
@@ -194,8 +194,7 @@ export const Employees = () => {
                       </td>
                     </tr>
                   );
-                })
-              )}
+                })}
             </tbody>
           </table>
         </div>
