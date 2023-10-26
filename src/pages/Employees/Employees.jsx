@@ -3,22 +3,11 @@ import { useEffect } from "react";
 import { fetchEmployees } from "../../services/local/employees";
 import { Link } from "react-router-dom";
 import { Spinner } from "../../components/Spinner";
-import { useRef } from "react";
+import { usePromise } from "../../hooks/usePromise";
 
 export const Employees = () => {
-  const [employees, setEmployees] = useState([]);
-
-  let isLoading = useRef(true);
-
-  useEffect(() => {
-    async function loaderEmployees() {
-      const employees = await fetchEmployees();
-      setEmployees(employees);
-      isLoading.current = false;
-    }
-    loaderEmployees();
-  }, []);
-
+  const { data, loading, error } = usePromise(fetchEmployees);
+  
   const handleDeleteEmployee = () => {};
 
   return (
@@ -133,22 +122,22 @@ export const Employees = () => {
               </tr>
             </thead>
             <tbody>
-              {isLoading.current && (
+              {loading && (
                 <tr>
                   <td colSpan={8}>
                     <Spinner />
                   </td>
                 </tr>
               )}
-              {employees.length == 0 && !isLoading.current && (
+              {data && data.length == 0 && !loading && (
                 <tr>
                   <td colSpan={8} className="text-center">
                     No hay empleados registrados aún.
                   </td>
                 </tr>
               )}
-              {employees.length != 0 &&
-                employees.map((employee, index) => {
+              {data && data.length != 0 &&
+                data && data.map((employee, index) => {
                   const dateIn =
                     employee.Categories[0]?.CategoryEmployee.datePromotion;
                   let date;
