@@ -1,6 +1,5 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import { login } from "../services/local/auth.services";
-import { useEffect } from "react";
 
 export const AuthContext = createContext({});
 
@@ -18,8 +17,8 @@ export const AuthContextProvider = ({ children }) => {
       setToken(resp.token);
     } catch (error) {
       console.log("error on loginUser");
-      console.log(error);
-      throw error.errors;
+      console.log(error.errors || error);
+      throw error.errors || error.message || error;
     }
   };
 

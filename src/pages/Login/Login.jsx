@@ -4,17 +4,16 @@ import { Navigate } from "react-router-dom";
 
 function Login() {
   const { loginUser, isAuthenticated } = useContext(AuthContext);
+  
+  if (isAuthenticated()) {
+    return <Navigate to="/" replace />;
+  } 
+
 
   const [authForm, setAuthForm] = useState({
     username: "",
     password: "",
   });
-
-
-  if (isAuthenticated()) {
-    return <Navigate to="/" replace />;
-  } 
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,6 +22,11 @@ function Login() {
       await loginUser({ username, password });
       <Navigate to="/" replace />;
     } catch (error) {
+      console.log(error);
+      if (error.includes('Failed to fetch')) {
+        return alert("error al iniciar sesión: El servidor no respondió a la petición.");
+        
+      }
       return alert("error al iniciar sesión: " + error);
     }
   };
