@@ -136,6 +136,13 @@ export const Employees = () => {
                   </td>
                 </tr>
               )}
+              {error && (
+                <tr>
+                  <td colSpan={8} className="text-center text-danger ">
+                    { error.message }
+                  </td>
+                </tr>
+              )}
               {data && data.length != 0 &&
                 data && data.map((employee, index) => {
                   const dateIn =
