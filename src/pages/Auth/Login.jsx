@@ -1,39 +1,42 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext.jsx";
 import { Navigate } from "react-router-dom";
+import { useForm } from "../../hooks/useForm.jsx";
 
 function Login() {
   const { loginUser, isAuthenticated } = useContext(AuthContext);
   
   if (isAuthenticated()) {
     return <Navigate to="/" replace />;
-  } 
+  }
+  
 
-
-  const [authForm, setAuthForm] = useState({
+  const {
+    form: datos,
+    handleInputChange,
+    reset,
+  } = useForm({
     username: "",
     password: "",
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { username, password } = authForm;
     try {
-      await loginUser({ username, password });
+      await loginUser(datos);
+      reset();
       <Navigate to="/" replace />;
     } catch (error) {
       console.log(error);
-      if (error.includes('Failed to fetch')) {
-        return alert("error al iniciar sesión: El servidor no respondió a la petición.");
-        
+      if (error.includes("Failed to fetch")) {
+        return alert(
+          "error al iniciar sesión: El servidor no respondió a la petición."
+        );
       }
       return alert("error al iniciar sesión: " + error);
     }
   };
 
-  const handleOnChange = ({ target }) => {
-    setAuthForm({ ...authForm, [target.name]: target.value });
-  };
 
   return (
     <>
@@ -57,8 +60,8 @@ function Login() {
                 name="username"
                 id="username"
                 placeholder="userexample"
-                value={authForm.username}
-                onChange={handleOnChange}
+                value={datos.username}
+                onChange={handleInputChange}
               />
               <label htmlFor="username">Nombre de usuario</label>
             </div>
@@ -71,8 +74,8 @@ function Login() {
                 name="password"
                 id="password"
                 placeholder="passwordexample"
-                value={authForm.password}
-                onChange={handleOnChange}
+                value={datos.password}
+                onChange={handleInputChange}
               />
               <label htmlFor="password">Contraseña</label>
             </div>
