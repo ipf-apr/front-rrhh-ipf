@@ -25,6 +25,7 @@ export const AuthContextProvider = ({ children }) => {
   const logoutUser = () => {
     try {
       setToken(null);
+      localStorage.removeItem('token');
     } catch (error) {
       console.log("error on logoutUser");
       console.log(error);
