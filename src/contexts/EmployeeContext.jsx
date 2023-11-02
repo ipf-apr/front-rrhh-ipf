@@ -1,22 +1,22 @@
-import { createContext, useState } from "react";
-import { fetchEmployees } from "../services/local/employees";
+import { createContext } from "react";
+import { apiStoreEmployee } from "../services/local/employees/create";
 
 export const EmployeeContext = createContext({});
 
 export const EmployeeContextProvider = ({ children }) => {
-   
-  
-    const listEmployees = async () => {
-        try {
-            const resp = await fetchEmployees();
-          } catch (error) {
-            console.log("error on loginUser");
-            console.log(error);
-            throw error.errors;
-          }
+
+  const storeEmployee = async (datos) => {
+    try {
+      return await apiStoreEmployee(datos);
+    } catch (error) {
+      console.log("error on storeEmployee");
+      throw error;
     }
-  
-    return (
-    <EmployeeContext.Provider value={{}}>{children}</EmployeeContext.Provider>
+  };
+
+  return (
+    <EmployeeContext.Provider value={{ storeEmployee }}>
+      {children}
+    </EmployeeContext.Provider>
   );
 };

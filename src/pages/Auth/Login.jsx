@@ -59,7 +59,6 @@ function Login() {
                 type="text"
                 name="username"
                 id="username"
-                placeholder="userexample"
                 value={datos.username}
                 onChange={handleInputChange}
               />

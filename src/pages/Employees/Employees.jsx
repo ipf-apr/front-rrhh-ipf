@@ -6,7 +6,7 @@ import { Spinner } from "../../components/Spinner";
 import { usePromise } from "../../hooks/usePromise";
 
 export const Employees = () => {
-  const { data, loading, error } = usePromise(fetchEmployees);
+  const { data: employees, loading, error } = usePromise(fetchEmployees);
   
   const handleDeleteEmployee = () => {};
 
@@ -129,7 +129,7 @@ export const Employees = () => {
                   </td>
                 </tr>
               )}
-              {data && data.length == 0 && !loading && (
+              {employees && employees.length == 0 && !loading && (
                 <tr>
                   <td colSpan={8} className="text-center">
                     No hay empleados registrados aún.
@@ -143,8 +143,8 @@ export const Employees = () => {
                   </td>
                 </tr>
               )}
-              {data && data.length != 0 &&
-                data && data.map((employee, index) => {
+              {employees && employees.length != 0 &&
+                employees && employees.map((employee, index) => {
                   const dateIn =
                     employee.Categories[0]?.CategoryEmployee.datePromotion;
                   let date;
