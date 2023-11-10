@@ -10,7 +10,8 @@ function Login() {
     return <Navigate to="/" replace />;
   }
   
-
+  const [loading, setLoading ] = useState(false)
+  
   const {
     form: datos,
     handleInputChange,
@@ -23,16 +24,18 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true)
       await loginUser(datos);
       reset();
       <Navigate to="/" replace />;
     } catch (error) {
       console.log(error);
+      setLoading(false)
       if (error.includes("Failed to fetch")) {
         return alert(
           "error al iniciar sesión: El servidor no respondió a la petición."
-        );
-      }
+          );
+        }
       return alert("error al iniciar sesión: " + error);
     }
   };
@@ -80,9 +83,11 @@ function Login() {
             </div>
           </div>
           <div className="mt-3">
-            <button type="submit" className="btn btn-primary w-100">
-              Iniciar Sesión
+            <button disabled={loading}  type="submit" className="btn btn-primary w-100">
+              <span className="mx-2">Iniciar Sesión</span>
+              {loading &&  <div className="spinner-border spinner-border-sm" role="status"></div> }
             </button>
+
           </div>
         </form>
       </main>
