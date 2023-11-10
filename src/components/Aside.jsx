@@ -4,11 +4,11 @@ import { AuthContext } from "../contexts/AuthContext";
 
 function Aside() {
 
-  const authContext = useContext(AuthContext);
+  const {logoutUser} = useContext(AuthContext);
 
   const handleLogout = (e) => {
     e.preventDefault();
-    authContext.logoutUser();
+    logoutUser();
   };
 
   return (

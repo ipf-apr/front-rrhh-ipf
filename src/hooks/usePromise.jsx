@@ -12,5 +12,5 @@ export const usePromise = (fnc) => {
       .finally(() => setLoading(false));
   }, [fnc]);
 
-  return { data, loading, error };
+  return { data, loading, error, setData };
 };

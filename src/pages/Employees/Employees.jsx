@@ -1,23 +1,21 @@
-import { useState } from "react";
-import { useEffect } from "react";
-import { fetchEmployees } from "../../services/local/employees";
 import { Link } from "react-router-dom";
 import { Spinner } from "../../components/Spinner";
-import { usePromise } from "../../hooks/usePromise";
+import { useContext } from "react";
+import { EmployeeContext } from "../../contexts/EmployeeContext";
 
 export const Employees = () => {
-  const { data: employees, loading, error } = usePromise(fetchEmployees);
-  
+  const { employees, loading, error } = useContext(EmployeeContext);
+
   const handleDeleteEmployee = () => {};
 
   return (
     <div className="container-fluid py-5 px-md-5 col">
       <header className="d-flex align-items-center justify-content-between">
         <h1>Listado de Empleados</h1>
-        <div>
-          <a className="btn btn-outline-success" href="/employees/create">
+        <div className="d-flex gap-1">
+          <Link className="btn btn-outline-success" to="/employees/create">
             Nuevo Empleado
-          </a>
+          </Link>
           <a
             className="btn btn-outline-primary"
             data-bs-toggle="collapse"
@@ -139,22 +137,30 @@ export const Employees = () => {
               {error && (
                 <tr>
                   <td colSpan={8} className="text-center text-danger ">
-                    { error.message }
+                    {error.message}
                   </td>
                 </tr>
               )}
-              {employees && employees.length != 0 &&
-                employees && employees.map((employee, index) => {
-                  const dateIn =
-                    employee.Categories[0]?.CategoryEmployee.datePromotion;
+
+              {employees &&
+                employees.length != 0 &&
+                employees &&
+                employees.map((employee, index) => {
                   let date;
-                  if (dateIn) {
-                    date =
-                      dateIn?.split("T")[0].split("-")[2] +
-                      "/" +
-                      dateIn?.split("T")[0].split("-")[1] +
-                      "/" +
-                      dateIn?.split("T")[0].split("-")[0];
+                  let categoryName = "No asignado";
+                  if (employee.Categories) {
+                    const dateIn =
+                      employee?.Categories[0]?.CategoryEmployee.datePromotion;
+                    if (dateIn) {
+                      date =
+                        dateIn?.split("T")[0].split("-")[2] +
+                        "/" +
+                        dateIn?.split("T")[0].split("-")[1] +
+                        "/" +
+                        dateIn?.split("T")[0].split("-")[0];
+                    }
+                    categoryName =
+                      employee.Categories[0]?.name ?? "No asignado";
                   }
 
                   return (
@@ -163,30 +169,32 @@ export const Employees = () => {
                       <td>{employee.lastName}</td>
                       <td>{employee.name}</td>
                       <td>{employee.age}</td>
-                      <td>{employee.Categories[0]?.name ?? "No asignado"}</td>
+                      <td>{categoryName}</td>
                       <td>{date ?? "-"}</td>
                       <td>
                         {employee.promotion ? "Habilitado" : " Inhabilitado"}
                       </td>
                       <td>
-                        <Link
-                          to={`/employees/${employee.id}/edit`}
-                          className="btn btn-outline-success"
-                        >
-                          Editar
-                        </Link>
-                        <Link
-                          to={`/employees/${employee.id}/show`}
-                          className="btn btn-outline-primary"
-                        >
-                          Ver
-                        </Link>
-                        <button
-                          onClick={handleDeleteEmployee}
-                          className="btn btn-outline-danger"
-                        >
-                          Eliminar
-                        </button>
+                        <div className="d-flex gap-1">
+                          <Link
+                            to={`/employees/${employee.id}/edit`}
+                            className="btn btn-outline-success"
+                          >
+                            Editar
+                          </Link>
+                          <Link
+                            to={`/employees/${employee.id}/show`}
+                            className="btn btn-outline-primary"
+                          >
+                            Ver
+                          </Link>
+                          <button
+                            onClick={handleDeleteEmployee}
+                            className="btn btn-outline-danger"
+                          >
+                            Eliminar
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   );

@@ -182,7 +182,7 @@ export const EmployeeCreate = () => {
               required
             />
           </div>
-          <div className="col-12">
+          <div className="d-flex gap-1">
             <button className="btn btn-primary" type="submit">
               Crear
             </button>

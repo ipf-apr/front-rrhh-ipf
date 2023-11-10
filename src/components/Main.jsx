@@ -10,7 +10,7 @@ function Main() {
       {/* NavBar */}
       <NavBar />
       {/* Contenido Principal */}
-      <div className="d-flex">
+      <div className="row">
         <Aside />
         <Outlet />
       </div>
