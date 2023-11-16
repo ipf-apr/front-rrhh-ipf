@@ -1,5 +1,7 @@
 export const EmployeeCategory = () => {
+
   const addCategoryToEmployee = () => {};
+  
   return (
     <>
       <div className="rounded shadow p-2 mb-2">

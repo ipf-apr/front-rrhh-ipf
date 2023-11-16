@@ -9,7 +9,7 @@ export const Employees = () => {
   const handleDeleteEmployee = () => {};
 
   return (
-    <div className="container-fluid py-5 px-md-5 col">
+    <div className="row">
       <header className="d-flex align-items-center justify-content-between">
         <h1>Listado de Empleados</h1>
         <div className="d-flex gap-1">

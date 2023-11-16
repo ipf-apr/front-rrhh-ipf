@@ -15,7 +15,7 @@ function Aside() {
     <aside
       id="aside"
       tabIndex="-1"
-      className="offcanvas-lg offcanvas-start bg-dark px-3 col-2"
+      className="offcanvas-lg offcanvas-start bg-dark px-3 h-100 col-2"
     >
       <div className="offcanvas-header border-bottom text-white">
         <h5 className="offcanvas-title" id="asideTitle">

@@ -1,8 +1,8 @@
-import { Outlet} from 'react-router-dom'
+import { Outlet } from "react-router-dom";
 
 import NavBar from "./NavBar";
 import Footer from "./Footer";
-import Aside from './Aside';
+import Aside from "./Aside";
 
 function Main() {
   return (
@@ -10,9 +10,11 @@ function Main() {
       {/* NavBar */}
       <NavBar />
       {/* Contenido Principal */}
-      <div className="row">
+      <div className="d-flex overflow-hidden">
         <Aside />
-        <Outlet />
+        <div className="col p-4 my-2 overflow-y-scroll h-100">
+          <Outlet />
+        </div>
       </div>
       {/* Footer */}
       <Footer />
