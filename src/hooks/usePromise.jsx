@@ -12,5 +12,11 @@ export const usePromise = (fnc) => {
       .finally(() => setLoading(false));
   }, [fnc]);
 
-  return { data, loading, error, setData };
+  const mutateData = (data) => {
+    setLoading(true)
+    setData(data);
+    setLoading(false)
+  }
+
+  return { data, loading, error, mutateData };
 };

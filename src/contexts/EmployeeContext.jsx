@@ -10,23 +10,27 @@ export const EmployeeContextProvider = ({ children }) => {
     data: employees,
     loading,
     error,
-    setData,
+    mutateData,
   } = usePromise(fetchEmployees);
 
-  const storeEmployee = async (datos) => {
+  const storeEmployee = async (employeeId) => {
     try {
-      const data = await apiStoreEmployee(datos);
-
-      setData([...employees, data]);
-
-      return true;
+      const data = await apiStoreEmployee(employeeId);
+      if (employees?.length === 0) {
+        return mutateData([data]);  
+      }
+      mutateData([...employees, data]);
     } catch (error) {
       console.log("error on storeEmployee");
       throw error;
     }
   };
 
-  const editEmployee = async (datos) => {
+  const showEmployee = (employeeId) => {
+    return employees?.find((emp) => emp.id == employeeId);
+  };
+
+  const editEmployee = async (employeeId) => {
     try {
     } catch (error) {
       console.log("error on storeEmployee");
@@ -36,7 +40,14 @@ export const EmployeeContextProvider = ({ children }) => {
 
   return (
     <EmployeeContext.Provider
-      value={{ storeEmployee, editEmployee, employees, loading, error }}
+      value={{
+        storeEmployee,
+        showEmployee,
+        editEmployee,
+        employees,
+        loading,
+        error,
+      }}
     >
       {children}
     </EmployeeContext.Provider>
