@@ -13,9 +13,9 @@ export const EmployeeContextProvider = ({ children }) => {
     mutateData,
   } = usePromise(fetchEmployees);
 
-  const storeEmployee = async (employeeId) => {
+  const storeEmployee = async (employee) => {
     try {
-      const data = await apiStoreEmployee(employeeId);
+      const data = await apiStoreEmployee(employee);
       if (employees?.length === 0) {
         return mutateData([data]);  
       }
