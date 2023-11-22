@@ -38,7 +38,10 @@ export const EmployeeDetail = () => {
             </Link>
             <div>
               {!imageLoaded && (
-                <div style={{ height:200, width:200 }} className="d-flex align-items-center justify-content-center ">
+                <div
+                  style={{ height: 200, width: 200 }}
+                  className="d-flex align-items-center justify-content-center "
+                >
                   <Spinner />
                 </div>
               )}
@@ -107,7 +110,10 @@ export const EmployeeDetail = () => {
           </div>
         </div>
       ) : (
-        <Spinner />
+        <div className="d-flex align-items-center justify-content-center ">
+          <span>Cargando.. <Spinner size={'small'} /></span>
+          
+        </div>
       )}
     </>
   );

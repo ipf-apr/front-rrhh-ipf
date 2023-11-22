@@ -1,7 +1,5 @@
-export const Spinner = () => {
+export const Spinner = ({size}) => {
   return (
-    <div className="d-flex justify-content-center">
-      <div className="spinner-border " role="status"></div>
-    </div>
+      <div className={`spinner-border ${size == 'small' && 'spinner-border-sm'}`} role="status"></div>
   );
 };

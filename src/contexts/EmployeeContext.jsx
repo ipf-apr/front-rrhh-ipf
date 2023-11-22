@@ -2,6 +2,7 @@ import { createContext } from "react";
 import { apiStoreEmployee } from "../services/local/employees/create";
 import { usePromise } from "../hooks/usePromise";
 import { fetchEmployees } from "../services/local/employees";
+import { apiUpdateEmployee } from "../services/local/employees/update";
 
 export const EmployeeContext = createContext({});
 
@@ -16,8 +17,8 @@ export const EmployeeContextProvider = ({ children }) => {
   const storeEmployee = async (employee) => {
     try {
       const data = await apiStoreEmployee(employee);
-      if (employees?.length === 0) {
-        return mutateData([data]);  
+      if (!employees && employees.length === 0) {
+        return mutateData([data]);
       }
       mutateData([...employees, data]);
     } catch (error) {
@@ -30,8 +31,25 @@ export const EmployeeContextProvider = ({ children }) => {
     return employees?.find((emp) => emp.id == employeeId);
   };
 
-  const editEmployee = async (employeeId) => {
+  const updateEmployee = async (employeeId, employeeData) => {
     try {
+      console.log("employeeData", employeeData);
+      console.log("employeeId", employeeId);
+
+      const data = await apiUpdateEmployee(employeeData, employeeId);
+
+      console.log("data", data);
+
+      if (employees && employees.length !== 0) {
+        const newEmployees = employees.map((emp) => {
+          if (emp.id == employeeId) {
+            return data;
+          }
+          return emp;
+        });
+        console.log('newEmployees', newEmployees);
+        return mutateData(newEmployees);
+      }
     } catch (error) {
       console.log("error on storeEmployee");
       throw error;
@@ -42,8 +60,8 @@ export const EmployeeContextProvider = ({ children }) => {
     <EmployeeContext.Provider
       value={{
         storeEmployee,
+        updateEmployee,
         showEmployee,
-        editEmployee,
         employees,
         loading,
         error,

@@ -1,9 +1,9 @@
 import { URL } from "../../../utils/constants";
 
 
-export const apiStoreEmployee = async (data) => {
-    const response = await fetch(URL + "/employees", {
-        method: "POST",
+export const apiUpdateEmployee = async (data, employeeId) => {
+    const response = await fetch(URL + `/employees/${employeeId}/update`, {
+        method: 'PUT',            
         headers: {
             Authorization: localStorage.getItem("token"),
             Accept: "application/json",
