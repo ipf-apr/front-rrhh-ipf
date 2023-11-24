@@ -36,24 +36,21 @@ export const EmployeeDetail = () => {
             >
               Editar
             </Link>
-            <div>
+            <div style={{ height: 200, width: 200 }}>
               {!imageLoaded && (
-                <div
-                  style={{ height: 200, width: 200 }}
-                  className="d-flex align-items-center justify-content-center "
-                >
+                <div className="d-flex align-items-center justify-content-center ">
                   <Spinner />
                 </div>
               )}
               <img
-                className="rounded"
-                src="https://i.pravatar.cc/200"
+                className="rounded img-fluid"
+                src={employee.imageUrl}
                 onLoad={handleImageLoaded.bind(this)}
               />
             </div>
             <div className="d-flex fs-6">
               <span id="fullName" className="fs-2">
-                {employee?.fullName}
+                {employee.fullName}
               </span>
             </div>
             <div className="d-flex fs-6">
@@ -111,8 +108,9 @@ export const EmployeeDetail = () => {
         </div>
       ) : (
         <div className="d-flex align-items-center justify-content-center ">
-          <span>Cargando.. <Spinner size={'small'} /></span>
-          
+          <span>
+            Cargando.. <Spinner size={"small"} />
+          </span>
         </div>
       )}
     </>

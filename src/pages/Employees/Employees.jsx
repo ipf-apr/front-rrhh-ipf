@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Spinner } from "../../components/Spinner";
 import { useContext } from "react";
 import { EmployeeContext } from "../../contexts/EmployeeContext";
+import { formatDate } from "../../helpers/formatDate";
 
 export const Employees = () => {
   const { employees, loading, error } = useContext(EmployeeContext);
@@ -151,21 +152,21 @@ export const Employees = () => {
                   if (employee.Categories) {
                     const dateIn =
                       employee?.Categories[0]?.CategoryEmployee.datePromotion;
-                    if (dateIn) {
-                      date =
-                        dateIn?.split("T")[0].split("-")[2] +
-                        "/" +
-                        dateIn?.split("T")[0].split("-")[1] +
-                        "/" +
-                        dateIn?.split("T")[0].split("-")[0];
-                    }
+                    date = formatDate(dateIn);
                     categoryName =
                       employee.Categories[0]?.name ?? "No asignado";
                   }
 
                   return (
                     <tr key={employee.id}>
-                      <th scope="row">{index + 1}</th>
+                      <th scope="row">
+                        <div style={{ height: 50, width: 50 }}>
+                          <img
+                            className="rounded img-fluid"
+                            src={employee.imageUrl}
+                          />
+                        </div>
+                      </th>
                       <td>{employee.lastName}</td>
                       <td>{employee.name}</td>
                       <td>{employee.age}</td>
