@@ -32,7 +32,7 @@ function Aside() {
       <div className="offcanvas-body">
         <ul className="nav nav-pills w-100 flex-column g-3">
           <li className="nav-item">
-            <NavLink to="/dashboard" className="nav-link text-white">
+            <NavLink to="/" className="nav-link text-white">
               Inicio
             </NavLink>
           </li>

@@ -29,7 +29,7 @@ function Login() {
       setLoading(true);
       await loginUser(datos);
       reset();
-      <Navigate to="/" replace />;
+      <Navigate to="/dashboard" replace />;
     } catch (error) {
       setLoading(false);
       if (error.includes("Failed to fetch")) {
