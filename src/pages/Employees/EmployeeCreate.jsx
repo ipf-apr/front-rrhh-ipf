@@ -11,6 +11,7 @@ export const EmployeeCreate = () => {
   const { storeEmployee } = useContext(EmployeeContext);
 
   const [validationErrors, setValidationErrors] = useState([]);
+  const [ disable, setDisable ]  = useState(false);
 
   const navigate = useNavigate();
 
@@ -29,7 +30,6 @@ export const EmployeeCreate = () => {
     ingreso: "",
   });
 
-  const [ disable, setDisable ]  = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

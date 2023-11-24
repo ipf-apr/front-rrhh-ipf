@@ -9,6 +9,8 @@ import { Employees } from "./pages/Employees/Employees";
 import NotFoundPage from "./pages/Error/NotFoundPage";
 import Main from "./components/Main";
 import { EmployeesRoutes } from "./routes/EmployeesRoutes";
+import { CategoriesIndex } from "./pages/Categories/CategoriesIndex.jsx";
+import { CategoriesRoutes } from "./routes/CategoriesRoutes.jsx";
 
 function App() {
   return (
@@ -19,7 +21,7 @@ function App() {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="employees/*" element={<EmployeesRoutes />} />
           <Route path="users" element={<Employees />} />
-          <Route path="categories" element={<Employees />} />
+          <Route path="categories/*" element={<CategoriesRoutes />} />
           <Route path="job-positions" element={<Employees />} />
           <Route path="skills" element={<Employees />} />
           <Route path="*" element={<NotFoundPage />} />
