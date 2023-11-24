@@ -2,16 +2,18 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext.jsx";
 import { Navigate } from "react-router-dom";
 import { useForm } from "../../hooks/useForm.jsx";
+import { ShowErrors } from "../../components/ShowErrors.jsx";
 
 function Login() {
   const { loginUser, isAuthenticated } = useContext(AuthContext);
-  
+
   if (isAuthenticated()) {
     return <Navigate to="/" replace />;
   }
-  
-  const [loading, setLoading ] = useState(false)
-  
+
+  const [loading, setLoading] = useState(false);
+  const [commonErrors, setCommonErrors] = useState('');
+
   const {
     form: datos,
     handleInputChange,
@@ -24,22 +26,19 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setLoading(true)
+      setLoading(true);
       await loginUser(datos);
       reset();
       <Navigate to="/" replace />;
     } catch (error) {
-      console.log(error);
-      setLoading(false)
+      setLoading(false);
       if (error.includes("Failed to fetch")) {
-        return alert(
-          "error al iniciar sesión: El servidor no respondió a la petición."
-          );
-        }
-      return alert("error al iniciar sesión: " + error);
+        error =
+          "Error al iniciar sesión: El servidor no respondió a la petición.";
+      }
+      setCommonErrors(error);
     }
   };
-
 
   return (
     <>
@@ -55,6 +54,7 @@ function Login() {
           <div className="d-flex flex-column p-2">
             <div className="text-center font-monospace">
               <h2>Iniciar Sesión</h2>
+              <ShowErrors errors={commonErrors} />
             </div>
             <div className="form-floating mb-3">
               <input
@@ -75,7 +75,6 @@ function Login() {
                 type="password"
                 name="password"
                 id="password"
-                placeholder="passwordexample"
                 value={datos.password}
                 onChange={handleInputChange}
               />
@@ -83,11 +82,19 @@ function Login() {
             </div>
           </div>
           <div className="mt-3">
-            <button disabled={loading}  type="submit" className="btn btn-primary w-100">
+            <button
+              disabled={loading}
+              type="submit"
+              className="btn btn-primary w-100"
+            >
               <span className="mx-2">Iniciar Sesión</span>
-              {loading &&  <div className="spinner-border spinner-border-sm" role="status"></div> }
+              {loading && (
+                <div
+                  className="spinner-border spinner-border-sm"
+                  role="status"
+                ></div>
+              )}
             </button>
-
           </div>
         </form>
       </main>

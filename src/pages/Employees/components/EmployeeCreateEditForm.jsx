@@ -1,4 +1,5 @@
 import { Spinner } from "../../../components/Spinner";
+import { ShowErrors } from "../../../components/ShowErrors";
 
 export const EmployeeCreateEditForm = ({
   employeeData,
@@ -11,16 +12,7 @@ export const EmployeeCreateEditForm = ({
     <div className="container-fluid py-5 px-md-5 col">
       <header>
         {validationErrors.length != 0 && (
-          <div>
-            <h6 className="text-danger">
-              Mmh se encontraron los siguientes errores de validación:
-            </h6>
-            <ul className="text-danger ">
-              {validationErrors.map((error, index) => (
-                <li key={"employee-validation-" + index}>{error.msg}</li>
-              ))}
-            </ul>
-          </div>
+          <ShowErrors errors={validationErrors} />
         )}
       </header>
       <main>
