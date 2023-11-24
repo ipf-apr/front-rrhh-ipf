@@ -13,11 +13,9 @@ export const EmployeeSkills = () => {
             +
           </button>
         </div>
-        <div>
-          <div className="d-flex justify-content-center">
-            <div className="spinner-border" role="status"></div>
-          </div>
-        </div>
+        <ul className="mx-3">
+          <li>Este empleado no tiene habilidades registradas.</li>
+        </ul>
       </div>
 
       {/* Modal AddSkillsToEmployee */}

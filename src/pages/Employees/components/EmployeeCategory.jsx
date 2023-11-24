@@ -1,7 +1,34 @@
-export const EmployeeCategory = () => {
+import { useEffect, useState } from "react";
+import { Spinner } from "../../../components/Spinner";
+import { fetchEmployeeCategories } from "../../../services/local/employees/employeeCategory";
+import { usePromise } from "../../../hooks/usePromise";
+import { fetchCategories } from "../../../services/local/categories";
+
+export const EmployeeCategory = ({ employeeId }) => {
+
+
+  const {data: allCategories, error, loading: loadingCategories} = usePromise(fetchCategories)
+
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    initialData();
+  }, []);
+
+  const initialData = async () => {
+    try {
+      const data = await fetchEmployeeCategories(employeeId);
+      setCategories(data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false)
+      console.log(error);
+    }
+  };
 
   const addCategoryToEmployee = () => {};
-  
+
   return (
     <>
       <div className="rounded shadow p-2 mb-2">
@@ -15,11 +42,16 @@ export const EmployeeCategory = () => {
             +
           </button>
         </div>
-        <div className="mx-3" id="categories">
-          <div className="d-flex justify-content-center">
-            <div className="spinner-border" role="status"></div>
-          </div>
-        </div>
+        {loading && <Spinner />}
+        <ul className="mx-3">
+          {categories.length > 0 ? (
+            categories.map((category) => {
+              <li key={ `category-employee-${category.id}` }>{category}</li>;
+            })
+          ) : (
+            <li>Este empleado no tiene categorías registradas.</li>
+          )}
+        </ul>
       </div>
       {/* Modal AddCategoryToEmployee */}
       <div
@@ -58,7 +90,15 @@ export const EmployeeCategory = () => {
                     className="form-select"
                     name="selectCategories"
                     id="selectCategories"
-                  ></select>
+                  >
+                    <option value="">-- Seleccione --</option>
+                    {
+                      allCategories && allCategories.map((category) => {
+                        return <option key={ `category-all-${category.id}` } value={category.id} >{category.name}</option>
+                      })
+                    }
+
+                  </select>
                 </div>
                 <div className="col-12">
                   <label htmlFor="datePromotion" className="form-label">

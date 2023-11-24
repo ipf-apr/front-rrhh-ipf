@@ -13,11 +13,9 @@ export const EmployeeJobPosition = () => {
             +
           </button>
         </div>
-        <div id="jobPosition" className="mx-3">
-          <div className="d-flex justify-content-center">
-            <div className="spinner-border" role="status"></div>
-          </div>
-        </div>
+        <ul className="mx-3">
+          <li>Este empleado no tiene puestos laborales registrados.</li>
+        </ul>
       </div>
       {/* Modal AddJobPositionToEmployee */}
       <div
