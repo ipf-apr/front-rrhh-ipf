@@ -5,7 +5,7 @@ import { Spinner } from "../../components/Spinner";
 import { ShowErrors } from "../../components/ShowErrors";
 
 export const CategoriesIndex = () => {
-  const { categories, error, loading, storeCategory } =
+  const { categories, error, loading, storeCategory, updateCategory } =
     useContext(CategoriesContext);
 
   const [validationErrors, setValidationErrors] = useState([]);
@@ -14,17 +14,31 @@ export const CategoriesIndex = () => {
     form: category,
     handleInputChange,
     reset,
+    setForm,
   } = useForm({
+    id: "",
     name: "",
     permanency: "",
   });
+
+  const showEditModal = ({ target }) => {
+    const cat = categories.find((category) => category.id == target.dataset.id);
+    setForm({ id: cat.id, name: cat.name, permanency: cat.permanency });
+    document.querySelector("#btnCreate").click();
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setDisable(true);
     setValidationErrors([]);
     try {
-      await storeCategory(category);
+      console.log(category.id);
+      if (category.id != "") {
+        await updateCategory(category, category.id);
+      } else {
+        await storeCategory(category);
+      } 
+      
       setDisable(false);
       reset();
       document.querySelector("#btnCancel").click();
@@ -46,6 +60,7 @@ export const CategoriesIndex = () => {
           <h1>Listado de Categorías</h1>
           <div>
             <button
+              id="btnCreate"
               type="button"
               className="btn btn-outline-success"
               data-bs-toggle="modal"
@@ -152,14 +167,17 @@ export const CategoriesIndex = () => {
                   categories.length != 0 &&
                   categories &&
                   categories.map((category, index) => {
-                    console.log(category);
                     return (
                       <tr key={`category-item-${index}`}>
                         <th scope="row">{index + 1}</th>
                         <td>{category.name}</td>
                         <td>{category.permanency} años</td>
                         <td>
-                          <button className="btn btn-outline-success">
+                          <button
+                            onClick={showEditModal}
+                            data-id={category.id}
+                            className="btn btn-outline-success"
+                          >
                             Editar
                           </button>
                           <button className="btn btn-outline-danger">

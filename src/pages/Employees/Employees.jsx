@@ -123,7 +123,7 @@ export const Employees = () => {
             <tbody>
               {loading && (
                 <tr>
-                  <td colSpan={8}>
+                  <td className="text-center" colSpan={8}>
                     <Spinner />
                   </td>
                 </tr>
