@@ -1,4 +1,12 @@
+import { usePromise } from "../../../hooks/usePromise";
+import { fetchJobPositions } from "../../../services/local/jobPositions";
+
 export const EmployeeJobPosition = () => {
+
+  const {data: allJobPositions, error, loading: loadingJobPositions} = usePromise(fetchJobPositions)
+
+  
+
   const addJobPositionToEmployee = () => {};
   return (
     <>
@@ -53,7 +61,14 @@ export const EmployeeJobPosition = () => {
                     className="form-select"
                     name="selectJobPositions"
                     id="selectJobPositions"
-                  ></select>
+                  >
+                    <option value="">-- Seleccione --</option>
+                    {
+                      allJobPositions && allJobPositions.map((jobPosition) => {
+                        return <option key={ `job-position-all-${jobPosition.id}` } value={jobPosition.id} >{jobPosition.position}</option>
+                      })
+                    }
+                  </select>
                 </div>
               </div>
             </div>

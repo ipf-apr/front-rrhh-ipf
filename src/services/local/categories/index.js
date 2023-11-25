@@ -1,4 +1,5 @@
 
+import { URL } from "../../../utils/constants.js";
 
 
 export const fetchCategories = async (formData) => {
@@ -7,7 +8,7 @@ export const fetchCategories = async (formData) => {
     };
 
     const response = await fetch(
-        "http://localhost:8000/api/categories?" + new URLSearchParams(searchParams),
+        `${URL}/categories?` + new URLSearchParams(searchParams),
         {
             headers: {
                 Authorization: localStorage.getItem("token"),

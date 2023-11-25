@@ -11,6 +11,7 @@ import Main from "./components/Main";
 import { EmployeesRoutes } from "./routes/EmployeesRoutes";
 import { CategoriesIndex } from "./pages/Categories/CategoriesIndex.jsx";
 import { CategoriesRoutes } from "./routes/CategoriesRoutes.jsx";
+import { JobPositionsRoutes } from "./routes/JobPositionsRoutes.jsx";
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
           <Route path="employees/*" element={<EmployeesRoutes />} />
           <Route path="users" element={<Employees />} />
           <Route path="categories/*" element={<CategoriesRoutes />} />
-          <Route path="job-positions" element={<Employees />} />
+          <Route path="job-positions/*" element={<JobPositionsRoutes/>} />
           <Route path="skills" element={<Employees />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
