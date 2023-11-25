@@ -23,7 +23,8 @@ export const JobPositionsIndex = () => {
     const jposition = jobPositions.find(
       (jposition) => jposition.id == target.dataset.id
     );
-    setForm({ id: jobPosition.id, position: jposition.position });
+    console.log(jposition);
+    setForm({ id: jposition.id, position: jposition.position });
     document.querySelector("#btnCreate").click();
   };
 
@@ -58,8 +59,13 @@ export const JobPositionsIndex = () => {
         <header className="d-flex align-items-center justify-content-between">
           <h1>Listado de Puestos Laborales</h1>
           <div>
-            <button type="button" className="btn btn-outline-success" data-bs-toggle="modal"
-              data-bs-target="#modalJobPositionCreate">
+            <button
+              id="btnCreate"
+              type="button"
+              className="btn btn-outline-success"
+              data-bs-toggle="modal"
+              data-bs-target="#modalJobPositionCreate"
+            >
               Nuevo Puesto Laboral
             </button>
             <a
@@ -141,7 +147,7 @@ export const JobPositionsIndex = () => {
                 </tr>
               </thead>
               <tbody>
-              {loading && (
+                {loading && (
                   <tr>
                     <td className="text-center" colSpan={4}>
                       <Spinner />
@@ -200,7 +206,11 @@ export const JobPositionsIndex = () => {
         aria-hidden="true"
       >
         <div className="modal-dialog modal-dialog-centered">
-          <form onSubmit={handleSubmit} id="createEditJobPositionForm" className="modal-content">
+          <form
+            onSubmit={handleSubmit}
+            id="createEditJobPositionForm"
+            className="modal-content"
+          >
             <div className="modal-header">
               <h1 className="modal-title fs-5" id="modalJobPositionCreateLabel">
                 Nuevo Puesto Laboral
