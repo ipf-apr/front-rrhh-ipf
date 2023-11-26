@@ -29,7 +29,7 @@ export const EmployeeDetail = () => {
   return (
     <>
       {employee ? (
-        <div className="d-flex gap-2">
+        <div className="d-block d-md-flex gap-2">
           <div className="col rounded shadow p-3">
             <Link
               to={`/employees/${employeeId}/edit`}
@@ -101,7 +101,7 @@ export const EmployeeDetail = () => {
               </p>
             </div>
           </div>
-          <div className="col">
+          <div className="col mt-2">
             <EmployeeCategory employeeId={employeeId} />
             <EmployeeJobPosition employeeId={employeeId} />
             <EmployeeSkills employeeId={employeeId} />

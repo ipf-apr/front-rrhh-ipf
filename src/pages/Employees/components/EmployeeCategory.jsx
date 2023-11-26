@@ -45,9 +45,11 @@ export const EmployeeCategory = ({ employeeId }) => {
       const categoryAlready = employeeCategories?.find(
         (category) => category.id == categoryId
       );
-
+      
+      console.log(categoryId , datePromotion, categoryAlready)
       if (!categoryAlready) {
-        if (categoryId) {
+        if (categoryId && datePromotion) {
+          console.log(categoryId , datePromotion)
           const data = await apiStoreEmployeeCategory(
             employeeId,
             categoryId,
@@ -82,16 +84,22 @@ export const EmployeeCategory = ({ employeeId }) => {
           } else {
             return setValidationErrors(data.message);
           }
+        }else{
+          return setValidationErrors('Tenes que seleccionar alguna categoría y colocar la fecha.');
         }
+      } else { 
+        return setValidationErrors('La categoría ya se encuentra agregada al empleado actual.');        
       }
-      return setValidationErrors(
-        "La categoría ya fue agregada a este empleado."
-      );
     } catch (error) {
       console.log(error);
       setValidationErrors(error);
     }
   };
+
+  const resetForm = () => {
+    reset();
+    setValidationErrors(null);
+  }
 
   return (
     <>
@@ -109,12 +117,13 @@ export const EmployeeCategory = ({ employeeId }) => {
         <ul className="mx-3">
           {loadingEmployeeCategories && <Spinner />}
           {employeeCategories && employeeCategories.length > 0 ? (
-            employeeCategories.map((category) => {
+            employeeCategories.map((category, index) => {
               return (
                 <li key={`category-employee-${category.id}`}>
-                  <span>
+                  <span className={index == 0 ? "fw-bold text-blue" : ""}>
                     {category.name} en el año{" "}
                     {formatDate(category.CategoryEmployee?.datePromotion)}
+                    {index == 0 ? " - Actual" : ""}
                   </span>
                 </li>
               );
@@ -166,7 +175,7 @@ export const EmployeeCategory = ({ employeeId }) => {
                     name="categoryId"
                     id="selectCategories"
                     onChange={handleInputChange}
-                    defaultValue={category.categoryId}
+                    value={category.categoryId}
                   >
                     <option value="">-- Seleccione --</option>
                     {allCategories &&
@@ -206,6 +215,7 @@ export const EmployeeCategory = ({ employeeId }) => {
                 type="button"
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
+                onClick={resetForm}
               >
                 Cancelar
               </button>

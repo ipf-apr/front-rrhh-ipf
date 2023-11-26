@@ -5,6 +5,7 @@ import { fetchEmployeeJobPositions } from "../../../services/local/employees/job
 import { fetchJobPositions } from "../../../services/local/jobPositions";
 import { apiStoreEmployeeJobPosition } from "../../../services/local/employees/jobPositions/store";
 import { Spinner } from "../../../components/Spinner";
+import { ShowErrors } from "../../../components/ShowErrors";
 
 export const EmployeeJobPosition = ({ employeeId }) => {
   const [validationErrors, setValidationErrors] = useState(null);
@@ -40,7 +41,7 @@ export const EmployeeJobPosition = ({ employeeId }) => {
       const jobPositionAlready = employeeJobPositions?.find(
         (jobPosition) => jobPosition.selectedJobPosition == jobPositionId
       );
-      console.log(jobPositionId);
+
       if (!jobPositionAlready) {
         if (jobPositionId) {
           const data = await apiStoreEmployeeJobPosition(
@@ -61,11 +62,12 @@ export const EmployeeJobPosition = ({ employeeId }) => {
           } else {
             return setValidationErrors(data.message);
           }
+        } else {
+          return setValidationErrors(
+            "Tenes que seleccionar algún puesto laboral."
+          );
         }
       }
-      return setValidationErrors(
-        "La categoría ya fue agregada a este empleado."
-      );
     } catch (error) {
       console.log(error);
       setValidationErrors(error);
@@ -90,7 +92,11 @@ export const EmployeeJobPosition = ({ employeeId }) => {
             employeeJobPositions.map((jobPosition, index) => {
               return (
                 <li key={`jobPosition-employee-${jobPosition.id}`}>
-                  <span className={index == 0 ? 'text-primary fw-bold ' : '' }>  {jobPosition.position} { index == 0 ? '- Actual' : ' - Anterior'}</span>
+                  <span className={index == 0 ? "text-primary fw-bold " : ""}>
+                    {" "}
+                    {jobPosition.position}{" "}
+                    {index == 0 ? "- Actual" : " - Anterior"}
+                  </span>
                 </li>
               );
             })
@@ -155,6 +161,9 @@ export const EmployeeJobPosition = ({ employeeId }) => {
                         );
                       })}
                   </select>
+                </div>
+                <div className="mt-2">
+                  {validationErrors && <ShowErrors errors={validationErrors} />}
                 </div>
               </div>
             </div>
