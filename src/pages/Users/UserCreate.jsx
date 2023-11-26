@@ -9,7 +9,6 @@ export const UserCreate = () => {
   const { storeUser, loading } = useContext(UsersContext);
 
   const [validationErrors, setValidationErrors] = useState([]);
-  const [disable, setDisable] = useState(false);
 
   const navigate = useNavigate();
 
@@ -27,15 +26,12 @@ export const UserCreate = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setDisable(true);
     setValidationErrors([]);
     try {
       const userId = await storeUser({...userData, password: 'password'});
-      setDisable(false);
       reset();
       navigate(`/users/${userId}/show`);
     } catch (error) {
-      setDisable(false);
       if (error.statusCode == 400) {
         console.log(error.errors);
         setValidationErrors(error.errors);
@@ -57,7 +53,6 @@ export const UserCreate = () => {
           userData={userData}
           handleSubmit={handleSubmit}
           handleInputChange={handleInputChange}
-          disable={disable}
         />
       </main>
     </div>

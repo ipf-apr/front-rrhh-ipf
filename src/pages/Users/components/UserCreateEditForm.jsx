@@ -1,10 +1,14 @@
+import { useNavigate } from "react-router-dom";
+
 export const UserCreateEditForm = ({
   submitting,
   userData,
-  validationErrors,
   handleSubmit,
   handleInputChange,
 }) => {
+
+  const navigate = useNavigate();
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -21,6 +25,7 @@ export const UserCreateEditForm = ({
           className="form-control"
           id="lastName"
           name="lastName"
+          value={userData.lastName}
           onChange={handleInputChange}
           placeholder="Ingrese el nombre"
           required
@@ -35,6 +40,7 @@ export const UserCreateEditForm = ({
           className="form-control"
           id="name"
           name="name"
+          value={userData.name}
           onChange={handleInputChange}
           placeholder="Ingrese el apellido"
           required
@@ -49,6 +55,7 @@ export const UserCreateEditForm = ({
           className="form-control"
           id="username"
           name="username"
+          value={userData.username}
           placeholder="Ingrese el nombre de usuario"
           onChange={handleInputChange}
           required
@@ -65,8 +72,8 @@ export const UserCreateEditForm = ({
           className="form-select"
           aria-label=".form-select-sm example"
           required
+          value={userData.role}
           onChange={handleInputChange}
-          defaultValue={""}
         >
           <option disabled value={""}>
             --Seleccione el Rol--
@@ -88,7 +95,7 @@ export const UserCreateEditForm = ({
         >
           Guardar
         </button>
-        <button className="btn btn-outline-danger">Cancelar</button>
+        <button onClick={()=> navigate(-1)} type="button"  className="btn btn-outline-danger">Cancelar</button>
       </div>
     </form>
   );

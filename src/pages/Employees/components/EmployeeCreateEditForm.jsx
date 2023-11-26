@@ -1,5 +1,6 @@
 import { Spinner } from "../../../components/Spinner";
 import { ShowErrors } from "../../../components/ShowErrors";
+import { useNavigate } from "react-router-dom";
 
 export const EmployeeCreateEditForm = ({
   employeeData,
@@ -8,6 +9,8 @@ export const EmployeeCreateEditForm = ({
   handleInputChange,
   disable,
 }) => {
+  const navigate = useNavigate();
+
   return (
     <div className="container-fluid py-5 px-md-5 col">
       <header>
@@ -159,7 +162,7 @@ export const EmployeeCreateEditForm = ({
                 <span>Guardar</span>
               )}
             </button>
-            <button className="btn btn-secondary">Cancelar</button>
+            <button onClick={()=> navigate(-1)} type="button" className="btn btn-secondary">Cancelar</button>
           </div>
         </form>
       </main>
