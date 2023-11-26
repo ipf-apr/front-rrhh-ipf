@@ -21,6 +21,7 @@ export const EmployeesContextProvider = ({ children }) => {
         return mutateData([data]);
       }
       mutateData([...employees, data]);
+      return data.id;
     } catch (error) {
       console.log("error on storeEmployee");
       throw error;

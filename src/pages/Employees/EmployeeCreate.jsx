@@ -7,11 +7,10 @@ import { useNavigate } from "react-router-dom";
 import { EmployeeCreateEditForm } from "./components/EmployeeCreateEditForm";
 
 export const EmployeeCreate = () => {
-
   const { storeEmployee } = useContext(EmployeesContext);
 
   const [validationErrors, setValidationErrors] = useState([]);
-  const [ disable, setDisable ]  = useState(false);
+  const [disable, setDisable] = useState(false);
 
   const navigate = useNavigate();
 
@@ -30,18 +29,17 @@ export const EmployeeCreate = () => {
     ingreso: "",
   });
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setDisable(true)
+    setDisable(true);
     setValidationErrors([]);
     try {
-      await storeEmployee(datos);
-      setDisable(false)
+      const employeeId = await storeEmployee(datos);
+      setDisable(false);
       reset();
-      navigate("/employees");
+      navigate(`/employees/${employeeId}/show`);
     } catch (error) {
-      setDisable(false)
+      setDisable(false);
       if (error.statusCode == 400) {
         console.log(error.errors);
         setValidationErrors(error.errors);
