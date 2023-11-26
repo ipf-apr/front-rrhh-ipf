@@ -12,10 +12,9 @@ export const SkillsContextProvider = ({ children }) => {
   const storeSkill = async (skill) => {
     try {
       const data = await apiStoreSkill(skill);
-      if (!skills && skills.length === 0) {
+      if (!skills && skills?.length === 0) {
         return mutateData([data]);
       }
-      console.log(data);
       mutateData([...skills, data.skill]);
     } catch (error) {
       console.log("error on category store");

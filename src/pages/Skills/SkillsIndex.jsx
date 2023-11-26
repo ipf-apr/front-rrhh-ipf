@@ -2,9 +2,56 @@ import { useContext, useState } from "react";
 import { SkillsContext } from "../../contexts/SkillsContext";
 import { useForm } from "../../hooks/useForm";
 import { Spinner } from "../../components/Spinner";
+import { ShowErrors } from "../../components/ShowErrors";
 
 export const SkillsIndex = () => {
-  const { skills, error, loading } = useContext(SkillsContext);
+  const { skills, error, loading, storeSkill, updateSkill } =
+    useContext(SkillsContext);
+  const [validationErrors, setValidationErrors] = useState([]);
+  const [disable, setDisable] = useState(false);
+
+  const {
+    form: skill,
+    handleInputChange,
+    reset,
+    setForm,
+  } = useForm({
+    id: "",
+    nameSkill: "",
+  });
+
+  const showEditModal = ({ target }) => {
+    const sk = skills.find((skill) => skill.id == target.dataset.id);
+    setForm({ id: sk.id, nameSkill: sk.nameSkill });
+    const btnCreate = document.querySelector("#btnCreate");
+    btnCreate.click();
+    btnCreate.blur();
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setDisable(true);
+    setValidationErrors([]);
+    try {
+      if (skill.id != "") {
+        await updateSkill(skill, skill.id);
+      } else {
+        await storeSkill(skill);
+      }
+
+      setDisable(false);
+      reset();
+      document.querySelector("#btnCancel").click();
+    } catch (error) {
+      setDisable(false);
+      if (error.statusCode == 400) {
+        console.log(error.errors);
+        setValidationErrors(error.errors);
+        return;
+      }
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -12,7 +59,13 @@ export const SkillsIndex = () => {
         <header className="d-flex align-items-center justify-content-between">
           <h1>Listado de Habilidades de Empleados</h1>
           <div>
-            <button type="button" className="btn btn-outline-success">
+            <button
+              id="btnCreate"
+              type="button"
+              className="btn btn-outline-success"
+              data-bs-toggle="modal"
+              data-bs-target="#modalSkillCreate"
+            >
               Nueva Habilidad
             </button>
             <a
@@ -89,7 +142,7 @@ export const SkillsIndex = () => {
               <thead>
                 <tr>
                   <th scope="col">#</th>
-                  <th scope="col">Nombre Habilidad de Empleado</th>
+                  <th scope="col">Nombre Habilidad</th>
                   <th scope="col">Acciones</th>
                 </tr>
               </thead>
@@ -122,12 +175,13 @@ export const SkillsIndex = () => {
                     return (
                       <tr key={`skill-item-${index}`}>
                         <th scope="row">{index + 1}</th>
-                        <td className="w-50 ">{skill.skillName}</td>
+                        <td className="w-50 ">{skill.nameSkill}</td>
                         <td className="w-25 ">
                           <div className="d-flex gap-2 flex-column flex-md-row justify-content-center ">
                             <button
                               data-id={skill.id}
                               className="btn btn-outline-success"
+                              onClick={showEditModal}
                             >
                               Editar
                             </button>
@@ -153,11 +207,20 @@ export const SkillsIndex = () => {
         aria-hidden="true"
       >
         <div className="modal-dialog modal-dialog-centered">
-          <form id="createEditSkillForm" className="modal-content">
+          <form
+            onSubmit={handleSubmit}
+            id="createEditSkillForm"
+            className="modal-content"
+          >
             <div className="modal-header">
-              <h1 className="modal-title fs-5" id="modalSkillCreateLabel">
-                Nueva Habilidad
-              </h1>
+              <div className="d-flex flex-column ">
+                <h1 className="modal-title fs-5" id="modalSkillCreateLabel">
+                  Nueva Habilidad
+                </h1>
+                {validationErrors.length != 0 && (
+                  <ShowErrors errors={validationErrors} />
+                )}
+              </div>
               <button
                 type="button"
                 className="btn-close"
@@ -177,6 +240,8 @@ export const SkillsIndex = () => {
                     className="form-control"
                     id="nameSkill"
                     name="nameSkill"
+                    value={skill.nameSkill}
+                    onChange={handleInputChange}
                     required
                   />
                 </div>
@@ -187,6 +252,8 @@ export const SkillsIndex = () => {
                 type="button"
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
+                id="btnCancel"
+                onClick={reset}
               >
                 Cancelar
               </button>
