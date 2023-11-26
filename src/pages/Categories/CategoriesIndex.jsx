@@ -170,19 +170,21 @@ export const CategoriesIndex = () => {
                     return (
                       <tr key={`category-item-${index}`}>
                         <th scope="row">{index + 1}</th>
-                        <td>{category.name}</td>
-                        <td>{category.permanency} años</td>
-                        <td>
-                          <button
-                            onClick={showEditModal}
-                            data-id={category.id}
-                            className="btn btn-outline-success"
-                          >
-                            Editar
-                          </button>
-                          <button className="btn btn-outline-danger">
-                            Eliminar
-                          </button>
+                        <td  className="w-50 ">{category.name}</td>
+                        <td  className="w-2 ">{category.permanency} años</td>
+                        <td className="w-25 ">
+                          <div className="d-flex gap-2 flex-column flex-md-row justify-content-center ">
+                            <button
+                              onClick={showEditModal}
+                              data-id={category.id}
+                              className="btn btn-outline-success"
+                            >
+                              Editar
+                            </button>
+                            <button className="btn btn-outline-danger">
+                              Eliminar
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     );

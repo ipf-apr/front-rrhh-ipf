@@ -17,6 +17,7 @@ export const JobPositionsIndex = () => {
   } = useForm({
     id: "",
     position: "",
+    observations: "",
   });
 
   const showEditModal = ({ target }) => {
@@ -24,7 +25,11 @@ export const JobPositionsIndex = () => {
       (jposition) => jposition.id == target.dataset.id
     );
     console.log(jposition);
-    setForm({ id: jposition.id, position: jposition.position });
+    setForm({
+      id: jposition.id,
+      position: jposition.position,
+      observations: jposition.observations,
+    });
     document.querySelector("#btnCreate").click();
   };
 
@@ -143,6 +148,7 @@ export const JobPositionsIndex = () => {
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Nombre Puesto Laboral</th>
+                  <th scope="col">Observaciones</th>
                   <th scope="col">Acciones</th>
                 </tr>
               </thead>
@@ -169,18 +175,23 @@ export const JobPositionsIndex = () => {
                     return (
                       <tr key={`jobPosition-item-${index}`}>
                         <th scope="row">{index + 1}</th>
-                        <td>{jobPosition.position}</td>
-                        <td>
-                          <button
-                            onClick={showEditModal}
-                            data-id={jobPosition.id}
-                            className="btn btn-outline-success"
-                          >
-                            Editar
-                          </button>
-                          <button className="btn btn-outline-danger">
-                            Eliminar
-                          </button>
+                        <td className="w-25 text-nowrap ">
+                          {jobPosition.position}
+                        </td>
+                        <td className="w-50">{jobPosition.observations}</td>
+                        <td className="w-25 ">
+                          <div className="d-flex gap-2 flex-column flex-md-row justify-content-center ">
+                            <button
+                              onClick={showEditModal}
+                              data-id={jobPosition.id}
+                              className="btn btn-outline-success"
+                            >
+                              Editar
+                            </button>
+                            <button className="btn btn-outline-danger">
+                              Eliminar
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     );
@@ -224,7 +235,7 @@ export const JobPositionsIndex = () => {
             </div>
             <div className="modal-body">
               <div className="row g-3 needs-validation">
-                <div className="col-6">
+                <div className="col-12">
                   <label htmlFor="position" className="form-label">
                     Nombre de Puesto Laboral
                     <small className=" text-danger">(*)</small>
@@ -238,6 +249,19 @@ export const JobPositionsIndex = () => {
                     onChange={handleInputChange}
                     required
                   />
+                </div>
+                <div className="col-12">
+                  <label htmlFor="position" className="form-label">
+                    Observaciones
+                  </label>
+                  <textarea
+                    className="form-control"
+                    onChange={handleInputChange}
+                    id="observations"
+                    name="observations"
+                    rows="5"
+                    value={jobPosition.observations}
+                  ></textarea>
                 </div>
               </div>
             </div>
