@@ -1,72 +1,19 @@
 import { useContext, useState } from "react";
+import { SkillsContext } from "../../contexts/SkillsContext";
 import { useForm } from "../../hooks/useForm";
-import { CategoriesContext } from "../../contexts/CategoriesContext";
 import { Spinner } from "../../components/Spinner";
-import { ShowErrors } from "../../components/ShowErrors";
 
-export const CategoriesIndex = () => {
-  const { categories, error, loading, storeCategory, updateCategory } =
-    useContext(CategoriesContext);
-
-  const [validationErrors, setValidationErrors] = useState([]);
-  const [disable, setDisable] = useState(false);
-  const {
-    form: category,
-    handleInputChange,
-    reset,
-    setForm,
-  } = useForm({
-    id: "",
-    name: "",
-    permanency: "",
-  });
-
-  const showEditModal = ({ target }) => {
-    const cat = categories.find((category) => category.id == target.dataset.id);
-    setForm({ id: cat.id, name: cat.name, permanency: cat.permanency });
-    document.querySelector("#btnCreate").click();
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setDisable(true);
-    setValidationErrors([]);
-    try {
-      console.log(category.id);
-      if (category.id != "") {
-        await updateCategory(category, category.id);
-      } else {
-        await storeCategory(category);
-      }
-
-      setDisable(false);
-      reset();
-      document.querySelector("#btnCancel").click();
-    } catch (error) {
-      setDisable(false);
-      if (error.statusCode == 400) {
-        console.log(error.errors);
-        setValidationErrors(error.errors);
-        return;
-      }
-      console.log(error);
-    }
-  };
+export const SkillsIndex = () => {
+  const { skills, error, loading } = useContext(SkillsContext);
 
   return (
     <>
       <div className="container-fluid py-5 px-md-5 col">
         <header className="d-flex align-items-center justify-content-between">
-          <h1>Listado de Categorías</h1>
+          <h1>Listado de Habilidades de Empleados</h1>
           <div>
-            <button
-              id="btnCreate"
-              type="button"
-              className="btn btn-outline-success"
-              data-bs-toggle="modal"
-              data-bs-target="#modalCategoryCreate"
-            >
-              Nueva Categoría
+            <button type="button" className="btn btn-outline-success">
+              Nueva Habilidad
             </button>
             <a
               className="btn btn-outline-primary"
@@ -94,7 +41,7 @@ export const CategoriesIndex = () => {
             <div className="card card-body">
               <form id="formSearch" className="row">
                 <input
-                  placeholder="Nombre de la Categoría"
+                  placeholder="Nombre del Habilidad de Empleado"
                   className="form-control col"
                   type="search"
                   name="sName"
@@ -142,41 +89,44 @@ export const CategoriesIndex = () => {
               <thead>
                 <tr>
                   <th scope="col">#</th>
-                  <th scope="col">Nombre Categoría</th>
-                  <th scope="col">Permanencia</th>
+                  <th scope="col">Nombre Habilidad de Empleado</th>
                   <th scope="col">Acciones</th>
                 </tr>
               </thead>
               <tbody>
                 {loading && (
                   <tr>
-                    <td className="text-center" colSpan={4}>
+                    <td className="text-center" colSpan={3}>
                       <Spinner />
                     </td>
                   </tr>
                 )}
-                {categories && categories.length == 0 && !loading && (
+                {error && (
                   <tr>
-                    <td colSpan={4} className="text-center">
-                      No hay categorías registradas aún.
+                    <td colSpan={8} className="text-center text-danger ">
+                      {error.message}
                     </td>
                   </tr>
                 )}
-
-                {categories &&
-                  categories.length != 0 &&
-                  categories &&
-                  categories.map((category, index) => {
+                {skills && skills.length == 0 && !loading && (
+                  <tr>
+                    <td colSpan={4} className="text-center">
+                      No hay habilidades registradas aún.
+                    </td>
+                  </tr>
+                )}
+                {skills &&
+                  skills.length != 0 &&
+                  skills &&
+                  skills.map((skill, index) => {
                     return (
-                      <tr key={`category-item-${index}`}>
+                      <tr key={`skill-item-${index}`}>
                         <th scope="row">{index + 1}</th>
-                        <td className="w-50 ">{category.name}</td>
-                        <td className="w-2 ">{category.permanency} años</td>
+                        <td className="w-50 ">{skill.skillName}</td>
                         <td className="w-25 ">
                           <div className="d-flex gap-2 flex-column flex-md-row justify-content-center ">
                             <button
-                              onClick={showEditModal}
-                              data-id={category.id}
+                              data-id={skill.id}
                               className="btn btn-outline-success"
                             >
                               Editar
@@ -189,13 +139,6 @@ export const CategoriesIndex = () => {
                       </tr>
                     );
                   })}
-                {error && (
-                  <tr>
-                    <td colSpan={8} className="text-center text-danger ">
-                      {error.message}
-                    </td>
-                  </tr>
-                )}
               </tbody>
             </table>
           </div>
@@ -204,22 +147,17 @@ export const CategoriesIndex = () => {
       {/* <!-- Modal --> */}
       <div
         className="modal fade"
-        id="modalCategoryCreate"
+        id="modalSkillCreate"
         tabIndex="-1"
-        aria-labelledby="modalCategoryCreateLabel"
+        aria-labelledby="modalSkillCreateLabel"
         aria-hidden="true"
       >
         <div className="modal-dialog modal-dialog-centered">
-          <form onSubmit={handleSubmit} className="modal-content">
+          <form id="createEditSkillForm" className="modal-content">
             <div className="modal-header">
-              <div className="d-flex flex-column ">
-                <h1 className="modal-title fs-5" id="modalCategoryCreateLabel">
-                  Nueva Categoría
-                </h1>
-                {validationErrors.length != 0 && (
-                  <ShowErrors errors={validationErrors} />
-                )}
-              </div>
+              <h1 className="modal-title fs-5" id="modalSkillCreateLabel">
+                Nueva Habilidad
+              </h1>
               <button
                 type="button"
                 className="btn-close"
@@ -228,36 +166,17 @@ export const CategoriesIndex = () => {
               ></button>
             </div>
             <div className="modal-body">
-              <div id="validationErrors" className="text-danger my-2"></div>
-              <div className="row g-3">
-                <input type="hidden" id="isCreating" />
-                <div className="col-6">
-                  <label htmlFor="name" className="form-label">
-                    Nombre de Categoría
+              <div className="row g-3 needs-validation">
+                <div className="col-12">
+                  <label htmlFor="nameSkill" className="form-label">
+                    Nombre de Habilidad de Empleado
                     <small className=" text-danger">(*)</small>
                   </label>
                   <input
                     type="text"
                     className="form-control"
-                    id="name"
-                    name="name"
-                    value={category.name}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-                <div className="col-6">
-                  <label htmlFor="permanency" className="form-label">
-                    Años de Permanencia
-                    <small className=" text-danger">(*)</small>
-                  </label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    id="permanency"
-                    name="permanency"
-                    value={category.permanency}
-                    onChange={handleInputChange}
+                    id="nameSkill"
+                    name="nameSkill"
                     required
                   />
                 </div>
@@ -265,11 +184,9 @@ export const CategoriesIndex = () => {
             </div>
             <div className="modal-footer">
               <button
-                id="btnCancel"
                 type="button"
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
-                onClick={reset}
               >
                 Cancelar
               </button>
