@@ -6,8 +6,6 @@ import { Link } from "react-router-dom";
 export const UsersIndex = () => {
   const { users, error, loading } = useContext(UsersContext);
 
-  console.log(users);
-
   return (
     <div className="container-fluid py-5 px-md-5 col">
       <header className="d-flex align-items-center justify-content-between">
@@ -62,25 +60,27 @@ export const UsersIndex = () => {
                       <td>{user.name}</td>
                       <td>{user.username}</td>
                       <td>{user.role}</td>
-                      <td>
-                        <Link
-                          to={`/users/${user.id}/edit`}
-                          className="btn btn-outline-success"
-                        >
-                          Editar
-                        </Link>
-                        <Link
-                          to={`/users/${user.id}/show`}
-                          className="btn btn-outline-primary"
-                        >
-                          Ver
-                        </Link>
-                        <button
-                          className="btn btn-outline-danger"
-                          data-id={user.id}
-                        >
-                          Eliminar
-                        </button>
+                      <td className="w-25 ">
+                        <div className="d-flex gap-2 flex-column flex-md-row justify-content-center ">
+                          <Link
+                            to={`/users/${user.id}/edit`}
+                            className="btn btn-outline-success"
+                          >
+                            Editar
+                          </Link>
+                          <Link
+                            to={`/users/${user.id}/show`}
+                            className="btn btn-outline-primary"
+                          >
+                            Ver
+                          </Link>
+                          <button
+                            className="btn btn-outline-danger"
+                            data-id={user.id}
+                          >
+                            Eliminar
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   );
