@@ -61,6 +61,7 @@ export const EmployeeJobPosition = () => {
                     className="form-select"
                     name="selectJobPositions"
                     id="selectJobPositions"
+                    defaultValue={''}
                   >
                     <option value="">-- Seleccione --</option>
                     {

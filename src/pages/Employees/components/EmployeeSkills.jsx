@@ -1,4 +1,74 @@
-export const EmployeeSkills = () => {
+import { useCallback, useContext, useState } from "react";
+import { usePromise } from "../../../hooks/usePromise";
+import { fetchSkills } from "../../../services/local/skills";
+import { EmployeesContext } from "../../../contexts/EmployeesContext";
+import { fetchEmployeeSkills } from "../../../services/local/employees/skills";
+import { Spinner } from "../../../components/Spinner";
+import { apiStoreEmployeeSkill } from "../../../services/local/employees/skills/store";
+import { useForm } from "../../../hooks/useForm";
+import { ShowErrors } from "../../../components/ShowErrors";
+
+export const EmployeeSkills = ({ employeeId }) => {
+  const [validationErrors, setValidationErrors] = useState(null);
+
+  const {
+    data: allSkills,
+    error: allSkillsError,
+    loading: loadingAllSkills,
+  } = usePromise(fetchSkills);
+
+  const {
+    data: employeeSkills,
+    error: employeeSkillsError,
+    loading: loadingEmployeeSkills,
+    mutateData,
+  } = usePromise(
+    useCallback(() => fetchEmployeeSkills(employeeId), [employeeId])
+  );
+
+  const {
+    form: skill,
+    handleInputChange,
+    reset,
+    setForm,
+  } = useForm({
+    skillId: "",
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const skillId = skill?.skillId;
+
+      const skillAlready = employeeSkills?.find((skill) => skill.id == skillId);
+
+      if (!skillAlready) {
+        if (skillId) {
+          const data = await apiStoreEmployeeSkill(employeeId, skillId);
+
+          if (data.categoryEmployee) {
+            const skill = allSkills.find((skill) => skill.id == skillId);
+            if (!employeeSkills && employeeSkills.length === 0) {
+              return mutateData([skill]);
+            }
+            document.querySelector("#btlCancelSaveSkill").click();
+            document.querySelector("#btlCancelSaveSkill").blur();
+            return mutateData([...employeeSkills, skill]);
+          } else {
+            return setValidationErrors(data.message);
+          }
+        }
+      }
+      return setValidationErrors(
+        "La habilidad ya fue agregada a este empleado."
+      );
+    } catch (error) {
+      console.log(error);
+      setValidationErrors(error);
+    }
+  };
+
   return (
     <>
       <div className="rounded shadow p-2 mb-2">
@@ -13,9 +83,31 @@ export const EmployeeSkills = () => {
             +
           </button>
         </div>
-        <ul className="mx-3">
-          <li>Este empleado no tiene habilidades registradas.</li>
-        </ul>
+        {loadingEmployeeSkills && (
+          <ul className="mx-3">
+            <Spinner />
+          </ul>
+        )}
+        {employeeSkills &&
+          employeeSkills.length == 0 &&
+          !loadingEmployeeSkills && (
+            <ul className="mx-3">
+              <li>Este empleado no tiene habilidades registradas.</li>
+            </ul>
+          )}
+        {employeeSkillsError && (
+          <ul className="mx-3">
+            <li>{employeeSkillsError.message}</li>
+          </ul>
+        )}
+        {employeeSkills &&
+          employeeSkills.length > 0 &&
+          !loadingEmployeeSkills &&
+          employeeSkills.map((skill) => {
+            return (
+              <li key={`skill-employee-${skill.id}`}>{skill.nameSkill}</li>
+            );
+          })}
       </div>
 
       {/* Modal AddSkillsToEmployee */}
@@ -32,6 +124,7 @@ export const EmployeeSkills = () => {
               <h1 className="modal-title fs-5" id="modalSkillCreateLabel">
                 Habilidades
               </h1>
+
               <button
                 type="button"
                 className="btn-close"
@@ -39,30 +132,51 @@ export const EmployeeSkills = () => {
                 aria-label="Close"
               ></button>
             </div>
-            <form action="" id="formSKills">
+            <form onSubmit={handleSubmit} id="formSKills">
               <div className="modal-body">
                 <div className="col-12">
                   <label htmlFor="selectSkills" className="form-label">
-                    Seleccionar una Habilidad<small className=" text-danger">(*)</small>
+                    Seleccionar una Habilidad
+                    <small className=" text-danger">(*)</small>
                   </label>
                   <select
                     className="form-select"
-                    name="selectCategories"
+                    name="skillId"
                     id="selectSkills"
-                  ></select>
+                    onChange={handleInputChange}
+                    defaultValue={""}
+                  >
+                    <option value="">-- Seleccione --</option>
+                    {allSkills &&
+                      allSkills.map((skill) => {
+                        return (
+                          <option
+                            key={`skill-all-${skill.id}`}
+                            value={skill.id}
+                          >
+                            {skill.nameSkill}
+                          </option>
+                        );
+                      })}
+                  </select>
+                  <div className="mt-2">
+                    {validationErrors && (
+                      <ShowErrors errors={validationErrors} />
+                    )}
+                  </div>
                 </div>
               </div>
               <div className="modal-footer">
                 <button
+                  id="btlCancelSaveSkill"
                   type="button"
                   className="btn btn-secondary"
                   data-bs-dismiss="modal"
+                  onClick={reset}
                 >
                   Cancelar
                 </button>
-                <button className="btn btn-secondary" type="reset">
-                  Borrar Campos
-                </button>
+
                 <button
                   id="btnSaveSkill"
                   type="submit"
