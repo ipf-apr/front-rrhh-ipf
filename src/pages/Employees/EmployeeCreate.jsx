@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { useForm } from "../../hooks/useForm";
-import { EmployeeContext } from "../../contexts/EmployeeContext";
+import { EmployeesContext } from "../../contexts/EmployeesContext";
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,7 @@ import { EmployeeCreateEditForm } from "./components/EmployeeCreateEditForm";
 
 export const EmployeeCreate = () => {
 
-  const { storeEmployee } = useContext(EmployeeContext);
+  const { storeEmployee } = useContext(EmployeesContext);
 
   const [validationErrors, setValidationErrors] = useState([]);
   const [ disable, setDisable ]  = useState(false);

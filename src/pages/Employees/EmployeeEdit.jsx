@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { EmployeeContext } from "../../contexts/EmployeeContext";
+import { EmployeesContext } from "../../contexts/EmployeesContext";
 import { useForm } from "../../hooks/useForm";
 import { EmployeeCreateEditForm } from "./components/EmployeeCreateEditForm";
 import { useParams } from "react-router-dom";
@@ -11,7 +11,7 @@ export const EmployeeEdit = () => {
   const { employeeId } = useParams();
 
   const { loading, employees, updateEmployee, showEmployee } =
-    useContext(EmployeeContext);
+    useContext(EmployeesContext);
 
   const employeeData = {
     lastName: "",

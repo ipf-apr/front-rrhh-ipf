@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { EmployeeCategory } from "./components/EmployeeCategory";
 import { EmployeeJobPosition } from "./components/EmployeeJobPosition";
 import { EmployeeSkills } from "./components/EmployeeSkills";
-import { EmployeeContext } from "../../contexts/EmployeeContext";
+import { EmployeesContext } from "../../contexts/EmployeesContext";
 import { Spinner } from "../../components/Spinner";
 
 export const EmployeeDetail = () => {
@@ -14,7 +14,7 @@ export const EmployeeDetail = () => {
 
   const [imageLoaded, setImageLoaded] = useState(false);
 
-  const { employees, showEmployee } = useContext(EmployeeContext);
+  const { employees, showEmployee } = useContext(EmployeesContext);
 
   useEffect(() => {
     const emp = showEmployee(employeeId);

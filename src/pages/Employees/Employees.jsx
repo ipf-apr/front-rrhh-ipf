@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import { Spinner } from "../../components/Spinner";
 import { useContext } from "react";
-import { EmployeeContext } from "../../contexts/EmployeeContext";
+import { EmployeesContext } from "../../contexts/EmployeesContext";
 import { formatDate } from "../../helpers/formatDate";
 
 export const Employees = () => {
-  const { employees, loading, error } = useContext(EmployeeContext);
+  const { employees, loading, error } = useContext(EmployeesContext);
 
   const handleDeleteEmployee = () => {};
 

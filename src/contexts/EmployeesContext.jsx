@@ -4,9 +4,9 @@ import { usePromise } from "../hooks/usePromise";
 import { fetchEmployees } from "../services/local/employees";
 import { apiUpdateEmployee } from "../services/local/employees/update";
 
-export const EmployeeContext = createContext({});
+export const EmployeesContext = createContext({});
 
-export const EmployeeContextProvider = ({ children }) => {
+export const EmployeesContextProvider = ({ children }) => {
   const {
     data: employees,
     loading,
@@ -57,7 +57,7 @@ export const EmployeeContextProvider = ({ children }) => {
   };
 
   return (
-    <EmployeeContext.Provider
+    <EmployeesContext.Provider
       value={{
         storeEmployee,
         updateEmployee,
@@ -68,6 +68,6 @@ export const EmployeeContextProvider = ({ children }) => {
       }}
     >
       {children}
-    </EmployeeContext.Provider>
+    </EmployeesContext.Provider>
   );
 };
