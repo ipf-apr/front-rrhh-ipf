@@ -1,33 +1,97 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Spinner } from "../../../components/Spinner";
-import { fetchEmployeeCategories } from "../../../services/local/employees/employeeCategory";
+
 import { usePromise } from "../../../hooks/usePromise";
 import { fetchCategories } from "../../../services/local/categories";
+import { useForm } from "../../../hooks/useForm";
+import { apiStoreEmployeeCategory } from "../../../services/local/employees/categories/store";
+import { formatDate } from "../../../helpers/formatDate";
+import { ShowErrors } from "../../../components/ShowErrors";
+import { fetchEmployeeCategories } from "../../../services/local/employees/categories";
 
 export const EmployeeCategory = ({ employeeId }) => {
+  const [validationErrors, setValidationErrors] = useState(null);
 
+  const {
+    data: allCategories,
+    error,
+    loading: loadingCategories,
+  } = usePromise(fetchCategories);
 
-  const {data: allCategories, error, loading: loadingCategories} = usePromise(fetchCategories)
+  const {
+    data: employeeCategories,
+    error: employeeCategoriesError,
+    loading: loadingEmployeeCategories,
+    mutateData,
+  } = usePromise(
+    useCallback(() => fetchEmployeeCategories(employeeId), [employeeId])
+  );
 
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const {
+    form: category,
+    handleInputChange,
+    reset,
+    setForm,
+  } = useForm({
+    categoryId: "",
+    datePromotion: "",
+  });
 
-  useEffect(() => {
-    initialData();
-  }, []);
-
-  const initialData = async () => {
+  const addCategoryToEmployee = async (e) => {
+    e.preventDefault();
     try {
-      const data = await fetchEmployeeCategories(employeeId);
-      setCategories(data);
-      setLoading(false);
+      const categoryId = category?.categoryId;
+      const datePromotion = category?.datePromotion;
+      const categoryAlready = employeeCategories?.find(
+        (category) => category.id == categoryId
+      );
+
+      if (!categoryAlready) {
+        if (categoryId) {
+          const data = await apiStoreEmployeeCategory(
+            employeeId,
+            categoryId,
+            datePromotion
+          );
+          console.log(data);
+          if (data.categoryEmployee) {
+            const category = allCategories.find(
+              (category) => category.id == categoryId
+            );
+            if (!employeeCategories && employeeCategories.length === 0) {
+              return mutateData([
+                {
+                  ...category,
+                  CategoryEmployee: {
+                    datePromotion: data.categoryEmployee.datePromotion,
+                  },
+                },
+              ]);
+            }
+            document.querySelector("#btnCancelSaveCategory").click();
+            document.querySelector("#btnCancelSaveCategory").blur();
+            return mutateData([
+              ...employeeCategories,
+              {
+                ...category,
+                CategoryEmployee: {
+                  datePromotion: data.categoryEmployee.datePromotion,
+                },
+              },
+            ]);
+          } else {
+            return setValidationErrors(data.message);
+          }
+        }
+      }
+      return setValidationErrors(
+        "La categoría ya fue agregada a este empleado."
+      );
     } catch (error) {
-      setLoading(false)
       console.log(error);
+      setValidationErrors(error);
     }
   };
-
-  const addCategoryToEmployee = () => {};
 
   return (
     <>
@@ -42,11 +106,18 @@ export const EmployeeCategory = ({ employeeId }) => {
             +
           </button>
         </div>
-        {loading && <Spinner />}
         <ul className="mx-3">
-          {categories.length > 0 ? (
-            categories.map((category) => {
-              <li key={ `category-employee-${category.id}` }>{category}</li>;
+          {loadingEmployeeCategories && <Spinner />}
+          {employeeCategories && employeeCategories.length > 0 ? (
+            employeeCategories.map((category) => {
+              return (
+                <li key={`category-employee-${category.id}`}>
+                  <span>
+                    {category.name} en el año{" "}
+                    {formatDate(category.CategoryEmployee?.datePromotion)}
+                  </span>
+                </li>
+              );
             })
           ) : (
             <li>Este empleado no tiene categorías registradas.</li>
@@ -62,7 +133,11 @@ export const EmployeeCategory = ({ employeeId }) => {
         aria-hidden="true"
       >
         <div className="modal-dialog modal-dialog-centered">
-          <form id="formAddCategoryToEmployee" className="modal-content">
+          <form
+            onSubmit={addCategoryToEmployee}
+            id="formAddCategoryToEmployee"
+            className="modal-content"
+          >
             <div className="modal-header">
               <h1
                 className="modal-title fs-5"
@@ -88,16 +163,23 @@ export const EmployeeCategory = ({ employeeId }) => {
                   </label>
                   <select
                     className="form-select"
-                    name="selectCategories"
+                    name="categoryId"
                     id="selectCategories"
+                    onChange={handleInputChange}
+                    defaultValue={category.categoryId}
                   >
                     <option value="">-- Seleccione --</option>
-                    {
-                      allCategories && allCategories.map((category) => {
-                        return <option key={ `category-all-${category.id}` } value={category.id} >{category.name}</option>
-                      })
-                    }
-
+                    {allCategories &&
+                      allCategories.map((category) => {
+                        return (
+                          <option
+                            key={`category-all-${category.id}`}
+                            value={category.id}
+                          >
+                            {category.name}
+                          </option>
+                        );
+                      })}
                   </select>
                 </div>
                 <div className="col-12">
@@ -107,13 +189,20 @@ export const EmployeeCategory = ({ employeeId }) => {
                   <input
                     className="form-control"
                     id="datePromotion"
+                    name="datePromotion"
                     type="date"
+                    value={category.datePromotion}
+                    onChange={handleInputChange}
                   />
+                </div>
+                <div className="mt-2">
+                  {validationErrors && <ShowErrors errors={validationErrors} />}
                 </div>
               </div>
             </div>
             <div className="modal-footer">
               <button
+                id="btnCancelSaveCategory"
                 type="button"
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"

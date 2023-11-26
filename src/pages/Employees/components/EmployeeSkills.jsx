@@ -47,7 +47,7 @@ export const EmployeeSkills = ({ employeeId }) => {
         if (skillId) {
           const data = await apiStoreEmployeeSkill(employeeId, skillId);
 
-          if (data.categoryEmployee) {
+          if (data.skillEmployee) {
             const skill = allSkills.find((skill) => skill.id == skillId);
             if (!employeeSkills && employeeSkills.length === 0) {
               return mutateData([skill]);

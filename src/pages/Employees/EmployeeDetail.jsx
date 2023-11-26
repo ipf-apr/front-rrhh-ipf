@@ -6,6 +6,7 @@ import { EmployeeJobPosition } from "./components/EmployeeJobPosition";
 import { EmployeeSkills } from "./components/EmployeeSkills";
 import { EmployeesContext } from "../../contexts/EmployeesContext";
 import { Spinner } from "../../components/Spinner";
+import { formatDate } from "../../helpers/formatDate";
 
 export const EmployeeDetail = () => {
   const { employeeId } = useParams();
@@ -84,7 +85,7 @@ export const EmployeeDetail = () => {
             <div className="d-flex">
               <strong>Año Ingreso:</strong>
               <p className="mx-3" id="dateIn">
-                {employee?.dateIn}
+                { formatDate(employee.dateIn)}
               </p>
             </div>
             <div className="d-flex">

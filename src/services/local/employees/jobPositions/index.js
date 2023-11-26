@@ -1,10 +1,8 @@
+import { URL } from "../../../../utils/constants";
 
-import { URL } from "../../../utils/constants.js";
-
-
-export const fetchEmployeeCategories = async (employeeId) => {
+export const fetchEmployeeJobPositions= async (employeeId) => {
     const response = await fetch(
-        `${URL}/employees/${employeeId}/categories`, {
+        `${URL}/employees/${employeeId}/jobPositions`, {
         headers: {
             Authorization: localStorage.getItem("token"),
             Accept: "application/json",

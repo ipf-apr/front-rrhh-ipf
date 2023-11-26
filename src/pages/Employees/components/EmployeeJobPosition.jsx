@@ -1,18 +1,81 @@
+import { useCallback, useState } from "react";
+import { useForm } from "../../../hooks/useForm";
 import { usePromise } from "../../../hooks/usePromise";
+import { fetchEmployeeJobPositions } from "../../../services/local/employees/jobPositions";
 import { fetchJobPositions } from "../../../services/local/jobPositions";
+import { apiStoreEmployeeJobPosition } from "../../../services/local/employees/jobPositions/store";
+import { Spinner } from "../../../components/Spinner";
 
-export const EmployeeJobPosition = () => {
+export const EmployeeJobPosition = ({ employeeId }) => {
+  const [validationErrors, setValidationErrors] = useState(null);
 
-  const {data: allJobPositions, error, loading: loadingJobPositions} = usePromise(fetchJobPositions)
+  const {
+    data: allJobPositions,
+    error,
+    loading: loadingJobPositions,
+  } = usePromise(fetchJobPositions);
 
-  
+  const {
+    data: employeeJobPositions,
+    error: employeeJobPositionError,
+    loading: loadingEmployeeJobPosition,
+    mutateData,
+  } = usePromise(
+    useCallback(() => fetchEmployeeJobPositions(employeeId), [employeeId])
+  );
 
-  const addJobPositionToEmployee = () => {};
+  const {
+    form: jobPosition,
+    handleInputChange,
+    reset,
+    setForm,
+  } = useForm({
+    selectedJobPosition: "",
+  });
+
+  const addJobPositionToEmployee = async (e) => {
+    e.preventDefault();
+    try {
+      const jobPositionId = jobPosition?.selectedJobPosition;
+      const jobPositionAlready = employeeJobPositions?.find(
+        (jobPosition) => jobPosition.selectedJobPosition == jobPositionId
+      );
+      console.log(jobPositionId);
+      if (!jobPositionAlready) {
+        if (jobPositionId) {
+          const data = await apiStoreEmployeeJobPosition(
+            employeeId,
+            jobPositionId
+          );
+          console.log(data);
+          if (data.employeeJobPosition) {
+            const jobPosition = allJobPositions.find(
+              (jobPosition) => jobPosition.id == jobPositionId
+            );
+            if (!employeeJobPositions && employeeJobPositions.length === 0) {
+              return mutateData([jobPosition]);
+            }
+            document.querySelector("#btnCancelSaveJobPosition").click();
+            document.querySelector("#btnCancelSaveJobPosition").blur();
+            return mutateData([...employeeJobPositions, jobPosition]);
+          } else {
+            return setValidationErrors(data.message);
+          }
+        }
+      }
+      return setValidationErrors(
+        "La categoría ya fue agregada a este empleado."
+      );
+    } catch (error) {
+      console.log(error);
+      setValidationErrors(error);
+    }
+  };
   return (
     <>
       <div className="rounded shadow p-2 mb-2">
         <div className="d-flex justify-content-between align-items-center ">
-          <strong>Puesto laboral actual:</strong>
+          <strong>Puestos laborales:</strong>
           <button
             className="btn btn-success"
             data-bs-toggle="modal"
@@ -22,7 +85,18 @@ export const EmployeeJobPosition = () => {
           </button>
         </div>
         <ul className="mx-3">
-          <li>Este empleado no tiene puestos laborales registrados.</li>
+          {loadingEmployeeJobPosition && <Spinner />}
+          {employeeJobPositions && employeeJobPositions.length > 0 ? (
+            employeeJobPositions.map((jobPosition, index) => {
+              return (
+                <li key={`jobPosition-employee-${jobPosition.id}`}>
+                  <span className={index == 0 ? 'text-primary fw-bold ' : '' }>  {jobPosition.position} { index == 0 ? '- Actual' : ' - Anterior'}</span>
+                </li>
+              );
+            })
+          ) : (
+            <li>Este empleado no tiene puestos laborales registrados.</li>
+          )}
         </ul>
       </div>
       {/* Modal AddJobPositionToEmployee */}
@@ -34,7 +108,11 @@ export const EmployeeJobPosition = () => {
         aria-hidden="true"
       >
         <div className="modal-dialog modal-dialog-centered">
-          <form id="formAddJobPositionToEmployee" className="modal-content">
+          <form
+            onSubmit={addJobPositionToEmployee}
+            id="formAddJobPositionToEmployee"
+            className="modal-content"
+          >
             <div className="modal-header">
               <h1
                 className="modal-title fs-5"
@@ -59,16 +137,23 @@ export const EmployeeJobPosition = () => {
                   </label>
                   <select
                     className="form-select"
-                    name="selectJobPositions"
-                    id="selectJobPositions"
-                    defaultValue={''}
+                    name="selectedJobPosition"
+                    id="selectedJobPosition"
+                    onChange={handleInputChange}
+                    defaultValue={""}
                   >
                     <option value="">-- Seleccione --</option>
-                    {
-                      allJobPositions && allJobPositions.map((jobPosition) => {
-                        return <option key={ `job-position-all-${jobPosition.id}` } value={jobPosition.id} >{jobPosition.position}</option>
-                      })
-                    }
+                    {allJobPositions &&
+                      allJobPositions.map((jobPosition) => {
+                        return (
+                          <option
+                            key={`job-position-all-${jobPosition.id}`}
+                            value={jobPosition.id}
+                          >
+                            {jobPosition.position}
+                          </option>
+                        );
+                      })}
                   </select>
                 </div>
               </div>
@@ -78,6 +163,7 @@ export const EmployeeJobPosition = () => {
                 type="button"
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
+                id="btnCancelSaveJobPosition"
               >
                 Cancelar
               </button>
