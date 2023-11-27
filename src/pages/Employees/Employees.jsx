@@ -1,13 +1,38 @@
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { Spinner } from "../../components/Spinner";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { EmployeesContext } from "../../contexts/EmployeesContext";
 import { formatDate } from "../../helpers/formatDate";
 import { AuthContext } from "../../contexts/AuthContext";
+import { useForm } from "../../hooks/useForm";
 
 export const Employees = () => {
-  const { employees, loading, error } = useContext(EmployeesContext);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const { employees, loading, error, searchEmployees } =
+    useContext(EmployeesContext);
+
   const { isAdmin } = useContext(AuthContext);
+
+  const [isSearch, setIsSearch] = useState(false);
+
+  const { form: search, handleInputChange, reset, setForm } = useForm({});
+
+  const handleSubmitSearch = (e) => {
+    e.preventDefault();
+    if (search.lastName || search.name || search.promotion) {
+      setSearchParams(search);
+      searchEmployees(search)
+      setIsSearch(true);
+    }
+  };
+
+  const handleReset = () => {
+    reset();
+    setIsSearch(false);
+    setSearchParams();
+    searchEmployees();
+  };
 
   const handleDeleteEmployee = () => {};
 
@@ -43,32 +68,38 @@ export const Employees = () => {
       <main className="col">
         <div className="collapse" id="collapseSearch">
           <div className="card card-body">
-            <form id="formSearch" className="row">
-              <input
-                placeholder="Apellidos"
-                className="form-control col"
-                type="search"
-                name="sLastName"
-                id="sLastName"
-              />
-              <input
-                placeholder="Nombres"
-                className="form-control col"
-                type="search"
-                name="sName"
-                id="sName"
-              />
-              <div className="form-control col">
+            <form onSubmit={handleSubmitSearch} id="formSearch" className="row">
+              <div className="d-flex gap-2">
+                <input
+                  placeholder="Apellidos"
+                  className="form-control"
+                  type="search"
+                  name="lastName"
+                  id="sLastName"
+                  value={search.lastName ?? ""}
+                  onChange={handleInputChange}
+                />
+                <input
+                  placeholder="Nombres"
+                  className="form-control"
+                  type="search"
+                  name="name"
+                  id="sName"
+                  value={search.name ?? ""}
+                  onChange={handleInputChange}
+                />
                 <select
                   className="form-select"
                   name="promotion"
                   id="sPromotion"
+                  onChange={handleInputChange}
+                  value={search.promotion ?? ""}
                 >
                   <option defaultValue="">
                     --Seleccionar Condición Promoción--
                   </option>
-                  <option defaultValue="1">Habilitado</option>
-                  <option defaultValue="0">Inhabilitado</option>
+                  <option value="1">Habilitado</option>
+                  <option value="0">Inhabilitado</option>
                 </select>
               </div>
               <div className="d-flex flex-row m-2  justify-content-end gap-2">
@@ -88,7 +119,9 @@ export const Employees = () => {
                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                   </svg>
                 </button>
-                <a
+                <button
+                  role="button"
+                  onClick={handleReset}
                   id="btnCleanSearch"
                   className="btn btn-outline-danger align-items-end"
                 >
@@ -103,7 +136,7 @@ export const Employees = () => {
                   >
                     <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
                   </svg>
-                </a>
+                </button>
               </div>
             </form>
           </div>
@@ -133,7 +166,9 @@ export const Employees = () => {
               {employees && employees.length == 0 && !loading && (
                 <tr>
                   <td colSpan={8} className="text-center">
-                    No hay empleados registrados aún.
+                    {isSearch
+                      ? "No se hallaron resultados con los parámetros ingresados."
+                      : "No hay empleados registrados aún."}
                   </td>
                 </tr>
               )}

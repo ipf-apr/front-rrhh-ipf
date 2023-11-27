@@ -3,14 +3,22 @@ import { URL } from "../../../utils/constants.js";
 export const fetchEmployees = async (formData) => {
   let url = URL + "/employees";
 
-  const searchParams = {
-    lastName: formData?.lastName ?? "",
-    name: formData?.name ?? "",
-    promotion: formData?.promotion ?? "",
-  };
+  let searchParams = {};
 
   if (formData) {
+    console.log('formData', formData);
+    if (formData.lastName) {
+      searchParams.lastName = formData.lastName;
+    }
+    if (formData.name) {
+      searchParams.name = formData.name;
+    }
+    if (formData.promotion) {
+      searchParams.promotion = formData.promotion;
+    }
     url = URL + "/employees?" + new URLSearchParams(searchParams);
+
+    console.log(searchParams)
   }
 
   const response = await fetch(url, {
@@ -22,7 +30,7 @@ export const fetchEmployees = async (formData) => {
 
   if (!response.ok) {
     const errors = await response.json();
-    
+
     throw errors;
   }
 
