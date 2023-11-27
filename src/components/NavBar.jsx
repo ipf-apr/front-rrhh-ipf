@@ -1,6 +1,12 @@
-
+import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
 
 function NavBar() {
+  const { userFullName, userRol } = useContext(AuthContext);
+
+  console.log(userFullName);
+
   return (
     <>
       <nav
@@ -22,11 +28,15 @@ function NavBar() {
           <div className="navbar-collapse justify-content-md-center collapse">
             <ul className="navbar-nav">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="/">
+                <Link className="nav-link active" aria-current="page" to="/">
                   Sistema de Gestión de Recursos Humanos
-                </a>
+                </Link>
               </li>
             </ul>
+          </div>
+          <div className="position-absolute end-0 mx-3">
+            <span className="text-white">{userFullName}</span>
+            <span className="text-white mx-2 text-capitalize">({userRol})</span>
           </div>
         </div>
       </nav>

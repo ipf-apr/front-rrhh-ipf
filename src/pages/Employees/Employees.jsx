@@ -3,9 +3,11 @@ import { Spinner } from "../../components/Spinner";
 import { useContext } from "react";
 import { EmployeesContext } from "../../contexts/EmployeesContext";
 import { formatDate } from "../../helpers/formatDate";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export const Employees = () => {
   const { employees, loading, error } = useContext(EmployeesContext);
+  const { isAdmin } = useContext(AuthContext);
 
   const handleDeleteEmployee = () => {};
 
@@ -189,12 +191,14 @@ export const Employees = () => {
                           >
                             Ver
                           </Link>
-                          <button
-                            onClick={handleDeleteEmployee}
-                            className="btn btn-outline-danger"
-                          >
-                            Eliminar
-                          </button>
+                          {isAdmin() && (
+                            <button
+                              onClick={handleDeleteEmployee}
+                              className="btn btn-outline-danger"
+                            >
+                              Eliminar
+                            </button>
+                          )}
                         </div>
                       </td>
                     </tr>

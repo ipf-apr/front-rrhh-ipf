@@ -15,11 +15,13 @@ export const fetchCategories = async (formData) => {
             },
         }
     );
-    if (response.status === 404) {
-        return [];
-    }
-
-    const data = response.json();
-
-    return data;
+    if (!response.ok) {
+        const errors = await response.json();
+    
+        throw errors;
+      }
+    
+      const data = await response.json();
+    
+      return data;
 };

@@ -13,6 +13,7 @@ import { CategoriesRoutes } from "./routes/CategoriesRoutes.jsx";
 import { JobPositionsRoutes } from "./routes/JobPositionsRoutes.jsx";
 import { SkillsRoutes } from "./routes/SkillsRoutes.jsx";
 import { UsersRoutes } from "./routes/UsersRoutes.jsx";
+import { AdminRoutes } from "./routes/AdminRoutes.jsx";
 
 function App() {
   return (
@@ -22,10 +23,12 @@ function App() {
         <Route path="/" element={<Main />}>
           <Route path="/" element={<Dashboard />} />
           <Route path="employees/*" element={<EmployeesRoutes />} />
-          <Route path="users/*" element={<UsersRoutes />} />
-          <Route path="categories/*" element={<CategoriesRoutes />} />
-          <Route path="job-positions/*" element={<JobPositionsRoutes/>} />
-          <Route path="skills/*" element={<SkillsRoutes />} />
+          <Route path="/" element={<AdminRoutes />}>
+            <Route path="users/*" element={<UsersRoutes />} />
+            <Route path="categories/*" element={<CategoriesRoutes />} />
+            <Route path="job-positions/*" element={<JobPositionsRoutes />} />
+            <Route path="skills/*" element={<SkillsRoutes />} />
+          </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Route>

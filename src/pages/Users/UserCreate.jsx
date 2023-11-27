@@ -38,6 +38,7 @@ export const UserCreate = () => {
         return;
       }
       console.log(error);
+      setValidationErrors(error.errors || error);
     }
   };
 

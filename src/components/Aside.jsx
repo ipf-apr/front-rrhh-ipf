@@ -3,8 +3,7 @@ import { NavLink } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 
 function Aside() {
-
-  const {logoutUser} = useContext(AuthContext);
+  const { logoutUser, isAdmin } = useContext(AuthContext);
 
   const handleLogout = (e) => {
     e.preventDefault();
@@ -45,49 +44,56 @@ function Aside() {
               Empleados
             </NavLink>
           </li>
-          <a
-            className="nav-link text-white dropdown-toggle"
-            data-bs-toggle="collapse"
-            href="#collapseMenuAdmin"
-            role="button"
-            aria-expanded="false"
-            aria-controls="collapseMenuAdmin"
-            aria-current="page"
-          >
-            Administración
-          </a>
-          <ul className="collapse" id="collapseMenuAdmin">
-            <li>
-              <NavLink
-                to="/users"
-                className="nav-link text-white"
+          {isAdmin() && (
+            <>
+              <a
+                className="nav-link text-white dropdown-toggle"
+                data-bs-toggle="collapse"
+                href="#collapseMenuAdmin"
+                role="button"
+                aria-expanded="false"
+                aria-controls="collapseMenuAdmin"
                 aria-current="page"
               >
-                Usuarios
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/categories" className="nav-link text-white">
-                Categorías
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/job-positions" className="nav-link text-white">
-                Puestos Laborales
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/skills" className="nav-link text-white">
-                Habilidades
-              </NavLink>
-            </li>
-          </ul>
+                Administración
+              </a>
+              <ul className="collapse" id="collapseMenuAdmin">
+                <li>
+                  <NavLink
+                    to="/users"
+                    className="nav-link text-white"
+                    aria-current="page"
+                  >
+                    Usuarios
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/categories" className="nav-link text-white">
+                    Categorías
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/job-positions" className="nav-link text-white">
+                    Puestos Laborales
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/skills" className="nav-link text-white">
+                    Habilidades
+                  </NavLink>
+                </li>
+              </ul>
+            </>
+          )}
         </ul>
         <div className="position-absolute bottom-0 mb-5">
-            <button onClick={handleLogout} type="button" className="btn btn-outline-primary">
-              Cerrar sesión
-            </button>
-          
+          <button
+            onClick={handleLogout}
+            type="button"
+            className="btn btn-outline-primary"
+          >
+            Cerrar sesión
+          </button>
         </div>
       </div>
     </aside>

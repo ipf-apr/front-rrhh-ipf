@@ -41,7 +41,7 @@ export const EmployeeCreate = () => {
     } catch (error) {
       setDisable(false);
       if (error.statusCode == 400) {
-        console.log(error.errors);
+        console.log(error);
         setValidationErrors(error.errors);
         return;
       }

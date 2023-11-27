@@ -16,8 +16,6 @@ export const login = async ({ username, password }) => {
       errors: resp.errors || resp.message,
     };
   }
-  const { message, token } = await response.json();
 
-
-  return { message, token };
+  return await response.json();
 };

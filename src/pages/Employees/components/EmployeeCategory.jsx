@@ -26,7 +26,6 @@ export const EmployeeCategory = ({ employeeId }) => {
   } = usePromise(
     useCallback(() => fetchEmployeeCategories(employeeId), [employeeId])
   );
-
   const {
     form: category,
     handleInputChange,

@@ -1,4 +1,5 @@
 export const ShowErrors = ({ errors }) => {
+  console.log('errors', errors);
   return Array.isArray(errors) ? (
     <div className="text-danger ">
       <h6 className="">
@@ -14,7 +15,7 @@ export const ShowErrors = ({ errors }) => {
     </div>
   ) : (
     <div>
-      <h6 className="text-danger">{errors}</h6>
+      <h6 className="text-danger">{errors.message || errors}</h6>
     </div>
   );
 };
