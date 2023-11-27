@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { Spinner } from "../../../components/Spinner";
 
 import { usePromise } from "../../../hooks/usePromise";
@@ -8,9 +8,12 @@ import { apiStoreEmployeeCategory } from "../../../services/local/employees/cate
 import { formatDate } from "../../../helpers/formatDate";
 import { ShowErrors } from "../../../components/ShowErrors";
 import { fetchEmployeeCategories } from "../../../services/local/employees/categories";
+import { EmployeesContext } from "../../../contexts/EmployeesContext";
 
 export const EmployeeCategory = ({ employeeId }) => {
   const [validationErrors, setValidationErrors] = useState(null);
+
+  const { updateCategoriesToEmployee } = useContext(EmployeesContext);
 
   const {
     data: allCategories,
@@ -59,27 +62,30 @@ export const EmployeeCategory = ({ employeeId }) => {
             const category = allCategories.find(
               (category) => category.id == categoryId
             );
-            if (!employeeCategories && employeeCategories.length === 0) {
-              return mutateData([
-                {
-                  ...category,
-                  CategoryEmployee: {
-                    datePromotion: data.categoryEmployee.datePromotion,
-                  },
-                },
-              ]);
-            }
-            document.querySelector("#btnCancelSaveCategory").click();
-            document.querySelector("#btnCancelSaveCategory").blur();
-            return mutateData([
-              ...employeeCategories,
+            const newCategories = [
               {
                 ...category,
                 CategoryEmployee: {
                   datePromotion: data.categoryEmployee.datePromotion,
                 },
               },
+            ];
+            if (!employeeCategories && employeeCategories.length === 0) {
+              updateCategoriesToEmployee(employeeId, newCategories);
+              return mutateData(newCategories);
+            }
+            document.querySelector("#btnCancelSaveCategory").click();
+            document.querySelector("#btnCancelSaveCategory").blur();
+            mutateData([
+              {
+                ...category,
+                CategoryEmployee: {
+                  datePromotion: data.categoryEmployee.datePromotion,
+                },
+              },
+              ...employeeCategories
             ]);
+            updateCategoriesToEmployee(employeeId, newCategories);
           } else {
             return setValidationErrors(data.message);
           }

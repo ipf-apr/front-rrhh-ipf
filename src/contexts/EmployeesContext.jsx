@@ -20,7 +20,7 @@ export const EmployeesContextProvider = ({ children }) => {
     setSearchData(searchData);
   };
 
-  console.log(employees)
+  console.log(employees);
 
   const storeEmployee = async (employee) => {
     try {
@@ -50,18 +50,41 @@ export const EmployeesContextProvider = ({ children }) => {
       console.log("data", data);
 
       if (employees && employees.length !== 0) {
-        const newEmployees = employees.map((emp) => {
-          if (emp.id == employeeId) {
-            return data;
-          }
-          return emp;
-        });
+        const newEmployees = generateNewsEmployeesFromUpdatedEmployee(
+          data,
+          employeeId
+        );
         console.log("newEmployees", newEmployees);
         return mutateData(newEmployees);
       }
     } catch (error) {
       console.log("error on storeEmployee");
       throw error;
+    }
+  };
+
+  const generateNewsEmployeesFromUpdatedEmployee = (employee, employeeId) => {
+    return employees.map((emp) => {
+      if (emp.id == employeeId) {
+        return employee;
+      }
+      return emp;
+    });
+  };
+
+  const updateCategoriesToEmployee = (employeeId, categories) => {
+    // employee.Categories
+    const employee = employees.find((emp) => emp.id == employeeId);
+    console.log('updateCategoriesToEmployee', employee)
+    console.log('updateCategoriesToEmployee', categories)
+    if (employee) {
+      employee.Categories = categories;
+      const newEmployees = generateNewsEmployeesFromUpdatedEmployee(
+        employee,
+        employeeId
+      );
+      console.log("newEmployees", newEmployees);
+      return mutateData(newEmployees);
     }
   };
 
@@ -72,6 +95,7 @@ export const EmployeesContextProvider = ({ children }) => {
         storeEmployee,
         updateEmployee,
         showEmployee,
+        updateCategoriesToEmployee,
         employees,
         loading,
         error,
