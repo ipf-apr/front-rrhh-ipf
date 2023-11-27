@@ -6,10 +6,14 @@ import { formatDate } from "../../helpers/formatDate";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useForm } from "../../hooks/useForm";
 
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import { AlertDelete } from "../../components/AlertDelete";
+
 export const Employees = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const { employees, loading, error, searchEmployees } =
+  const { employees, loading, error, searchEmployees, deleteEmployee } =
     useContext(EmployeesContext);
 
   const { isAdmin } = useContext(AuthContext);
@@ -22,7 +26,7 @@ export const Employees = () => {
     e.preventDefault();
     if (search.lastName || search.name || search.promotion) {
       setSearchParams(search);
-      searchEmployees(search)
+      searchEmployees(search);
       setIsSearch(true);
     }
   };
@@ -34,7 +38,13 @@ export const Employees = () => {
     searchEmployees();
   };
 
-  const handleDeleteEmployee = () => {};
+  const handleDeleteEmployee = ({target}) => {
+    console.log(target.dataset.id);
+    const employeeId = target.dataset.id;
+    AlertDelete(() => {
+      deleteEmployee(employeeId)
+    });
+  };
 
   return (
     <div className="row">
@@ -228,6 +238,7 @@ export const Employees = () => {
                           </Link>
                           {isAdmin() && (
                             <button
+                              data-id={employee.id}
                               onClick={handleDeleteEmployee}
                               className="btn btn-outline-danger"
                             >

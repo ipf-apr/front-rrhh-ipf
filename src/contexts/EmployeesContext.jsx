@@ -3,6 +3,7 @@ import { apiStoreEmployee } from "../services/local/employees/create";
 import { usePromise } from "../hooks/usePromise";
 import { fetchEmployees } from "../services/local/employees";
 import { apiUpdateEmployee } from "../services/local/employees/update";
+import { apiDeleteEmployee } from "../services/local/employees/delete";
 
 export const EmployeesContext = createContext({});
 
@@ -19,8 +20,6 @@ export const EmployeesContextProvider = ({ children }) => {
   const searchEmployees = (searchData) => {
     setSearchData(searchData);
   };
-
-  console.log(employees);
 
   const storeEmployee = async (employee) => {
     try {
@@ -75,8 +74,8 @@ export const EmployeesContextProvider = ({ children }) => {
   const updateCategoriesToEmployee = (employeeId, categories) => {
     // employee.Categories
     const employee = employees.find((emp) => emp.id == employeeId);
-    console.log('updateCategoriesToEmployee', employee)
-    console.log('updateCategoriesToEmployee', categories)
+    console.log("updateCategoriesToEmployee", employee);
+    console.log("updateCategoriesToEmployee", categories);
     if (employee) {
       employee.Categories = categories;
       const newEmployees = generateNewsEmployeesFromUpdatedEmployee(
@@ -88,6 +87,25 @@ export const EmployeesContextProvider = ({ children }) => {
     }
   };
 
+  const deleteEmployee = async (employeeId) => {
+    try {
+      const data = await apiDeleteEmployee(employeeId);
+
+      if (employees && employees.length !== 0) {
+        const newEmployees = employees.filter((emp) => {
+          if (emp.id != employeeId) {
+            return emp;
+          }
+          return;
+        });
+        return mutateData(newEmployees);
+      }
+    } catch (error) {
+      console.log("error on storeEmployee");
+      throw error;
+    }
+  };
+
   return (
     <EmployeesContext.Provider
       value={{
@@ -95,6 +113,7 @@ export const EmployeesContextProvider = ({ children }) => {
         storeEmployee,
         updateEmployee,
         showEmployee,
+        deleteEmployee,
         updateCategoriesToEmployee,
         employees,
         loading,
