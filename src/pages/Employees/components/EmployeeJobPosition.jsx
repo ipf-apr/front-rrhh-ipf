@@ -58,7 +58,7 @@ export const EmployeeJobPosition = ({ employeeId }) => {
             }
             document.querySelector("#btnCancelSaveJobPosition").click();
             document.querySelector("#btnCancelSaveJobPosition").blur();
-            return mutateData([...employeeJobPositions, jobPosition]);
+            return mutateData([jobPosition, ...employeeJobPositions]);
           } else {
             return setValidationErrors(data.message);
           }
@@ -88,8 +88,21 @@ export const EmployeeJobPosition = ({ employeeId }) => {
         </div>
         <ul className="mx-3">
           {loadingEmployeeJobPosition && <Spinner />}
-          {employeeJobPositions && employeeJobPositions.length > 0 ? (
+
+          {employeeJobPositionError && (
+            <li>{employeeJobPositionError.message}</li>
+          )}
+
+          {employeeJobPositions &&
+            employeeJobPositions.length == 0 &&
+            !loadingEmployeeJobPosition && (
+              <li>Este empleado no tiene puestos laborales registrados.</li>
+            )}
+
+          {employeeJobPositions &&
+            employeeJobPositions.length > 0 &&
             employeeJobPositions.map((jobPosition, index) => {
+              console.log(jobPosition);
               return (
                 <li key={`jobPosition-employee-${jobPosition.id}`}>
                   <span className={index == 0 ? "text-primary fw-bold " : ""}>
@@ -99,10 +112,7 @@ export const EmployeeJobPosition = ({ employeeId }) => {
                   </span>
                 </li>
               );
-            })
-          ) : (
-            <li>Este empleado no tiene puestos laborales registrados.</li>
-          )}
+            })}
         </ul>
       </div>
       {/* Modal AddJobPositionToEmployee */}

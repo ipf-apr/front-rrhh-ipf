@@ -83,31 +83,23 @@ export const EmployeeSkills = ({ employeeId }) => {
             +
           </button>
         </div>
-        {loadingEmployeeSkills && (
-          <ul className="mx-3">
-            <Spinner />
-          </ul>
-        )}
-        {employeeSkills &&
-          employeeSkills.length == 0 &&
-          !loadingEmployeeSkills && (
-            <ul className="mx-3">
+        <ul className="mx-3">
+          {loadingEmployeeSkills && <Spinner />}
+          {employeeSkills &&
+            employeeSkills.length == 0 &&
+            !loadingEmployeeSkills && (
               <li>Este empleado no tiene habilidades registradas.</li>
-            </ul>
-          )}
-        {employeeSkillsError && (
-          <ul className="mx-3">
-            <li>{employeeSkillsError.message}</li>
-          </ul>
-        )}
-        {employeeSkills &&
-          employeeSkills.length > 0 &&
-          !loadingEmployeeSkills &&
-          employeeSkills.map((skill) => {
-            return (
-              <li key={`skill-employee-${skill.id}`}>{skill.nameSkill}</li>
-            );
-          })}
+            )}
+          {employeeSkillsError && <li>{employeeSkillsError.message}</li>}
+          {employeeSkills &&
+            employeeSkills.length > 0 &&
+            !loadingEmployeeSkills &&
+            employeeSkills.map((skill) => {
+              return (
+                <li key={`skill-employee-${skill.id}`}>{skill.nameSkill}</li>
+              );
+            })}
+        </ul>
       </div>
 
       {/* Modal AddSkillsToEmployee */}

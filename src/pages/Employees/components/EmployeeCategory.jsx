@@ -44,11 +44,11 @@ export const EmployeeCategory = ({ employeeId }) => {
       const categoryAlready = employeeCategories?.find(
         (category) => category.id == categoryId
       );
-      
-      console.log(categoryId , datePromotion, categoryAlready)
+
+      console.log(categoryId, datePromotion, categoryAlready);
       if (!categoryAlready) {
         if (categoryId && datePromotion) {
-          console.log(categoryId , datePromotion)
+          console.log(categoryId, datePromotion);
           const data = await apiStoreEmployeeCategory(
             employeeId,
             categoryId,
@@ -83,11 +83,15 @@ export const EmployeeCategory = ({ employeeId }) => {
           } else {
             return setValidationErrors(data.message);
           }
-        }else{
-          return setValidationErrors('Tenes que seleccionar alguna categoría y colocar la fecha.');
+        } else {
+          return setValidationErrors(
+            "Tenes que seleccionar alguna categoría y colocar la fecha."
+          );
         }
-      } else { 
-        return setValidationErrors('La categoría ya se encuentra agregada al empleado actual.');        
+      } else {
+        return setValidationErrors(
+          "La categoría ya se encuentra agregada al empleado actual."
+        );
       }
     } catch (error) {
       console.log(error);
@@ -98,7 +102,7 @@ export const EmployeeCategory = ({ employeeId }) => {
   const resetForm = () => {
     reset();
     setValidationErrors(null);
-  }
+  };
 
   return (
     <>
@@ -115,7 +119,19 @@ export const EmployeeCategory = ({ employeeId }) => {
         </div>
         <ul className="mx-3">
           {loadingEmployeeCategories && <Spinner />}
-          {employeeCategories && employeeCategories.length > 0 ? (
+
+          {employeeCategoriesError && (
+            <li>{employeeCategoriesError.message}</li>
+          )}
+
+          {employeeCategories &&
+            employeeCategories.length == 0 &&
+            !loadingEmployeeCategories && (
+              <li>Este empleado no tiene categorías registradas.</li>
+            )}
+
+          {employeeCategories &&
+            employeeCategories.length > 0 &&
             employeeCategories.map((category, index) => {
               return (
                 <li key={`category-employee-${category.id}`}>
@@ -126,10 +142,7 @@ export const EmployeeCategory = ({ employeeId }) => {
                   </span>
                 </li>
               );
-            })
-          ) : (
-            <li>Este empleado no tiene categorías registradas.</li>
-          )}
+            })}
         </ul>
       </div>
       {/* Modal AddCategoryToEmployee */}
