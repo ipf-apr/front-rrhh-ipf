@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useLocation } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 
 import { EmployeeCategory } from "./components/EmployeeCategory";
@@ -8,8 +8,11 @@ import { EmployeesContext } from "../../contexts/EmployeesContext";
 import { Spinner } from "../../components/Spinner";
 import { formatDate } from "../../helpers/formatDate";
 
+import toast, { Toaster } from "react-hot-toast";
+
 export const EmployeeDetail = () => {
   const { employeeId } = useParams();
+  const location = useLocation();
 
   const [employee, setEmployee] = useState(null);
 
@@ -19,6 +22,12 @@ export const EmployeeDetail = () => {
 
   useEffect(() => {
     const emp = showEmployee(employeeId);
+    if (location.state?.from === "edit") {
+      console.log(location.state.from)
+      toast.success("Empleado se editó correctamente!", {
+        duration: 4000,
+      });
+    }
     setEmployee(emp);
   }, [employees]);
 
@@ -30,6 +39,7 @@ export const EmployeeDetail = () => {
     <>
       {employee ? (
         <div className="d-block d-md-flex gap-2">
+          <Toaster position="bottom-right" reverseOrder={false} />
           <div className="col rounded shadow p-3">
             <Link
               to={`/employees/${employeeId}/edit`}
@@ -85,7 +95,7 @@ export const EmployeeDetail = () => {
             <div className="d-flex">
               <strong>Año Ingreso:</strong>
               <p className="mx-3" id="dateIn">
-                { formatDate(employee.dateIn)}
+                {formatDate(employee.dateIn)}
               </p>
             </div>
             <div className="d-flex">

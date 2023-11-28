@@ -57,7 +57,11 @@ export const EmployeeEdit = () => {
     try {
       await updateEmployee(employeeId, datos);
       reset();
-      navigate(`/employees/${employeeId}/show`);
+      navigate(`/employees/${employeeId}/show`, {
+        state: {
+          from: 'edit'
+        }
+      });
     } catch (error) {
       if (error.statusCode == 400) {
         console.log(error.errors);
