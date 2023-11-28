@@ -3,9 +3,10 @@ import { SkillsContext } from "../../contexts/SkillsContext";
 import { useForm } from "../../hooks/useForm";
 import { Spinner } from "../../components/Spinner";
 import { ShowErrors } from "../../components/ShowErrors";
+import { AlertDelete } from "../../components/AlertDelete";
 
 export const SkillsIndex = () => {
-  const { skills, error, loading, storeSkill, updateSkill } =
+  const { skills, error, loading, storeSkill, updateSkill, deleteSkill } =
     useContext(SkillsContext);
   const [validationErrors, setValidationErrors] = useState([]);
   const [disable, setDisable] = useState(false);
@@ -52,6 +53,14 @@ export const SkillsIndex = () => {
       console.log(error);
     }
   };
+
+  const handleDeleteSkill = async ({ target }) => {
+    const id = target.dataset.id;
+
+    AlertDelete(() => {
+      deleteSkill(id);
+    });
+  }
 
   return (
     <>
@@ -185,7 +194,10 @@ export const SkillsIndex = () => {
                             >
                               Editar
                             </button>
-                            <button className="btn btn-outline-danger">
+                            <button 
+                            data-id={skill.id}
+                            onClick={handleDeleteSkill}
+                            className="btn btn-outline-danger">
                               Eliminar
                             </button>
                           </div>
