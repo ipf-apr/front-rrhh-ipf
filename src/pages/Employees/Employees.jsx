@@ -45,9 +45,9 @@ export const Employees = () => {
 
   return (
     <div className="row">
-      <header className="d-flex align-items-center justify-content-between">
+      <header className="d-sm-flex align-items-center justify-content-between">
         <h1>Listado de Empleados</h1>
-        <div className="d-flex gap-1">
+        <div className="d-sm-flex float-end  gap-1">
           <Link className="btn btn-outline-success" to="/employees/create">
             Nuevo Empleado
           </Link>
@@ -74,9 +74,9 @@ export const Employees = () => {
       </header>
       <main className="col">
         <div className="collapse" id="collapseSearch">
-          <div className="card card-body">
+          <div className="card card-body mt-2">
             <form onSubmit={handleSubmitSearch} id="formSearch" className="row">
-              <div className="d-flex gap-2">
+              <div className="d-flex flex-column flex-sm-row gap-2">
                 <input
                   placeholder="Apellidos"
                   className="form-control"
@@ -114,7 +114,7 @@ export const Employees = () => {
                   type="submit"
                   className="btn btn-outline-primary align-items-end"
                 >
-                  <span>Buscar</span>
+                  <span className="mx-1">Buscar</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
@@ -132,7 +132,7 @@ export const Employees = () => {
                   id="btnCleanSearch"
                   className="btn btn-outline-danger align-items-end"
                 >
-                  <span>Limpiar</span>
+                  <span className="mx-1">Limpiar</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"

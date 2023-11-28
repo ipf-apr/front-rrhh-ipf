@@ -16,12 +16,14 @@ export const UsersIndex = () => {
   };
 
   return (
-    <div className="container-fluid py-5 px-md-5 col">
-      <header className="d-flex align-items-center justify-content-between">
+    <div className="row">
+      <header className="d-sm-flex align-items-center justify-content-between">
         <h1>Listado de Usuarios del Sistema</h1>
-        <Link className="btn btn-outline-success" to={`/users/create`}>
+       <div className="float-end">
+       <Link className="btn btn-outline-success" to={`/users/create`}>
           Nuevo Usuario
         </Link>
+       </div>
       </header>
       <main className="col">
         <div className="overflow-auto">
