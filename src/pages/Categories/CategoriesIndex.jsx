@@ -3,9 +3,10 @@ import { useForm } from "../../hooks/useForm";
 import { CategoriesContext } from "../../contexts/CategoriesContext";
 import { Spinner } from "../../components/Spinner";
 import { ShowErrors } from "../../components/ShowErrors";
+import { AlertDelete } from "../../components/AlertDelete";
 
 export const CategoriesIndex = () => {
-  const { categories, error, loading, storeCategory, updateCategory } =
+  const { categories, error, loading, storeCategory, updateCategory, deleteCategory } =
     useContext(CategoriesContext);
 
   const [validationErrors, setValidationErrors] = useState([]);
@@ -52,6 +53,14 @@ export const CategoriesIndex = () => {
       console.log(error);
     }
   };
+
+  const handleDeleteCategory = ({ target }) => {
+    const id = target.dataset.id;
+
+    AlertDelete(() => {
+      deleteCategory(id);
+    });
+  }
 
   return (
     <>
@@ -181,7 +190,11 @@ export const CategoriesIndex = () => {
                             >
                               Editar
                             </button>
-                            <button className="btn btn-outline-danger">
+                            <button
+                              className="btn btn-outline-danger"
+                              data-id={category.id}
+                              onClick={handleDeleteCategory}
+                            >
                               Eliminar
                             </button>
                           </div>

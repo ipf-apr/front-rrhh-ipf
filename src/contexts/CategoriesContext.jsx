@@ -3,6 +3,7 @@ import { usePromise } from "../hooks/usePromise";
 import { fetchCategories } from "../services/local/categories";
 import { apiStoreCategory } from "../services/local/categories/create";
 import { apiUpdateCategory } from "../services/local/categories/update";
+import { apiDeleteCategory } from "../services/local/categories/delete";
 
 export const CategoriesContext = createContext({});
 
@@ -48,11 +49,33 @@ export const CategoriesContextProvider = ({ children }) => {
     }
   };
 
+  const deleteCategory = async (categoryId) => {
+    try {
+      const data = await apiDeleteCategory(categoryId);
+
+      console.log(data)
+
+      if (categories && categories.length !== 0) {
+        const newCategories = categories.filter((category) => {
+          if (category.id != categoryId) {
+            return category;
+          }
+          return;
+        });
+        return mutateData(newCategories);
+      }
+    } catch (error) {
+      console.log("error on deleteCategory");
+      throw error;
+    }
+  }
+
   return (
     <CategoriesContext.Provider
       value={{
         storeCategory,
         updateCategory,
+        deleteCategory,
         categories,
         error,
         loading,
