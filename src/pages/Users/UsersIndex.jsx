@@ -2,9 +2,18 @@ import { useContext } from "react";
 import { UsersContext } from "../../contexts/UsersContext";
 import { Spinner } from "../../components/Spinner";
 import { Link } from "react-router-dom";
+import { AlertDelete } from "../../components/AlertDelete";
 
 export const UsersIndex = () => {
-  const { users, error, loading } = useContext(UsersContext);
+  const { users, error, loading, deleteUser } = useContext(UsersContext);
+
+  const handleDeleteUser = ({ target }) => {
+    const id = target.dataset.id;
+
+    AlertDelete(() => {
+      deleteUser(id);
+    });
+  };
 
   return (
     <div className="container-fluid py-5 px-md-5 col">
@@ -77,6 +86,7 @@ export const UsersIndex = () => {
                           <button
                             className="btn btn-outline-danger"
                             data-id={user.id}
+                            onClick={handleDeleteUser}
                           >
                             Eliminar
                           </button>

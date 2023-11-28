@@ -3,6 +3,7 @@ import { usePromise } from "../hooks/usePromise";
 import { fetchUsers } from "../services/local/users";
 import { apiStoreUser } from "../services/local/users/create";
 import { apiUpdateUser } from "../services/local/users/update";
+import { apiDeleteUser } from "../services/local/users/delete";
 
 export const UsersContext = createContext({});
 
@@ -50,9 +51,30 @@ export const UsersContextProvider = ({ children }) => {
     }
   };
 
+  const deleteUser = async (userId) => {
+    try {
+      const data = await apiDeleteUser(userId);
+
+      console.log(data)
+
+      if (users && users.length !== 0) {
+        const newUsers = users.filter((user) => {
+          if (user.id != userId) {
+            return user;
+          }
+          return;
+        });
+        return mutateData(newUsers);
+      }
+    } catch (error) {
+      console.log("error on deleteUser");
+      throw error;
+    }
+  };
+
   return (
     <UsersContext.Provider
-      value={{ storeUser, showUser, updateUser, users, error, loading }}
+      value={{ storeUser, showUser, updateUser, deleteUser, users, error, loading }}
     >
       {children}
     </UsersContext.Provider>
