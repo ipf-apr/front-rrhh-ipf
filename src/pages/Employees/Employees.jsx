@@ -6,8 +6,6 @@ import { formatDate } from "../../helpers/formatDate";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useForm } from "../../hooks/useForm";
 
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
 import { AlertDelete } from "../../components/AlertDelete";
 
 export const Employees = () => {
@@ -39,7 +37,6 @@ export const Employees = () => {
   };
 
   const handleDeleteEmployee = ({target}) => {
-    console.log(target.dataset.id);
     const employeeId = target.dataset.id;
     AlertDelete(() => {
       deleteEmployee(employeeId)
