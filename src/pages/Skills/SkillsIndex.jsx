@@ -5,6 +5,9 @@ import { Spinner } from "../../components/Spinner";
 import { ShowErrors } from "../../components/ShowErrors";
 import { AlertDelete } from "../../components/AlertDelete";
 
+import toast from "react-hot-toast";
+
+
 export const SkillsIndex = () => {
   const { skills, error, loading, storeSkill, updateSkill, deleteSkill } =
     useContext(SkillsContext);
@@ -36,8 +39,10 @@ export const SkillsIndex = () => {
     try {
       if (skill.id != "") {
         await updateSkill(skill, skill.id);
+        toast.success("Habilidad actualizada con éxito");
       } else {
         await storeSkill(skill);
+        toast.success("Habilidad creada con éxito");
       }
 
       setDisable(false);
@@ -60,7 +65,7 @@ export const SkillsIndex = () => {
     AlertDelete(() => {
       deleteSkill(id);
     });
-  }
+  };
 
   return (
     <>
@@ -194,10 +199,11 @@ export const SkillsIndex = () => {
                             >
                               Editar
                             </button>
-                            <button 
-                            data-id={skill.id}
-                            onClick={handleDeleteSkill}
-                            className="btn btn-outline-danger">
+                            <button
+                              data-id={skill.id}
+                              onClick={handleDeleteSkill}
+                              className="btn btn-outline-danger"
+                            >
                               Eliminar
                             </button>
                           </div>
@@ -213,12 +219,17 @@ export const SkillsIndex = () => {
       {/* <!-- Modal --> */}
       <div
         className="modal fade"
+        data-backdrop="static"
+        data-keyboard="false"
         id="modalSkillCreate"
         tabIndex="-1"
         aria-labelledby="modalSkillCreateLabel"
         aria-hidden="true"
       >
-        <div className="modal-dialog modal-dialog-centered">
+        <div
+          className="modal-dialog modal-dialog-centered"
+         
+        >
           <form
             onSubmit={handleSubmit}
             id="createEditSkillForm"
