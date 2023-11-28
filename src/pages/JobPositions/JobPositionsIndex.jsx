@@ -3,6 +3,10 @@ import { JobPositionsContext } from "../../contexts/JobPositionsContext";
 import { useForm } from "../../hooks/useForm";
 import { Spinner } from "../../components/Spinner";
 import { AlertDelete } from "../../components/AlertDelete";
+import { ShowErrors } from "../../components/ShowErrors";
+
+import toast, { Toaster } from "react-hot-toast";
+
 
 export const JobPositionsIndex = () => {
   const { jobPositions, error, loading, updateJobPosition, storeJobPosition, deleteJobPosition } =
@@ -41,8 +45,10 @@ export const JobPositionsIndex = () => {
     try {
       if (jobPosition.id != "") {
         await updateJobPosition(jobPosition, jobPosition.id);
+        toast.success("Puesto Laboral actualizado con éxito");
       } else {
         await storeJobPosition(jobPosition);
+        toast.success("Puesto Laboral creado con éxito");
       }
 
       setDisable(false);
@@ -70,6 +76,7 @@ export const JobPositionsIndex = () => {
   return (
     <>
       <div className="container-fluid py-5 px-md-5 col">
+      <Toaster position="bottom-right" reverseOrder={false} />
         <header className="d-flex align-items-center justify-content-between">
           <h1>Listado de Puestos Laborales</h1>
           <div>
@@ -236,9 +243,14 @@ export const JobPositionsIndex = () => {
             className="modal-content"
           >
             <div className="modal-header">
+            <div className="d-flex flex-column ">
               <h1 className="modal-title fs-5" id="modalJobPositionCreateLabel">
                 Nuevo Puesto Laboral
               </h1>
+              {validationErrors.length != 0 && (
+                  <ShowErrors errors={validationErrors} />
+                )}
+            </div>
               <button
                 type="button"
                 className="btn-close"
