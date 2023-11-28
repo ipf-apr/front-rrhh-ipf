@@ -5,9 +5,17 @@ import { Spinner } from "../../components/Spinner";
 import { ShowErrors } from "../../components/ShowErrors";
 import { AlertDelete } from "../../components/AlertDelete";
 
+import toast, { Toaster } from "react-hot-toast";
+
 export const CategoriesIndex = () => {
-  const { categories, error, loading, storeCategory, updateCategory, deleteCategory } =
-    useContext(CategoriesContext);
+  const {
+    categories,
+    error,
+    loading,
+    storeCategory,
+    updateCategory,
+    deleteCategory,
+  } = useContext(CategoriesContext);
 
   const [validationErrors, setValidationErrors] = useState([]);
   const [disable, setDisable] = useState(false);
@@ -33,11 +41,12 @@ export const CategoriesIndex = () => {
     setDisable(true);
     setValidationErrors([]);
     try {
-      console.log(category.id);
       if (category.id != "") {
         await updateCategory(category, category.id);
+        toast.success("Categoría actualizada con éxito");
       } else {
         await storeCategory(category);
+        toast.success("Categoría creada con éxito");
       }
 
       setDisable(false);
@@ -60,11 +69,12 @@ export const CategoriesIndex = () => {
     AlertDelete(() => {
       deleteCategory(id);
     });
-  }
+  };
 
   return (
     <>
       <div className="container-fluid py-5 px-md-5 col">
+        <Toaster position="bottom-right" reverseOrder={false} />
         <header className="d-flex align-items-center justify-content-between">
           <h1>Listado de Categorías</h1>
           <div>
