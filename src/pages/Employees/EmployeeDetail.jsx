@@ -22,11 +22,14 @@ export const EmployeeDetail = () => {
 
   useEffect(() => {
     const emp = showEmployee(employeeId);
-    if (location.state?.from === "edit") {
-      console.log(location.state.from)
-      toast.success("Empleado se editó correctamente!", {
-        duration: 4000,
-      });
+    if (emp && location.state?.from === "edit") {
+      setTimeout(() => {
+        toast.success("Empleado se editó correctamente!", {
+          ariaProps: {
+            role: "alert",
+          },
+        });
+      }, 1000);
     }
     setEmployee(emp);
   }, [employees]);
