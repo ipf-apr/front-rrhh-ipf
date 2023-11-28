@@ -5,7 +5,7 @@ import { Spinner } from "../../components/Spinner";
 import { ShowErrors } from "../../components/ShowErrors";
 import { AlertDelete } from "../../components/AlertDelete";
 
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 export const CategoriesIndex = () => {
   const {
@@ -74,7 +74,6 @@ export const CategoriesIndex = () => {
   return (
     <>
       <div className="container-fluid py-5 px-md-5 col">
-        <Toaster position="bottom-right" reverseOrder={false} />
         <header className="d-flex align-items-center justify-content-between">
           <h1>Listado de Categorías</h1>
           <div>

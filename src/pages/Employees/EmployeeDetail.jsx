@@ -8,7 +8,7 @@ import { EmployeesContext } from "../../contexts/EmployeesContext";
 import { Spinner } from "../../components/Spinner";
 import { formatDate } from "../../helpers/formatDate";
 
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 export const EmployeeDetail = () => {
   const { employeeId } = useParams();
@@ -42,7 +42,6 @@ export const EmployeeDetail = () => {
     <>
       {employee ? (
         <div className="d-block d-md-flex gap-2">
-          <Toaster position="bottom-right" reverseOrder={false} />
           <div className="col rounded shadow p-3">
             <Link
               to={`/employees/${employeeId}/edit`}

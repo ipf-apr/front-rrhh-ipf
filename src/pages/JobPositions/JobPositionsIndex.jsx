@@ -5,7 +5,7 @@ import { Spinner } from "../../components/Spinner";
 import { AlertDelete } from "../../components/AlertDelete";
 import { ShowErrors } from "../../components/ShowErrors";
 
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 
 export const JobPositionsIndex = () => {
@@ -76,7 +76,6 @@ export const JobPositionsIndex = () => {
   return (
     <>
       <div className="container-fluid py-5 px-md-5 col">
-      <Toaster position="bottom-right" reverseOrder={false} />
         <header className="d-flex align-items-center justify-content-between">
           <h1>Listado de Puestos Laborales</h1>
           <div>
