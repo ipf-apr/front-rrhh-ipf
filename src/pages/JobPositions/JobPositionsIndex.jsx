@@ -2,9 +2,10 @@ import { useContext, useState } from "react";
 import { JobPositionsContext } from "../../contexts/JobPositionsContext";
 import { useForm } from "../../hooks/useForm";
 import { Spinner } from "../../components/Spinner";
+import { AlertDelete } from "../../components/AlertDelete";
 
 export const JobPositionsIndex = () => {
-  const { jobPositions, error, loading, updateJobPosition, storeJobPosition } =
+  const { jobPositions, error, loading, updateJobPosition, storeJobPosition, deleteJobPosition } =
     useContext(JobPositionsContext);
 
   const [validationErrors, setValidationErrors] = useState([]);
@@ -56,6 +57,14 @@ export const JobPositionsIndex = () => {
       }
       console.log(error);
     }
+  };
+
+  const handleDeleteJobPosition = ({ target }) => {
+    const id = target.dataset.id;
+
+    AlertDelete(() => {
+      deleteJobPosition(id);
+    });
   };
 
   return (
@@ -188,7 +197,11 @@ export const JobPositionsIndex = () => {
                             >
                               Editar
                             </button>
-                            <button className="btn btn-outline-danger">
+                            <button
+                              onClick={handleDeleteJobPosition}
+                              data-id={jobPosition.id}
+                              className="btn btn-outline-danger"
+                            >
                               Eliminar
                             </button>
                           </div>

@@ -3,6 +3,7 @@ import { usePromise } from "../hooks/usePromise";
 import { fetchJobPositions } from "../services/local/jobPositions";
 import { apiStoreJobPosition } from "../services/local/jobPositions/create";
 import { apiUpdateJobPosition } from "../services/local/jobPositions/update";
+import { apiDeleteJobPosition } from "../services/local/jobPositions/delete";
 
 export const JobPositionsContext = createContext({});
 
@@ -48,11 +49,34 @@ export const JobPositionsContextProvider = ({ children }) => {
       }
   };
 
+  
+
+  const deleteJobPosition = async (jobPositionId) => {
+    try {
+      const data = await apiDeleteJobPosition(jobPositionId);
+      console.log(data)
+
+      if (jobPositions && jobPositions.length !== 0) {
+        const newJobPositions = jobPositions.filter((jobPosition) => {
+          if (jobPosition.id != jobPositionId) {
+            return jobPosition;
+          }
+          return;
+        });
+        return mutateData(newJobPositions);
+      }
+    } catch (error) {
+      console.log("error on deleteJobPosition");
+      throw error;
+    }
+  };
+
   return (
     <JobPositionsContext.Provider
       value={{
         updateJobPosition,
         storeJobPosition,
+        deleteJobPosition,
         jobPositions,
         error,
         loading,
