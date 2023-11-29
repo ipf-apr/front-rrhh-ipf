@@ -9,14 +9,13 @@ import { Spinner } from "../../components/Spinner";
 import { formatDate } from "../../helpers/formatDate";
 
 import toast from "react-hot-toast";
+import { EmployeeAvatar } from "./components/EmployeeAvatar";
 
 export const EmployeeDetail = () => {
   const { employeeId } = useParams();
   const location = useLocation();
 
   const [employee, setEmployee] = useState(null);
-
-  const [imageLoaded, setImageLoaded] = useState(false);
 
   const { employees, showEmployee } = useContext(EmployeesContext);
 
@@ -34,10 +33,6 @@ export const EmployeeDetail = () => {
     setEmployee(emp);
   }, [employees]);
 
-  const handleImageLoaded = () => {
-    setImageLoaded(true);
-  };
-
   return (
     <>
       {employee ? (
@@ -49,18 +44,8 @@ export const EmployeeDetail = () => {
             >
               Editar
             </Link>
-            <div style={{ height: 200, width: 200 }}>
-              {!imageLoaded && (
-                <div className="d-flex align-items-center justify-content-center ">
-                  <Spinner />
-                </div>
-              )}
-              <img
-                className="rounded img-fluid"
-                src={employee.imageUrl}
-                onLoad={handleImageLoaded.bind(this)}
-              />
-            </div>
+            <EmployeeAvatar employee={employee} />
+
             <div className="d-flex fs-6">
               <span id="fullName" className="fs-2">
                 {employee.fullName}

@@ -4,6 +4,7 @@ import { usePromise } from "../hooks/usePromise";
 import { fetchEmployees } from "../services/local/employees";
 import { apiUpdateEmployee } from "../services/local/employees/update";
 import { apiDeleteEmployee } from "../services/local/employees/delete";
+import { apiStoreEmployeeAvatar } from "../services/local/employees/avatar/create";
 
 export const EmployeesContext = createContext({});
 
@@ -106,6 +107,24 @@ export const EmployeesContextProvider = ({ children }) => {
     }
   };
 
+  const storeAvatar = async (employeeId, formData) => {
+    try {
+      const data = await apiStoreEmployeeAvatar(employeeId, formData);
+
+      if (employees && employees.length !== 0) {
+        const newEmployees = generateNewsEmployeesFromUpdatedEmployee(
+          data.employee,
+          employeeId
+        );
+        console.log("newEmployees", newEmployees);
+        return mutateData(newEmployees);
+      }
+
+    } catch (error) {
+      throw error;
+    }
+  }
+
   return (
     <EmployeesContext.Provider
       value={{
@@ -115,6 +134,7 @@ export const EmployeesContextProvider = ({ children }) => {
         showEmployee,
         deleteEmployee,
         updateCategoriesToEmployee,
+        storeAvatar,
         employees,
         loading,
         error,
