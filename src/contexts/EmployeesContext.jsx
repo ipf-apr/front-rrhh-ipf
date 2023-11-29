@@ -111,19 +111,29 @@ export const EmployeesContextProvider = ({ children }) => {
     try {
       const data = await apiStoreEmployeeAvatar(employeeId, formData);
 
+      const existEmployee = employees.find((emp) => emp.id == employeeId);
+
+      const employeeUpdated = {
+        ...data.employee,
+        Categories: existEmployee.Categories,
+        JobPositions: existEmployee.JobPositions,
+        employeeSkills: existEmployee.employeeSkills,
+      };
+
+      console.log('employeeUpdated', employeeUpdated)
+
       if (employees && employees.length !== 0) {
         const newEmployees = generateNewsEmployeesFromUpdatedEmployee(
-          data.employee,
+          employeeUpdated,
           employeeId
         );
         console.log("newEmployees", newEmployees);
         return mutateData(newEmployees);
       }
-
     } catch (error) {
       throw error;
     }
-  }
+  };
 
   return (
     <EmployeesContext.Provider
