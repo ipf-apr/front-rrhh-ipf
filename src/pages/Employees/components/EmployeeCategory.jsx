@@ -9,17 +9,12 @@ import { formatDate } from "../../../helpers/formatDate";
 import { ShowErrors } from "../../../components/ShowErrors";
 import { fetchEmployeeCategories } from "../../../services/local/employees/categories";
 import { EmployeesContext } from "../../../contexts/EmployeesContext";
+import { SelectCategory } from "../../../components/SelectCategory";
 
 export const EmployeeCategory = ({ employeeId }) => {
   const [validationErrors, setValidationErrors] = useState(null);
 
   const { updateCategoriesToEmployee } = useContext(EmployeesContext);
-
-  const {
-    data: allCategories,
-    error,
-    loading: loadingCategories,
-  } = usePromise(fetchCategories);
 
   const {
     data: employeeCategories,
@@ -35,14 +30,14 @@ export const EmployeeCategory = ({ employeeId }) => {
     reset,
     setForm,
   } = useForm({
-    categoryId: "",
+    selectedCategory: "",
     datePromotion: "",
   });
 
   const addCategoryToEmployee = async (e) => {
     e.preventDefault();
     try {
-      const categoryId = category?.categoryId;
+      const categoryId = category?.selectedCategory;
       const datePromotion = category?.datePromotion;
       const categoryAlready = employeeCategories?.find(
         (category) => category.id == categoryId
@@ -58,15 +53,12 @@ export const EmployeeCategory = ({ employeeId }) => {
             datePromotion
           );
           console.log(data);
-          if (data.categoryEmployee) {
-            const category = allCategories.find(
-              (category) => category.id == categoryId
-            );
+          if (data.category) {
             const newCategories = [
               {
-                ...category,
+                ...data.category,
                 CategoryEmployee: {
-                  datePromotion: data.categoryEmployee.datePromotion,
+                  datePromotion: data.datePromotion,
                 },
               },
             ];
@@ -78,12 +70,12 @@ export const EmployeeCategory = ({ employeeId }) => {
             document.querySelector("#btnCancelSaveCategory").blur();
             mutateData([
               {
-                ...category,
+                ...data.category,
                 CategoryEmployee: {
-                  datePromotion: data.categoryEmployee.datePromotion,
+                  datePromotion: data.datePromotion,
                 },
               },
-              ...employeeCategories
+              ...employeeCategories,
             ]);
             updateCategoriesToEmployee(employeeId, newCategories);
           } else {
@@ -139,6 +131,7 @@ export const EmployeeCategory = ({ employeeId }) => {
           {employeeCategories &&
             employeeCategories.length > 0 &&
             employeeCategories.map((category, index) => {
+              console.log('employeeCategoriesMAP',category)
               return (
                 <li key={`category-employee-${category.id}`}>
                   <span className={index == 0 ? "fw-bold text-blue" : ""}>
@@ -184,30 +177,14 @@ export const EmployeeCategory = ({ employeeId }) => {
                 <input type="hidden" id="isCreating" />
                 <div id="validationErrorsAddCategories"></div>
                 <div className="col-12">
-                  <label htmlFor="selectCategories" className="form-label">
+                  <label htmlFor="selectedCategory" className="form-label">
                     Categoría de Empleado
                     <small className=" text-danger">(*)</small>
                   </label>
-                  <select
-                    className="form-select"
-                    name="categoryId"
-                    id="selectCategories"
-                    onChange={handleInputChange}
+                  <SelectCategory
+                    handleInputChange={handleInputChange}
                     value={category.categoryId}
-                  >
-                    <option value="">-- Seleccione --</option>
-                    {allCategories &&
-                      allCategories.map((category) => {
-                        return (
-                          <option
-                            key={`category-all-${category.id}`}
-                            value={category.id}
-                          >
-                            {category.name}
-                          </option>
-                        );
-                      })}
-                  </select>
+                  />
                 </div>
                 <div className="col-12">
                   <label htmlFor="datePromotion" className="form-label">
