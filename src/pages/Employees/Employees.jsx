@@ -7,6 +7,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { useForm } from "../../hooks/useForm";
 
 import { AlertDelete } from "../../components/AlertDelete";
+import { SelectJobPosition } from "../../components/SelectJobPosition";
 
 export const Employees = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -22,7 +23,7 @@ export const Employees = () => {
 
   const handleSubmitSearch = (e) => {
     e.preventDefault();
-    if (search.lastName || search.name || search.promotion) {
+    if (search) {
       setSearchParams(search);
       searchEmployees(search);
       setIsSearch(true);
@@ -108,6 +109,7 @@ export const Employees = () => {
                   <option value="1">Habilitado</option>
                   <option value="0">Inhabilitado</option>
                 </select>
+                <SelectJobPosition handleInputChange={handleInputChange} value={search.selectedJobPosition ?? ""}/>
               </div>
               <div className="d-flex flex-row m-2  justify-content-end gap-2">
                 <button

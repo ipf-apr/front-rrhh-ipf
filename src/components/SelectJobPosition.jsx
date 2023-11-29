@@ -3,7 +3,7 @@ import { fetchJobPositions } from "../services/local/jobPositions";
 import { ShowErrors } from "./ShowErrors";
 import { Spinner } from "./Spinner";
 
-export const SelectJobPosition = ({ handleInputChange }) => {
+export const SelectJobPosition = ({ handleInputChange, value }) => {
   const {
     data: allJobPositions,
     error,
@@ -20,9 +20,9 @@ export const SelectJobPosition = ({ handleInputChange }) => {
         name="selectedJobPosition"
         id="selectedJobPosition"
         onChange={handleInputChange}
-        defaultValue={""}
+        value={value}
       >
-        <option value="">-- Seleccione --</option>
+        <option value="">-- Seleccione el puesto --</option>
         {allJobPositions &&
           allJobPositions.map((jobPosition) => {
             return (
