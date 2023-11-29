@@ -8,6 +8,7 @@ import { useForm } from "../../hooks/useForm";
 
 import { AlertDelete } from "../../components/AlertDelete";
 import { SelectJobPosition } from "../../components/SelectJobPosition";
+import { SelectCategory } from "../../components/SelectCategory";
 
 export const Employees = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -110,6 +111,7 @@ export const Employees = () => {
                   <option value="0">Inhabilitado</option>
                 </select>
                 <SelectJobPosition handleInputChange={handleInputChange} value={search.selectedJobPosition ?? ""}/>
+                <SelectCategory handleInputChange={handleInputChange} value={search.selectedCategory ?? ""}/>
               </div>
               <div className="d-flex flex-row m-2  justify-content-end gap-2">
                 <button
