@@ -6,15 +6,10 @@ import { fetchJobPositions } from "../../../services/local/jobPositions";
 import { apiStoreEmployeeJobPosition } from "../../../services/local/employees/jobPositions/store";
 import { Spinner } from "../../../components/Spinner";
 import { ShowErrors } from "../../../components/ShowErrors";
+import { SelectJobPosition } from "../../../components/SelectJobPosition";
 
 export const EmployeeJobPosition = ({ employeeId }) => {
   const [validationErrors, setValidationErrors] = useState(null);
-
-  const {
-    data: allJobPositions,
-    error,
-    loading: loadingJobPositions,
-  } = usePromise(fetchJobPositions);
 
   const {
     data: employeeJobPositions,
@@ -48,17 +43,15 @@ export const EmployeeJobPosition = ({ employeeId }) => {
             employeeId,
             jobPositionId
           );
-          console.log(data);
-          if (data.employeeJobPosition) {
-            const jobPosition = allJobPositions.find(
-              (jobPosition) => jobPosition.id == jobPositionId
-            );
+          console.log('apiStoreEmployeeJobPosition',data);
+          if (data.jobPosition) {
+            
             if (!employeeJobPositions && employeeJobPositions.length === 0) {
-              return mutateData([jobPosition]);
+              return mutateData([data.jobPosition]);
             }
             document.querySelector("#btnCancelSaveJobPosition").click();
             document.querySelector("#btnCancelSaveJobPosition").blur();
-            return mutateData([jobPosition, ...employeeJobPositions]);
+            return mutateData([data.jobPosition, ...employeeJobPositions]);
           } else {
             return setValidationErrors(data.message);
           }
@@ -102,7 +95,6 @@ export const EmployeeJobPosition = ({ employeeId }) => {
           {employeeJobPositions &&
             employeeJobPositions.length > 0 &&
             employeeJobPositions.map((jobPosition, index) => {
-              console.log(jobPosition);
               return (
                 <li key={`jobPosition-employee-${jobPosition.id}`}>
                   <span className={index == 0 ? "text-primary fw-bold " : ""}>
@@ -151,26 +143,8 @@ export const EmployeeJobPosition = ({ employeeId }) => {
                   <label htmlFor="selectJobPosition" className="form-label">
                     Puestos Laborales<small className=" text-danger">(*)</small>
                   </label>
-                  <select
-                    className="form-select"
-                    name="selectedJobPosition"
-                    id="selectedJobPosition"
-                    onChange={handleInputChange}
-                    defaultValue={""}
-                  >
-                    <option value="">-- Seleccione --</option>
-                    {allJobPositions &&
-                      allJobPositions.map((jobPosition) => {
-                        return (
-                          <option
-                            key={`job-position-all-${jobPosition.id}`}
-                            value={jobPosition.id}
-                          >
-                            {jobPosition.position}
-                          </option>
-                        );
-                      })}
-                  </select>
+                  <SelectJobPosition handleInputChange={handleInputChange}/>
+                  
                 </div>
                 <div className="mt-2">
                   {validationErrors && <ShowErrors errors={validationErrors} />}

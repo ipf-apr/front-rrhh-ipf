@@ -15,7 +15,7 @@ export const ShowErrors = ({ errors }) => {
     </div>
   ) : (
     <div>
-      <h6 className="text-danger">{errors.message || errors}</h6>
+      <h6 className="text-danger">{errors?.message || errors}</h6>
     </div>
   );
 };
