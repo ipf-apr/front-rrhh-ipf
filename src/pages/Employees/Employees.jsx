@@ -204,8 +204,9 @@ export const Employees = () => {
                   return (
                     <tr key={employee.id}>
                       <th scope="row">
-                        <div style={{ height: 50, width: 50 }}>
+                        <div className="d-flex justify-content-center " style={{ height: 50, width: 50 }}>
                           <img
+                            style={{ objectFit: "cover",  height: 50  }}
                             className="rounded img-fluid"
                             src={employee.imageUrl}
                           />
