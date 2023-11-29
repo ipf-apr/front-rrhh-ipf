@@ -1,5 +1,5 @@
 import { useParams, Link, useLocation } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 import { EmployeeCategory } from "./components/EmployeeCategory";
 import { EmployeeJobPosition } from "./components/EmployeeJobPosition";
@@ -10,12 +10,27 @@ import { formatDate } from "../../helpers/formatDate";
 
 import toast from "react-hot-toast";
 import { EmployeeAvatar } from "./components/EmployeeAvatar";
+import { useReactToPrint } from "react-to-print";
 
 export const EmployeeDetail = () => {
   const { employeeId } = useParams();
+  const [employee, setEmployee] = useState(null);
   const location = useLocation();
 
-  const [employee, setEmployee] = useState(null);
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+    documentTitle: `${employee?.fullName} - ${employee?.profileNro} - Ficha de empleado`,
+    bodyClass: "m-2",
+    suppressErrors: true,
+    pageStyle: "width: 100vw",
+    removeAfterPrint: true,
+    copyStyles: true,
+    onAfterPrint: (event) => {
+      toast.success("Se ha impreso correctamente el listado de empleados.");
+    },
+  });
+
 
   const { employees, showEmployee } = useContext(EmployeesContext);
 
@@ -36,15 +51,23 @@ export const EmployeeDetail = () => {
   return (
     <>
       {employee ? (
-        <div className="d-block d-md-flex gap-2">
+        <div ref={componentRef} className="d-block d-md-flex gap-2">
           <div className="col rounded shadow p-3">
+            <button
+              className="btn btn-outline-primary relative float-end d-print-none mx-2 "
+              onClick={handlePrint}
+            >
+              Imprimir
+            </button>
             <Link
               to={`/employees/${employeeId}/edit`}
               className="btn btn-outline-success relative float-end d-print-none "
             >
               Editar
             </Link>
-            <EmployeeAvatar employee={employee} />
+           <div className="d-flex justify-content-center justify-content-md-start ">
+           <EmployeeAvatar employee={employee} />
+           </div>
 
             <div className="d-flex fs-6">
               <span id="fullName" className="fs-2">

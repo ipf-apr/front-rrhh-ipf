@@ -1,6 +1,6 @@
 import { Link, useSearchParams } from "react-router-dom";
 import { Spinner } from "../../components/Spinner";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { EmployeesContext } from "../../contexts/EmployeesContext";
 import { formatDate } from "../../helpers/formatDate";
 import { AuthContext } from "../../contexts/AuthContext";
@@ -11,8 +11,25 @@ import { SelectJobPosition } from "../../components/SelectJobPosition";
 import { SelectCategory } from "../../components/SelectCategory";
 import { SelectSkill } from "../../components/selectSkill";
 
+import { useReactToPrint } from "react-to-print";
+import { toast } from "react-hot-toast";
+
 export const Employees = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+    documentTitle: "Listado de Empleados",
+    bodyClass: "m-2",
+    suppressErrors: true,
+    pageStyle: "width: 100vw",
+    removeAfterPrint: true,
+    copyStyles: true,
+    onAfterPrint: (event) => {
+      toast.success("Se ha impreso correctamente el listado de empleados.");
+    },
+  });
 
   const { employees, loading, error, searchEmployees, deleteEmployee } =
     useContext(EmployeesContext);
@@ -47,9 +64,19 @@ export const Employees = () => {
   };
 
   return (
-    <div className="row">
+    <div ref={componentRef} className="row ">
       <header className="d-sm-flex align-items-center justify-content-between">
-        <h1>Listado de Empleados</h1>
+        <div className="d-flex align-items-center  gap-2">
+          <h1>Listado de Empleados</h1>
+          <div>
+          <button
+            className="btn btn-outline-primary  d-print-none"
+            onClick={handlePrint}
+          >
+            Imprimir
+          </button>
+          </div>
+        </div>
         <div className="d-sm-flex float-end  gap-1 d-print-none ">
           <Link className="btn btn-outline-success" to="/employees/create">
             Nuevo Empleado

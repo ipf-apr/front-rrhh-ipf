@@ -65,7 +65,7 @@ export const EmployeeAvatar = ({ employee }) => {
                 : "Cambiar la imagen"
             }
             style={{ height: 30, width: 30 }}
-            className="border-0 rounded-bottom position-absolute end-0 bg-opacity-75 bg-dark text-white"
+            className="border-0 rounded-bottom position-absolute end-0 bg-opacity-75 bg-dark text-white d-print-none "
             type="input"
             data-bs-toggle="modal"
             data-bs-target="#imageModal"
@@ -87,7 +87,7 @@ export const EmployeeAvatar = ({ employee }) => {
               </svg>
             </div>
           </button>
-          <div className="d-flex justify-content-center ">
+          <div className="d-flex justify-content-center">
             <img
               style={{ height: 200, objectFit: "cover" }}
               className="rounded img-fluid"
