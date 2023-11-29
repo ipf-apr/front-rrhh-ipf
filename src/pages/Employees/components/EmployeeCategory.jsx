@@ -131,7 +131,6 @@ export const EmployeeCategory = ({ employeeId }) => {
           {employeeCategories &&
             employeeCategories.length > 0 &&
             employeeCategories.map((category, index) => {
-              console.log('employeeCategoriesMAP',category)
               return (
                 <li key={`category-employee-${category.id}`}>
                   <span className={index == 0 ? "fw-bold text-blue" : ""}>

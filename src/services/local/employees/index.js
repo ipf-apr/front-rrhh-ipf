@@ -5,7 +5,6 @@ export const fetchEmployees = async (formData) => {
 
   let searchParams = {};
 
-  console.log('formData', formData);
   if (formData) {
     if (formData.lastName) {
       searchParams.lastName = formData.lastName;
@@ -27,7 +26,6 @@ export const fetchEmployees = async (formData) => {
     }
     url = URL + "/employees?" + new URLSearchParams(searchParams);
 
-    console.log(searchParams)
   }
 
   const response = await fetch(url, {

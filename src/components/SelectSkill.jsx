@@ -10,7 +10,6 @@ export const SelectSkill = ({handleInputChange, value}) => {
     loading: loadingAllSkills,
   } = usePromise(fetchSkills);
 
-  console.log(value)
   return (
     <>
       {error && <ShowErrors error={error} />}
