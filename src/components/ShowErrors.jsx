@@ -1,5 +1,4 @@
 export const ShowErrors = ({ errors }) => {
-  console.log('errors', errors);
   return Array.isArray(errors) ? (
     <div className="text-danger ">
       <h6 className="">

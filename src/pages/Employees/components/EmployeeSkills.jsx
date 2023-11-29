@@ -7,15 +7,12 @@ import { Spinner } from "../../../components/Spinner";
 import { apiStoreEmployeeSkill } from "../../../services/local/employees/skills/store";
 import { useForm } from "../../../hooks/useForm";
 import { ShowErrors } from "../../../components/ShowErrors";
+import { SelectSkill } from "../../../components/selectSkill";
 
 export const EmployeeSkills = ({ employeeId }) => {
   const [validationErrors, setValidationErrors] = useState(null);
 
-  const {
-    data: allSkills,
-    error: allSkillsError,
-    loading: loadingAllSkills,
-  } = usePromise(fetchSkills);
+ 
 
   const {
     data: employeeSkills,
@@ -39,7 +36,7 @@ export const EmployeeSkills = ({ employeeId }) => {
     e.preventDefault();
 
     try {
-      const skillId = skill?.skillId;
+      const skillId = skill?.selectedSkill;
 
       const skillAlready = employeeSkills?.find((skill) => skill.id == skillId);
 
@@ -47,14 +44,13 @@ export const EmployeeSkills = ({ employeeId }) => {
         if (skillId) {
           const data = await apiStoreEmployeeSkill(employeeId, skillId);
 
-          if (data.skillEmployee) {
-            const skill = allSkills.find((skill) => skill.id == skillId);
+          if (data.skill) {
             if (!employeeSkills && employeeSkills.length === 0) {
-              return mutateData([skill]);
+              return mutateData([data.skill]);
             }
             document.querySelector("#btlCancelSaveSkill").click();
             document.querySelector("#btlCancelSaveSkill").blur();
-            return mutateData([...employeeSkills, skill]);
+            return mutateData([...employeeSkills, data.skill]);
           } else {
             return setValidationErrors(data.message);
           }
@@ -131,26 +127,11 @@ export const EmployeeSkills = ({ employeeId }) => {
                     Seleccionar una Habilidad
                     <small className=" text-danger">(*)</small>
                   </label>
-                  <select
-                    className="form-select"
-                    name="skillId"
-                    id="selectSkills"
-                    onChange={handleInputChange}
-                    defaultValue={""}
-                  >
-                    <option value="">-- Seleccione --</option>
-                    {allSkills &&
-                      allSkills.map((skill) => {
-                        return (
-                          <option
-                            key={`skill-all-${skill.id}`}
-                            value={skill.id}
-                          >
-                            {skill.nameSkill}
-                          </option>
-                        );
-                      })}
-                  </select>
+                  <SelectSkill
+                    handleInputChange={handleInputChange}
+                    value={skill.selectedSkill}
+                  />
+                  
                   <div className="mt-2">
                     {validationErrors && (
                       <ShowErrors errors={validationErrors} />
