@@ -22,6 +22,7 @@ export const EmployeeEdit = () => {
     phone: "",
     nroLegajo: "",
     ingreso: "",
+    promotion: "",
   };
 
   const {
@@ -43,6 +44,7 @@ export const EmployeeEdit = () => {
         phone: emp.phone,
         nroLegajo: emp.profileNro,
         ingreso: emp.dateIn,
+        promotion: emp.promotion?.toString(),
       });
     }
   }, [employees]);

@@ -147,6 +147,35 @@ export const EmployeeCreateEditForm = ({
               required
             />
           </div>
+          <div className="col-md-4">
+            <label htmlFor="promotion" className="form-label">
+              Condición de Promoción
+            </label>
+            <div className="d-flex gap-3">
+              <label>
+                <input
+                  type="radio"
+                  id="habilitado"
+                  name="promotion"
+                  value={1}
+                  checked={employeeData.promotion == 1}
+                  onChange={handleInputChange}
+                />
+                Habilitado
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  id="inhabilitado"
+                  name="promotion"
+                  checked={employeeData.promotion == 0}
+                  onChange={handleInputChange}
+                  value={0}
+                />
+                Inhabilitado
+              </label>
+            </div>
+          </div>
           <div className="d-flex gap-1">
             <button
               disabled={disable}
@@ -162,7 +191,13 @@ export const EmployeeCreateEditForm = ({
                 <span>Guardar</span>
               )}
             </button>
-            <button onClick={()=> navigate(-1)} type="button" className="btn btn-secondary">Cancelar</button>
+            <button
+              onClick={() => navigate(-1)}
+              type="button"
+              className="btn btn-secondary"
+            >
+              Cancelar
+            </button>
           </div>
         </form>
       </main>
