@@ -30,17 +30,20 @@ function Aside() {
       </div>
       <div className="offcanvas-body">
         <ul className="nav nav-pills w-100 flex-column g-3">
-          <li className="nav-item">
-            <NavLink
-              to="/"
-              className="nav-link text-white"
-              data-bs-target="#aside"
-              data-bs-dismiss="offcanvas"
-            >
+          <li
+            className="nav-item"
+            data-bs-target="#aside"
+            data-bs-dismiss="offcanvas"
+          >
+            <NavLink to="/" className="nav-link text-white">
               Inicio
             </NavLink>
           </li>
-          <li className="nav-item" data-bs-target="#aside" data-bs-dismiss="offcanvas">
+          <li
+            className="nav-item"
+            data-bs-target="#aside"
+            data-bs-dismiss="offcanvas"
+          >
             <NavLink
               to="/employees"
               className="nav-link text-white"
@@ -63,7 +66,11 @@ function Aside() {
                 Administración
               </a>
               <ul className="collapse" id="collapseMenuAdmin">
-                <li className="nav-item" data-bs-target="#aside" data-bs-dismiss="offcanvas">
+                <li
+                  className="nav-item"
+                  data-bs-target="#aside"
+                  data-bs-dismiss="offcanvas"
+                >
                   <NavLink
                     to="/users"
                     className="nav-link text-white"
@@ -72,17 +79,29 @@ function Aside() {
                     Usuarios
                   </NavLink>
                 </li>
-                <li className="nav-item" data-bs-target="#aside" data-bs-dismiss="offcanvas">
+                <li
+                  className="nav-item"
+                  data-bs-target="#aside"
+                  data-bs-dismiss="offcanvas"
+                >
                   <NavLink to="/categories" className="nav-link text-white">
                     Categorías
                   </NavLink>
                 </li>
-                <li className="nav-item" data-bs-target="#aside" data-bs-dismiss="offcanvas">
+                <li
+                  className="nav-item"
+                  data-bs-target="#aside"
+                  data-bs-dismiss="offcanvas"
+                >
                   <NavLink to="/job-positions" className="nav-link text-white">
                     Puestos Laborales
                   </NavLink>
                 </li>
-                <li className="nav-item" data-bs-target="#aside" data-bs-dismiss="offcanvas">
+                <li
+                  className="nav-item"
+                  data-bs-target="#aside"
+                  data-bs-dismiss="offcanvas"
+                >
                   <NavLink to="/skills" className="nav-link text-white">
                     Habilidades
                   </NavLink>
@@ -90,6 +109,16 @@ function Aside() {
               </ul>
             </>
           )}
+
+          <li
+            className="nav-item"
+            data-bs-target="#aside"
+            data-bs-dismiss="offcanvas"
+          >
+            <NavLink to="/about" className="nav-link text-white">
+              Acerca de Nosotros
+            </NavLink>
+          </li>
         </ul>
         <div className="position-absolute bottom-0 mb-5">
           <button

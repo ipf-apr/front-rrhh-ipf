@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext.jsx";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useForm } from "../../hooks/useForm.jsx";
 import { ShowErrors } from "../../components/ShowErrors.jsx";
 
@@ -97,6 +97,9 @@ function Login() {
             </button>
           </div>
         </form>
+          <Link to={'/about'}>
+            <p className="mt-3">¿Qué es esto?</p>
+          </Link>
       </main>
     </>
   );

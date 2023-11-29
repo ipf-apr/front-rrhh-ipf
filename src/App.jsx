@@ -14,11 +14,13 @@ import { JobPositionsRoutes } from "./routes/JobPositionsRoutes.jsx";
 import { SkillsRoutes } from "./routes/SkillsRoutes.jsx";
 import { UsersRoutes } from "./routes/UsersRoutes.jsx";
 import { AdminRoutes } from "./routes/AdminRoutes.jsx";
+import { AboutPage } from "./pages/About/AboutPage.jsx";
 
 function App() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
+      <Route path="/about" element={<AboutPage />} />
       <Route path="/" element={<PrivateRoutes />}>
         <Route path="/" element={<Main />}>
           <Route path="/" element={<Dashboard />} />
