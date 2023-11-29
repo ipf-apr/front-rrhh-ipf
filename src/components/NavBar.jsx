@@ -15,7 +15,7 @@ function NavBar() {
       >
         <div className="container-fluid">
           <button
-            className="navbar-toggler"
+            className="navbar-toggler border-0"
             type="button"
             data-bs-toggle="offcanvas"
             data-bs-target="#aside"
@@ -23,7 +23,22 @@ function NavBar() {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span className="navbar-toggler-icon"></span>
+            <svg
+              style={{ width: "24px", height: "24px" }}
+              className="text-white"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M3.75 6.75h16.5M3.75 12H12m-8.25 5.25h16.5"
+              ></path>
+            </svg>
           </button>
           <div className="navbar-collapse justify-content-md-center collapse">
             <ul className="navbar-nav">
@@ -36,7 +51,9 @@ function NavBar() {
           </div>
           <div className="position-absolute end-0 mx-3">
             <span className="text-white">{userFullName}</span>
-            <span className="text-white mx-2 text-capitalize">({userRol})</span>
+            <span className="text-white mx-2">
+              {userRol == "admin" ? "(Administrador)" : ""}
+            </span>
           </div>
         </div>
       </nav>

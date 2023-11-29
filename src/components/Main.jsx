@@ -13,7 +13,10 @@ function Main() {
       {/* Contenido Principal */}
       <div className="d-flex overflow-hidden">
         <Aside />
-        <div className="col p-4 my-2 overflow-y-scroll h-100">
+        <div
+          style={{ scrollBehavior: "smooth", height: "calc(100vh - 56px)"}}
+          className="col p-4 my-2 overflow-y-auto h-100"
+        >
           <Outlet />
           <Toaster position="bottom-right" reverseOrder={false} />
         </div>
