@@ -22,6 +22,9 @@ export const fetchEmployees = async (formData) => {
     if (formData.selectedCategory) {
       searchParams.category = formData.selectedCategory;
     }
+    if (formData.selectedSkill) {
+      searchParams.skill = formData.selectedSkill;
+    }
     url = URL + "/employees?" + new URLSearchParams(searchParams);
 
     console.log(searchParams)

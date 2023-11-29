@@ -9,6 +9,7 @@ import { useForm } from "../../hooks/useForm";
 import { AlertDelete } from "../../components/AlertDelete";
 import { SelectJobPosition } from "../../components/SelectJobPosition";
 import { SelectCategory } from "../../components/SelectCategory";
+import { SelectSkill } from "../../components/selectSkill";
 
 export const Employees = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -38,10 +39,10 @@ export const Employees = () => {
     searchEmployees();
   };
 
-  const handleDeleteEmployee = ({target}) => {
+  const handleDeleteEmployee = ({ target }) => {
     const employeeId = target.dataset.id;
     AlertDelete(() => {
-      deleteEmployee(employeeId)
+      deleteEmployee(employeeId);
     });
   };
 
@@ -76,44 +77,67 @@ export const Employees = () => {
       </header>
       <main className="col">
         <div className="collapse" id="collapseSearch">
-          <div className="card card-body mt-2">
-            <form onSubmit={handleSubmitSearch} id="formSearch" className="row">
-              <div className="d-flex flex-column flex-sm-row gap-2">
-                <input
-                  placeholder="Apellidos"
-                  className="form-control"
-                  type="search"
-                  name="lastName"
-                  id="sLastName"
-                  value={search.lastName ?? ""}
-                  onChange={handleInputChange}
-                />
-                <input
-                  placeholder="Nombres"
-                  className="form-control"
-                  type="search"
-                  name="name"
-                  id="sName"
-                  value={search.name ?? ""}
-                  onChange={handleInputChange}
-                />
-                <select
-                  className="form-select"
-                  name="promotion"
-                  id="sPromotion"
-                  onChange={handleInputChange}
-                  value={search.promotion ?? ""}
-                >
-                  <option defaultValue="">
-                    --Seleccionar Condición Promoción--
-                  </option>
-                  <option value="1">Habilitado</option>
-                  <option value="0">Inhabilitado</option>
-                </select>
-                <SelectJobPosition handleInputChange={handleInputChange} value={search.selectedJobPosition ?? ""}/>
-                <SelectCategory handleInputChange={handleInputChange} value={search.selectedCategory ?? ""}/>
+          <div className="card mt-2">
+            <form onSubmit={handleSubmitSearch} id="formSearch">
+              <div className="d-flex flex-column  flex-md-row flex-md-wrap gap-2 card-body ">
+                <div className="">
+                  <input
+                    placeholder="Apellidos"
+                    className="form-control"
+                    type="search"
+                    name="lastName"
+                    id="sLastName"
+                    value={search.lastName ?? ""}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="">
+                  <input
+                    placeholder="Nombres"
+                    className="form-control"
+                    type="search"
+                    name="name"
+                    id="sName"
+                    value={search.name ?? ""}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div>
+                  <select
+                    className="form-select"
+                    name="promotion"
+                    id="sPromotion"
+                    onChange={handleInputChange}
+                    value={search.promotion ?? ""}
+                  >
+                    <option defaultValue="">
+                      -- Seleccionar Condición Promoción --
+                    </option>
+                    <option value="1">Habilitado</option>
+                    <option value="0">Inhabilitado</option>
+                  </select>
+                </div>
+
+                <div className="">
+                  <SelectJobPosition
+                    handleInputChange={handleInputChange}
+                    value={search.selectedJobPosition ?? ""}
+                  />
+                </div>
+                <div className="">
+                  <SelectCategory
+                    handleInputChange={handleInputChange}
+                    value={search.selectedCategory ?? ""}
+                  />
+                </div>
+                <div className="">
+                  <SelectSkill
+                    handleInputChange={handleInputChange}
+                    value={search.selectedSkill ?? ""}
+                  />
+                </div>
               </div>
-              <div className="d-flex flex-row m-2  justify-content-end gap-2">
+              <div className="card-footer  d-flex flex-row m-2  justify-content-end gap-2">
                 <button
                   type="submit"
                   className="btn btn-outline-primary align-items-end"
@@ -204,13 +228,16 @@ export const Employees = () => {
                     categoryName =
                       employee.Categories[0]?.name ?? "No asignado";
                   }
-
+                  console.log('EmployeeMap', employee)
                   return (
                     <tr key={employee.id}>
                       <th scope="row">
-                        <div className="d-flex justify-content-center " style={{ height: 50, width: 50 }}>
+                        <div
+                          className="d-flex justify-content-center "
+                          style={{ height: 50, width: 50 }}
+                        >
                           <img
-                            style={{ objectFit: "cover",  height: 50  }}
+                            style={{ objectFit: "cover", height: 50 }}
                             className="rounded img-fluid"
                             src={employee.imageUrl}
                           />
