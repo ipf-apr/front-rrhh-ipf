@@ -40,7 +40,7 @@ export const EmployeeDetail = () => {
           <div className="col rounded shadow p-3">
             <Link
               to={`/employees/${employeeId}/edit`}
-              className="btn btn-outline-success relative float-end"
+              className="btn btn-outline-success relative float-end d-print-none "
             >
               Editar
             </Link>

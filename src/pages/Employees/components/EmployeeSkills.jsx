@@ -72,7 +72,7 @@ export const EmployeeSkills = ({ employeeId }) => {
           <strong>Habilidades / Skills:</strong>
           <button
             type="button"
-            className="btn btn-success"
+            className="btn btn-success  d-print-none"
             data-bs-toggle="modal"
             data-bs-target="#modalSkillCreate"
           >

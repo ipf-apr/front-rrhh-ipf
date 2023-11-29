@@ -50,7 +50,7 @@ export const Employees = () => {
     <div className="row">
       <header className="d-sm-flex align-items-center justify-content-between">
         <h1>Listado de Empleados</h1>
-        <div className="d-sm-flex float-end  gap-1">
+        <div className="d-sm-flex float-end  gap-1 d-print-none ">
           <Link className="btn btn-outline-success" to="/employees/create">
             Nuevo Empleado
           </Link>
@@ -76,7 +76,7 @@ export const Employees = () => {
         </div>
       </header>
       <main className="col">
-        <div className="collapse" id="collapseSearch">
+        <div className="collapse d-print-none " id="collapseSearch">
           <div className="card mt-2">
             <form onSubmit={handleSubmitSearch} id="formSearch">
               <div className="d-flex flex-column  flex-md-row flex-md-wrap gap-2 card-body ">
@@ -187,7 +187,9 @@ export const Employees = () => {
                 <th scope="col">Categoría</th>
                 <th scope="col">Fecha Promoción</th>
                 <th scope="col">Condición de ascenso Actual</th>
-                <th scope="col">Acciones</th>
+                <th scope="col" className="d-print-none ">
+                  Acciones
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -228,7 +230,6 @@ export const Employees = () => {
                     categoryName =
                       employee.Categories[0]?.name ?? "No asignado";
                   }
-                  console.log('EmployeeMap', employee)
                   return (
                     <tr key={employee.id}>
                       <th scope="row">
@@ -243,15 +244,15 @@ export const Employees = () => {
                           />
                         </div>
                       </th>
-                      <td>{employee.lastName}</td>
+                      <td className="text-nowrap">{employee.lastName}</td>
                       <td>{employee.name}</td>
-                      <td>{employee.age}</td>
-                      <td>{categoryName}</td>
+                      <td className="text-nowrap">{employee.age}</td>
+                      <td className="text-nowrap">{categoryName}</td>
                       <td>{date ?? "-"}</td>
                       <td>
                         {employee.promotion ? "Habilitado" : " Inhabilitado"}
                       </td>
-                      <td>
+                      <td className="d-print-none ">
                         <div className="d-flex gap-1">
                           <Link
                             to={`/employees/${employee.id}/edit`}

@@ -72,7 +72,7 @@ export const EmployeeJobPosition = ({ employeeId }) => {
         <div className="d-flex justify-content-between align-items-center ">
           <strong>Puestos laborales:</strong>
           <button
-            className="btn btn-success"
+            className="btn btn-success  d-print-none"
             data-bs-toggle="modal"
             data-bs-target="#modalAddJobPositionToEmployee"
           >

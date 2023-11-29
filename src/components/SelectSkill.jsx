@@ -23,7 +23,7 @@ export const SelectSkill = ({handleInputChange, value}) => {
         onChange={handleInputChange}
         value={value}
       >
-        <option value="">-- Seleccione --</option>
+        <option value="">-- Seleccione la habilidad --</option>
         {allSkills &&
           allSkills.map((skill) => {
             return (
