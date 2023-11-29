@@ -6,14 +6,14 @@ import { Spinner } from "./Spinner";
 export const SelectSkill = ({handleInputChange, value}) => {
   const {
     data: allSkills,
-    error: allSkillsError,
+    error,
     loading: loadingAllSkills,
   } = usePromise(fetchSkills);
 
   console.log(value)
   return (
     <>
-      <ShowErrors error={allSkillsError} />
+      {error && <ShowErrors error={error} />}
 
       {loadingAllSkills && <Spinner />}
       <select

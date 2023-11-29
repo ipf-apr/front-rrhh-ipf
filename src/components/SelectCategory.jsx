@@ -11,7 +11,7 @@ export const SelectCategory = ({ handleInputChange, value }) => {
   } = usePromise(fetchCategories);
   return (
     <>
-      <ShowErrors error={error} />
+      {error && <ShowErrors error={error} />}
 
       {loadingCategories && <Spinner />}
       <select

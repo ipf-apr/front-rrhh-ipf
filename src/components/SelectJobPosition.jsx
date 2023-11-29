@@ -11,9 +11,9 @@ export const SelectJobPosition = ({ handleInputChange, value }) => {
   } = usePromise(fetchJobPositions);
   return (
     <>
-      <ShowErrors error={error} />
-
-      {loadingJobPositions && <Spinner />}
+        {error && <ShowErrors error={error} />}
+  
+        {loadingJobPositions && <Spinner />}
 
       <select
         className="form-select"
@@ -27,8 +27,8 @@ export const SelectJobPosition = ({ handleInputChange, value }) => {
           allJobPositions.map((jobPosition) => {
             return (
               <option
-                key={`job-position-all-${jobPosition.id}`}
-                value={jobPosition.id}
+              key={`job-position-all-${jobPosition.id}`}
+              value={jobPosition.id}
               >
                 {jobPosition.position}
               </option>
