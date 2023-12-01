@@ -1,19 +1,37 @@
+import { useEffect, useState } from "react";
 import { usePromise } from "../hooks/usePromise";
 import { fetchCategories } from "../services/local/categories";
 import { ShowErrors } from "./ShowErrors";
 import { Spinner } from "./Spinner";
 
-export const SelectCategory = ({ handleInputChange, value }) => {
+export const SelectCategory = ({
+  handleInputChange,
+  setCategoryName,
+  value,
+}) => {
   const {
     data: allCategories,
     error,
     loading: loadingCategories,
   } = usePromise(fetchCategories);
-  return (
+
+  useEffect(() => {
+    if (allCategories && allCategories.length > 0) {
+      const category = allCategories.find(
+        (category) => category.id == value
+        );
+        if (category) {
+          setCategoryName(category.name);
+        }
+      }
+    }, [value])
+    
+    return (
     <>
       {error && <ShowErrors error={error} />}
 
       {loadingCategories && <Spinner />}
+      
       <select
         className="form-select"
         name="selectedCategory"

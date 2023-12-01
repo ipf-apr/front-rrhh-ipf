@@ -24,8 +24,11 @@ export const fetchEmployees = async (formData) => {
     if (formData.selectedSkill) {
       searchParams.skill = formData.selectedSkill;
     }
+    if (formData.gender) {
+      searchParams.gender = formData.gender;
+    }
     url = URL + "/employees?" + new URLSearchParams(searchParams);
-
+    
   }
 
   const response = await fetch(url, {

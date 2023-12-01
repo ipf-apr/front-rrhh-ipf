@@ -1,14 +1,26 @@
+import { useEffect } from "react";
 import { usePromise } from "../hooks/usePromise";
 import { fetchSkills } from "../services/local/skills";
 import { ShowErrors } from "./ShowErrors";
 import { Spinner } from "./Spinner";
 
-export const SelectSkill = ({handleInputChange, value}) => {
+export const SelectSkill = ({handleInputChange, value, setSkillName}) => {
   const {
     data: allSkills,
     error,
     loading: loadingAllSkills,
   } = usePromise(fetchSkills);
+
+  useEffect(() => {
+    if (allSkills && allSkills.length > 0) {
+      const skill = allSkills.find(
+        (skill) => skill.id == value
+        );
+        if (skill) {
+          setSkillName(skill.nameSkill);
+        }
+      }
+    }, [value])
 
   return (
     <>

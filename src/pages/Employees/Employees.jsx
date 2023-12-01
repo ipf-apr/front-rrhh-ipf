@@ -13,11 +13,13 @@ import { SelectSkill } from "../../components/selectSkill";
 
 import { useReactToPrint } from "react-to-print";
 import { toast } from "react-hot-toast";
+import { showGender } from "../../helpers/showGender";
 
 export const Employees = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const componentRef = useRef();
+
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
     documentTitle: "Listado de Empleados",
@@ -37,6 +39,9 @@ export const Employees = () => {
   const { isAdmin } = useContext(AuthContext);
 
   const [isSearch, setIsSearch] = useState(false);
+  const [jobName, setJobName] = useState("");
+  const [ categoryName, setCategoryName ]  = useState("");
+  const [ skillName, setSkillName ]  = useState("");
 
   const { form: search, handleInputChange, reset, setForm } = useForm({});
 
@@ -67,14 +72,16 @@ export const Employees = () => {
     <div ref={componentRef} className="row ">
       <header className="d-sm-flex align-items-center justify-content-between">
         <div className="d-flex align-items-center  gap-2">
-          <h1>Listado de Empleados</h1>
+          <div className="d-flex flex-column ">
+            <h1>Listado de Empleados</h1>
+          </div>
           <div>
-          <button
-            className="btn btn-outline-primary  d-print-none"
-            onClick={handlePrint}
-          >
-            Imprimir
-          </button>
+            <button
+              className="btn btn-outline-primary  d-print-none"
+              onClick={handlePrint}
+            >
+              Imprimir
+            </button>
           </div>
         </div>
         <div className="d-sm-flex float-end  gap-1 d-print-none ">
@@ -103,6 +110,50 @@ export const Employees = () => {
         </div>
       </header>
       <main className="col">
+        <ul className="d-print-flex flex-column d-none ">
+          {search && (<p>Filtros aplicados:</p>)}
+          {search && search.lastName && (
+            <li>
+              <small>Apellidos: {search.lastName}</small>
+            </li>
+          )}
+          {search && search.name && (
+            <li>
+              <small>Nombres: {search.name}</small>
+            </li>
+          )}
+          {search && search.promotion && (
+            <li>
+              <small className="mx-1">
+                Condición de ascenso:
+                {search.promotion == 1 ? "Habilitado" : "Inhabilitado"}
+              </small>
+            </li>
+          )}
+          {search && search.gender && (
+            <li>
+              <small className="mx-1">
+                Género:
+                { showGender(search.gender)  }
+              </small>
+            </li>
+          )}
+          {search && search.selectedJobPosition && (
+            <li>
+              <small>Puesto laboral: {jobName}</small>
+            </li>
+          )}
+          {search && search.selectedCategory && (
+            <li>
+              <small>Categoría: {categoryName}</small>
+            </li>
+          )}
+          {search && search.selectedSkill && (
+            <li>
+              <small>Habilidad: {skillName}</small>
+            </li>
+          )}
+        </ul>
         <div className="collapse d-print-none " id="collapseSearch">
           <div className="card mt-2">
             <form onSubmit={handleSubmitSearch} id="formSearch">
@@ -144,22 +195,42 @@ export const Employees = () => {
                     <option value="0">Inhabilitado</option>
                   </select>
                 </div>
+                <div>
+                  <select
+                    className="form-select"
+                    name="gender"
+                    id="sGender"
+                    onChange={handleInputChange}
+                    value={search.gender ?? ""}
+                  >
+                    <option defaultValue="">
+                      -- Seleccionar Género --
+                    </option>
+                    <option value="f">Femenino</option>
+                    <option value="m">Masculino</option>
+                    <option value="x">No Binario</option>
+                    <option value="o">Otro</option>
+                  </select>
+                </div>
 
                 <div className="">
                   <SelectJobPosition
                     handleInputChange={handleInputChange}
+                    setJobName={setJobName}
                     value={search.selectedJobPosition ?? ""}
                   />
                 </div>
                 <div className="">
                   <SelectCategory
                     handleInputChange={handleInputChange}
+                    setCategoryName={setCategoryName}
                     value={search.selectedCategory ?? ""}
                   />
                 </div>
                 <div className="">
                   <SelectSkill
                     handleInputChange={handleInputChange}
+                    setSkillName={setSkillName}
                     value={search.selectedSkill ?? ""}
                   />
                 </div>
@@ -211,6 +282,7 @@ export const Employees = () => {
                 <th scope="col">Apellidos</th>
                 <th scope="col">Nombres</th>
                 <th scope="col">Edad</th>
+                <th scope="col">Género</th>
                 <th scope="col">Categoría</th>
                 <th scope="col">Fecha Promoción</th>
                 <th scope="col">Condición de ascenso Actual</th>
@@ -274,6 +346,7 @@ export const Employees = () => {
                       <td className="text-nowrap">{employee.lastName}</td>
                       <td>{employee.name}</td>
                       <td className="text-nowrap">{employee.age}</td>
+                      <td className="text-nowrap">{ showGender(employee.gender) }</td>
                       <td className="text-nowrap">{categoryName}</td>
                       <td>{date ?? "-"}</td>
                       <td>
