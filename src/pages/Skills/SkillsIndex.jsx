@@ -104,7 +104,7 @@ export const SkillsIndex = () => {
                     </td>
                   </tr>
                 )}
-                {error && (
+                { !skills && error && (
                   <tr>
                     <td colSpan={8} className="text-center text-danger ">
                       {error.message}

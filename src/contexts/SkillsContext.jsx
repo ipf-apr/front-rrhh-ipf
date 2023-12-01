@@ -13,8 +13,10 @@ export const SkillsContextProvider = ({ children }) => {
   const storeSkill = async (skill) => {
     try {
       const data = await apiStoreSkill(skill);
-      if (!skills && skills?.length === 0) {
-        return mutateData([data]);
+
+      console.log("skills", skills);
+      if (!skills || skills?.length === 0) {
+        return mutateData([data.skill]);
       }
       mutateData([...skills, data.skill]);
     } catch (error) {

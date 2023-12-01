@@ -18,8 +18,8 @@ export const JobPositionsContextProvider = ({ children }) => {
   const storeJobPosition = async (jobPosition) => {
     try {
         const data = await apiStoreJobPosition(jobPosition);
-        if (!jobPositions && jobPositions.length === 0) {
-          return mutateData([data]);
+        if (!jobPositions || jobPositions?.length === 0) {
+          return mutateData([data.jobPosition]);
         }
         console.log(data);
         mutateData([...jobPositions, data.jobPosition]);

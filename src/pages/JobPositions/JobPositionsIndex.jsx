@@ -151,7 +151,7 @@ export const JobPositionsIndex = () => {
                       </tr>
                     );
                   })}
-                {error && (
+                {!jobPositions && error && (
                   <tr>
                     <td colSpan={8} className="text-center text-danger ">
                       {error.message}

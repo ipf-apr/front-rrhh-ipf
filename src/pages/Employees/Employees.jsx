@@ -40,8 +40,8 @@ export const Employees = () => {
 
   const [isSearch, setIsSearch] = useState(false);
   const [jobName, setJobName] = useState("");
-  const [ categoryName, setCategoryName ]  = useState("");
-  const [ skillName, setSkillName ]  = useState("");
+  const [categoryName, setCategoryName] = useState("");
+  const [skillName, setSkillName] = useState("");
 
   const { form: search, handleInputChange, reset, setForm } = useForm({});
 
@@ -111,7 +111,7 @@ export const Employees = () => {
       </header>
       <main className="col">
         <ul className="d-print-flex flex-column d-none ">
-          {search && (<p>Filtros aplicados:</p>)}
+          {search && <p>Filtros aplicados:</p>}
           {search && search.lastName && (
             <li>
               <small>Apellidos: {search.lastName}</small>
@@ -139,7 +139,7 @@ export const Employees = () => {
             <li>
               <small className="mx-1">
                 Género:
-                { showGender(search.gender)  }
+                {showGender(search.gender)}
               </small>
             </li>
           )}
@@ -219,9 +219,7 @@ export const Employees = () => {
                     onChange={handleInputChange}
                     value={search.gender ?? ""}
                   >
-                    <option defaultValue="">
-                      -- Seleccionar Género --
-                    </option>
+                    <option defaultValue="">-- Seleccionar Género --</option>
                     <option value="f">Femenino</option>
                     <option value="m">Masculino</option>
                     <option value="x">No Binario</option>
@@ -290,113 +288,112 @@ export const Employees = () => {
             </form>
           </div>
         </div>
-        <div className="overflow-auto">
-          <table className="table table-striped table-hover">
-            <thead>
+        <table className="table table-striped table-hover ">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Apellidos y Nombres</th>
+              <th scope="col">Edad</th>
+              <th scope="col">Género</th>
+              <th scope="col">Categoría</th>
+              <th scope="col">Fecha Promoción</th>
+              <th scope="col">Condición</th>
+              <th scope="col" className="d-print-none ">
+                Acciones
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading && (
               <tr>
-                <th scope="col">#</th>
-                <th scope="col">Apellidos y Nombres</th>
-                <th scope="col">Edad</th>
-                <th scope="col">Género</th>
-                <th scope="col">Categoría</th>
-                <th scope="col">Fecha Promoción</th>
-                <th scope="col">Condición</th>
-                <th scope="col" className="d-print-none ">
-                  Acciones
-                </th>
+                <td className="text-center" colSpan={8}>
+                  <Spinner />
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {loading && (
-                <tr>
-                  <td className="text-center" colSpan={8}>
-                    <Spinner />
-                  </td>
-                </tr>
-              )}
-              {employees && employees.length == 0 && !loading && (
-                <tr>
-                  <td colSpan={8} className="text-center">
-                    {isSearch
-                      ? "No se hallaron resultados con los parámetros ingresados."
-                      : "No hay empleados registrados aún."}
-                  </td>
-                </tr>
-              )}
-              {error && (
-                <tr>
-                  <td colSpan={8} className="text-center text-danger ">
-                    {error.message}
-                  </td>
-                </tr>
-              )}
+            )}
+            {employees && employees.length == 0 && !loading && (
+              <tr>
+                <td colSpan={8} className="text-center">
+                  {isSearch
+                    ? "No se hallaron resultados con los parámetros ingresados."
+                    : "No hay empleados registrados aún."}
+                </td>
+              </tr>
+            )}
+            {error && (
+              <tr>
+                <td colSpan={8} className="text-center text-danger ">
+                  {error.message}
+                </td>
+              </tr>
+            )}
 
-              {employees &&
-                employees.length != 0 &&
-                employees &&
-                employees.map((employee, index) => {
-                  let date;
-                  let categoryName = "No asignado";
-                  if (employee.Categories) {
-                    const dateIn =
-                      employee?.Categories[0]?.CategoryEmployee.datePromotion;
-                    date = formatDate(dateIn);
-                    categoryName =
-                      employee.Categories[0]?.name ?? "No asignado";
-                  }
-                  return (
-                    <tr key={employee.id}>
-                      <th scope="row">
-                        <div
-                          className="d-flex justify-content-center "
-                          style={{ height: 50, width: 50 }}
+            {employees &&
+              employees.length != 0 &&
+              employees &&
+              employees.map((employee, index) => {
+                let date;
+                let categoryName = "No asignado";
+                if (employee.Categories) {
+                  const dateIn =
+                    employee?.Categories[0]?.CategoryEmployee.datePromotion;
+                  date = formatDate(dateIn);
+                  categoryName = employee.Categories[0]?.name ?? "No asignado";
+                }
+                return (
+                  <tr key={employee.id}>
+                    <th scope="row">
+                      <div
+                        className="d-flex justify-content-center "
+                        style={{ height: 50, width: 50 }}
+                      >
+                        <img
+                          style={{ objectFit: "cover", height: 50 }}
+                          className="rounded img-fluid"
+                          src={employee.imageUrl}
+                        />
+                      </div>
+                    </th>
+                    <td>{employee.fullName}</td>
+                    <td className="text-nowrap">{employee.age}</td>
+                    <td className="text-nowrap">
+                      {showGender(employee.gender)}
+                    </td>
+                    <td className="text-nowrap">{categoryName}</td>
+                    <td>{date ?? "-"}</td>
+                    <td>
+                      {employee.promotion ? "Habilitado" : " Inhabilitado"}
+                    </td>
+                    <td className="d-print-none ">
+                      <div className="d-flex gap-1">
+                        <Link
+                          to={`/employees/${employee.id}/edit`}
+                          className="btn btn-outline-success"
                         >
-                          <img
-                            style={{ objectFit: "cover", height: 50 }}
-                            className="rounded img-fluid"
-                            src={employee.imageUrl}
-                          />
-                        </div>
-                      </th>
-                      <td className="text-nowrap">{employee.fullName}</td>
-                      <td className="text-nowrap">{employee.age}</td>
-                      <td className="text-nowrap">{ showGender(employee.gender) }</td>
-                      <td className="text-nowrap">{categoryName}</td>
-                      <td>{date ?? "-"}</td>
-                      <td>
-                        {employee.promotion ? "Habilitado" : " Inhabilitado"}
-                      </td>
-                      <td className="d-print-none ">
-                        <div className="d-flex gap-1">
-                          <Link
-                            to={`/employees/${employee.id}/edit`}
-                            className="btn btn-outline-success"
+                          Editar
+                        </Link>
+                        <Link
+                          to={`/employees/${employee.id}/show`}
+                          className="btn btn-outline-primary"
+                        >
+                          Ver
+                        </Link>
+                        {isAdmin() && (
+                          <button
+                            data-id={employee.id}
+                            onClick={handleDeleteEmployee}
+                            className="btn btn-outline-danger"
                           >
-                            Editar
-                          </Link>
-                          <Link
-                            to={`/employees/${employee.id}/show`}
-                            className="btn btn-outline-primary"
-                          >
-                            Ver
-                          </Link>
-                          {isAdmin() && (
-                            <button
-                              data-id={employee.id}
-                              onClick={handleDeleteEmployee}
-                              className="btn btn-outline-danger"
-                            >
-                              Eliminar
-                            </button>
-                          )}
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-        </div>
+                            Eliminar
+                          </button>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        </table>
       </main>
     </div>
   );
