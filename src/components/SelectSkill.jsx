@@ -12,7 +12,7 @@ export const SelectSkill = ({handleInputChange, value, setSkillName}) => {
   } = usePromise(fetchSkills);
 
   useEffect(() => {
-    if (allSkills && allSkills.length > 0) {
+    if (setSkillName && allSkills && allSkills.length > 0) {
       const skill = allSkills.find(
         (skill) => skill.id == value
         );

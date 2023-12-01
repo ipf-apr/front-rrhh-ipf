@@ -16,7 +16,7 @@ export const SelectJobPosition = ({
   } = usePromise(fetchJobPositions);
 
   useEffect(() => {
-    if (allJobPositions && allJobPositions.length > 0) {
+    if (setJobName && allJobPositions && allJobPositions.length > 0) {
       const jobPosition = allJobPositions.find(
         (jobPosition) => jobPosition.id == value
       );

@@ -16,7 +16,7 @@ export const SelectCategory = ({
   } = usePromise(fetchCategories);
 
   useEffect(() => {
-    if (allCategories && allCategories.length > 0) {
+    if (setCategoryName && allCategories && allCategories.length > 0) {
       const category = allCategories.find(
         (category) => category.id == value
         );
