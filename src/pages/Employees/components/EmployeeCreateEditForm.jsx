@@ -69,7 +69,25 @@ export const EmployeeCreateEditForm = ({
               />
             </div>
           </div>
-          <div className="col-md-8">
+          <div className="col-md-3">
+          <label htmlFor="dni" className="form-label">
+              Género <small className=" text-danger">(*)</small>
+            </label>
+            <select
+              className="form-select"
+              name="gender"
+              id="gender"
+              onChange={handleInputChange}
+              value={employeeData.gender}
+            >
+              <option value="">-- Seleccionar Género --</option>
+              <option value="f">Femenino</option>
+              <option value="m">Masculino</option>
+              <option value="x">No Binario</option>
+              <option value="o">Otro</option>
+            </select>
+          </div>
+          <div className="col-md-5">
             <label htmlFor="domicilio" className="form-label">
               Domicilio <small className=" text-danger">(*)</small>
             </label>

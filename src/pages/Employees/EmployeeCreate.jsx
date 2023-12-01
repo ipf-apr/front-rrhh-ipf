@@ -22,6 +22,7 @@ export const EmployeeCreate = () => {
     lastName: "",
     name: "",
     dni: "",
+    gender: "",
     domicilio: "",
     fechaNac: "",
     phone: "",
