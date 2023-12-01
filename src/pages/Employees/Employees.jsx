@@ -122,6 +122,11 @@ export const Employees = () => {
               <small>Nombres: {search.name}</small>
             </li>
           )}
+          {search && search.dni && (
+            <li>
+              <small>Nro. de documento: {search.dni}</small>
+            </li>
+          )}
           {search && search.promotion && (
             <li>
               <small className="mx-1">
@@ -177,6 +182,17 @@ export const Employees = () => {
                     name="name"
                     id="sName"
                     value={search.name ?? ""}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="">
+                  <input
+                    placeholder="DNI"
+                    className="form-control"
+                    type="search"
+                    name="dni"
+                    id="sDni"
+                    value={search.dni ?? ""}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -279,13 +295,12 @@ export const Employees = () => {
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Apellidos</th>
-                <th scope="col">Nombres</th>
+                <th scope="col">Apellidos y Nombres</th>
                 <th scope="col">Edad</th>
                 <th scope="col">Género</th>
                 <th scope="col">Categoría</th>
                 <th scope="col">Fecha Promoción</th>
-                <th scope="col">Condición de ascenso Actual</th>
+                <th scope="col">Condición</th>
                 <th scope="col" className="d-print-none ">
                   Acciones
                 </th>
@@ -343,8 +358,7 @@ export const Employees = () => {
                           />
                         </div>
                       </th>
-                      <td className="text-nowrap">{employee.lastName}</td>
-                      <td>{employee.name}</td>
+                      <td className="text-nowrap">{employee.fullName}</td>
                       <td className="text-nowrap">{employee.age}</td>
                       <td className="text-nowrap">{ showGender(employee.gender) }</td>
                       <td className="text-nowrap">{categoryName}</td>

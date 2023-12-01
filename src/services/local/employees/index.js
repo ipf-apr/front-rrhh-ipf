@@ -12,6 +12,9 @@ export const fetchEmployees = async (formData) => {
     if (formData.name) {
       searchParams.name = formData.name;
     }
+    if (formData.dni) {
+      searchParams.dni = formData.dni;
+    }
     if (formData.promotion) {
       searchParams.promotion = formData.promotion;
     }
