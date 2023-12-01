@@ -1,6 +1,6 @@
 import { Link, useSearchParams } from "react-router-dom";
 import { Spinner } from "../../components/Spinner";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { EmployeesContext } from "../../contexts/EmployeesContext";
 import { formatDate } from "../../helpers/formatDate";
 import { AuthContext } from "../../contexts/AuthContext";
@@ -16,7 +16,10 @@ import { toast } from "react-hot-toast";
 import { showGender } from "../../helpers/showGender";
 
 export const Employees = () => {
+  const { employees, loading, error, searchEmployees, deleteEmployee } =
+    useContext(EmployeesContext);
   const [searchParams, setSearchParams] = useSearchParams();
+
 
   const componentRef = useRef();
 
@@ -32,9 +35,6 @@ export const Employees = () => {
       toast.success("Se ha impreso correctamente el listado de empleados.");
     },
   });
-
-  const { employees, loading, error, searchEmployees, deleteEmployee } =
-    useContext(EmployeesContext);
 
   const { isAdmin } = useContext(AuthContext);
 
