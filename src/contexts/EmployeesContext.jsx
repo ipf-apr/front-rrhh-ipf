@@ -42,9 +42,6 @@ export const EmployeesContextProvider = ({ children }) => {
 
   const updateEmployee = async (employeeId, employeeData) => {
     try {
-      console.log("employeeData", employeeData);
-      console.log("employeeId", employeeId);
-
       const data = await apiUpdateEmployee(employeeData, employeeId);
 
       console.log("data", data);
@@ -54,7 +51,6 @@ export const EmployeesContextProvider = ({ children }) => {
           data,
           employeeId
         );
-        console.log("newEmployees", newEmployees);
         return mutateData(newEmployees);
       }
     } catch (error) {
@@ -75,8 +71,6 @@ export const EmployeesContextProvider = ({ children }) => {
   const updateCategoriesToEmployee = (employeeId, categories) => {
     // employee.Categories
     const employee = employees.find((emp) => emp.id == employeeId);
-    console.log("updateCategoriesToEmployee", employee);
-    console.log("updateCategoriesToEmployee", categories);
     if (employee) {
       employee.Categories = categories;
       const newEmployees = generateNewsEmployeesFromUpdatedEmployee(
@@ -119,15 +113,11 @@ export const EmployeesContextProvider = ({ children }) => {
         JobPositions: existEmployee.JobPositions,
         employeeSkills: existEmployee.employeeSkills,
       };
-
-      console.log('employeeUpdated', employeeUpdated)
-
       if (employees && employees.length !== 0) {
         const newEmployees = generateNewsEmployeesFromUpdatedEmployee(
           employeeUpdated,
           employeeId
         );
-        console.log("newEmployees", newEmployees);
         return mutateData(newEmployees);
       }
     } catch (error) {
