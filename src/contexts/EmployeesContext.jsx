@@ -1,26 +1,29 @@
-import { createContext, useCallback, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import { apiStoreEmployee } from "../services/local/employees/create";
 import { usePromise } from "../hooks/usePromise";
 import { fetchEmployees } from "../services/local/employees";
 import { apiUpdateEmployee } from "../services/local/employees/update";
 import { apiDeleteEmployee } from "../services/local/employees/delete";
 import { apiStoreEmployeeAvatar } from "../services/local/employees/avatar/create";
-
+import { useSearchParams } from "react-router-dom";
 export const EmployeesContext = createContext({});
 
 export const EmployeesContextProvider = ({ children }) => {
-  const [searchData, setSearchData] = useState(null);
+  
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const searchEmployees = (searchData) => {
+    setSearchParams(searchData);
+  };
+
+
 
   const {
     data: employees,
     loading,
     error,
     mutateData,
-  } = usePromise(useCallback(() => fetchEmployees(searchData), [searchData]));
-
-  const searchEmployees = (searchData) => {
-    setSearchData(searchData);
-  };
+  } = usePromise(useCallback(() => fetchEmployees(searchParams), [searchParams]));
 
   const storeEmployee = async (employee) => {
     try {

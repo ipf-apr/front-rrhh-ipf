@@ -18,8 +18,6 @@ import { showGender } from "../../helpers/showGender";
 export const Employees = () => {
   const { employees, loading, error, searchEmployees, deleteEmployee } =
     useContext(EmployeesContext);
-  const [searchParams, setSearchParams] = useSearchParams();
-
 
   const componentRef = useRef();
 
@@ -44,6 +42,7 @@ export const Employees = () => {
   const [skillName, setSkillName] = useState("");
 
   const { form: search, handleInputChange, reset, setForm } = useForm({});
+
 
   const handleSubmitSearch = (e) => {
     e.preventDefault();
@@ -339,7 +338,8 @@ export const Employees = () => {
                     employee?.Categories[0]?.CategoryEmployee.datePromotion;
                   date = formatDate(dateIn);
                   categoryName = employee.Categories[0]?.name ?? "No asignado";
-                }
+                }               
+
                 return (
                   <tr key={employee.id}>
                     <th scope="row">

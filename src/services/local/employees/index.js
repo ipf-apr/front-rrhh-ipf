@@ -1,38 +1,8 @@
 import { URL } from "../../../utils/constants.js";
 
-export const fetchEmployees = async (formData) => {
-  let url = URL + "/employees";
-
-  let searchParams = {};
-
-  if (formData) {
-    if (formData.lastName) {
-      searchParams.lastName = formData.lastName;
-    }
-    if (formData.name) {
-      searchParams.name = formData.name;
-    }
-    if (formData.dni) {
-      searchParams.dni = formData.dni;
-    }
-    if (formData.promotion) {
-      searchParams.promotion = formData.promotion;
-    }
-    if (formData.selectedJobPosition) {
-      searchParams.position = formData.selectedJobPosition;
-    }
-    if (formData.selectedCategory) {
-      searchParams.category = formData.selectedCategory;
-    }
-    if (formData.selectedSkill) {
-      searchParams.skill = formData.selectedSkill;
-    }
-    if (formData.gender) {
-      searchParams.gender = formData.gender;
-    }
-    url = URL + "/employees?" + new URLSearchParams(searchParams);
-    
-  }
+export const fetchEmployees = async (params) => {
+  
+  const url = URL + `/employees?${params?.toString()}`;
 
   const response = await fetch(url, {
     headers: {
