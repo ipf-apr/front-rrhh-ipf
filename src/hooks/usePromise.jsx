@@ -8,7 +8,12 @@ export const usePromise = (fnc) => {
   useEffect(() => {
     fnc()
       .then((data) => setData(data))
-      .catch((error) => setError(error))
+      .catch((error) => {
+        if (error?.message?.includes('Tu sesión expiró, volvé a iniciar sesión.')) {
+          localStorage.removeItem('token');
+        }
+        setError(error)
+      })
       .finally(() => setLoading(false));
   }, [fnc]);
 
