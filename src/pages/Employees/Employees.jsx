@@ -1,6 +1,6 @@
 import { Link, useSearchParams } from "react-router-dom";
 import { Spinner } from "../../components/Spinner";
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { EmployeesContext } from "../../contexts/EmployeesContext";
 import { formatDate } from "../../helpers/formatDate";
 import { AuthContext } from "../../contexts/AuthContext";
@@ -20,6 +20,8 @@ export const Employees = () => {
     useContext(EmployeesContext);
 
   const componentRef = useRef();
+
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
