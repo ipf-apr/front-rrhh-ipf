@@ -1,4 +1,4 @@
-import { createContext, useCallback, useEffect, useState } from "react";
+import { createContext, useCallback } from "react";
 import { apiStoreEmployee } from "../services/local/employees/create";
 import { usePromise } from "../hooks/usePromise";
 import { fetchEmployees } from "../services/local/employees";
@@ -9,21 +9,16 @@ import { useSearchParams } from "react-router-dom";
 export const EmployeesContext = createContext({});
 
 export const EmployeesContextProvider = ({ children }) => {
-  
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const searchEmployees = (searchData) => {
-    setSearchParams(searchData);
-  };
-
-
+  const [searchParams] = useSearchParams();
 
   const {
     data: employees,
     loading,
     error,
     mutateData,
-  } = usePromise(useCallback(() => fetchEmployees(searchParams), [searchParams]));
+  } = usePromise(
+    useCallback(() => fetchEmployees(searchParams), [searchParams])
+  );
 
   const storeEmployee = async (employee) => {
     try {
@@ -131,7 +126,6 @@ export const EmployeesContextProvider = ({ children }) => {
   return (
     <EmployeesContext.Provider
       value={{
-        searchEmployees,
         storeEmployee,
         updateEmployee,
         showEmployee,

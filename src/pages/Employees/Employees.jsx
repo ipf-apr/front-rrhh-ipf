@@ -16,12 +16,11 @@ import { toast } from "react-hot-toast";
 import { showGender } from "../../helpers/showGender";
 
 export const Employees = () => {
-  const { employees, loading, error, searchEmployees, deleteEmployee } =
+  const { employees, loading, error, deleteEmployee } =
     useContext(EmployeesContext);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const componentRef = useRef();
-
-  const [searchParams, setSearchParams] = useSearchParams();
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
@@ -45,12 +44,10 @@ export const Employees = () => {
 
   const { form: search, handleInputChange, reset, setForm } = useForm({});
 
-
   const handleSubmitSearch = (e) => {
     e.preventDefault();
     if (search) {
       setSearchParams(search);
-      searchEmployees(search);
       setIsSearch(true);
     }
   };
@@ -59,7 +56,6 @@ export const Employees = () => {
     reset();
     setIsSearch(false);
     setSearchParams();
-    searchEmployees();
   };
 
   const handleDeleteEmployee = ({ target }) => {
@@ -340,7 +336,7 @@ export const Employees = () => {
                     employee?.Categories[0]?.CategoryEmployee.datePromotion;
                   date = formatDate(dateIn);
                   categoryName = employee.Categories[0]?.name ?? "No asignado";
-                }               
+                }
 
                 return (
                   <tr key={employee.id}>
