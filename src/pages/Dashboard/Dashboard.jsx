@@ -68,14 +68,12 @@ export const Dashboard = () => {
                     data.lastsEmployees?.map((employee) => {
                       return (
                         <li
-                          style={{ width: "150px" }}
+                          style={{ width: "150px", cursor: "pointer" }}
                           key={`employee-last-five-${employee.id}`}
-                          className="text-center col-3"
+                          className="text-center border rounded-2 p-2 col-3 shadow"
+                          onClick={handleNavigateToEmployeesBy(`/employees/${employee.id}/show`)}
                         >
-                          <Link
-                            to={`/employees/${employee.id}/show`}
-                            className="text-dark text-decoration-none"
-                          >
+                       
                             <img
                               style={{ height: "50px", borderRadius: "50%" }}
                               src={employee.imageUrl}
@@ -87,7 +85,6 @@ export const Dashboard = () => {
                             <span className="">
                               {formatDate(employee.createdAt)}
                             </span>
-                          </Link>
                         </li>
                       );
                     })}
