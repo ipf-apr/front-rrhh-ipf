@@ -157,7 +157,7 @@ export const Employees = () => {
           )}
           {search && search.age && (
             <li>
-              <small>Rango Etario: { search.age}</small>
+              <small>Rango Etario: {search.age}</small>
             </li>
           )}
         </ul>

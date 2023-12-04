@@ -36,7 +36,7 @@ export const Dashboard = () => {
   });
 
   return (
-    <div  className="container-fluid py-5 px-md-5 col">
+    <div className="container-fluid py-5 px-md-5 col">
       <header className="d-flex align-items-center justify-content-between">
         <h1>Página de inicio</h1>
         <div>
@@ -56,46 +56,35 @@ export const Dashboard = () => {
               <Spinner />
             </div>
           ) : (
-            <div className="card m-1">
-              <div className="card-header d-flex align-items-center gap-3">
-                <h3 className="card-title">Ultimos Empleados </h3>
-                <span className="badge bg-danger ">6 Empleados</span>
+            <div className="card g- m-1">
+              <div className="card-header d-flex align-items-center gap-3 ">
+                <h3 className="card-title">Empleados por Rango Etario </h3>
               </div>
               <div className="card-body p-2">
-                <ul className="list-unstyled d-flex flex-wrap justify-content-evenly  gap-3">
+                <ul className="list-unstyled d-flex flex-wrap justify-content-evenly gap-3">
                   {!loading &&
                     data &&
-                    data.lastsEmployees?.map((employee) => {
+                    data.employeesByRangeAge?.length > 0 &&
+                    data.employeesByRangeAge?.map((employee) => {
+                      console.log(employee)
                       return (
                         <li
-                          style={{ width: "150px", cursor: "pointer" }}
-                          key={`employee-last-five-${employee.id}`}
+                          key={`employee-by-gender-${employee.rangeAge}`}
+                          style={{ cursor: "pointer" }}
                           className="text-center border rounded-2 p-2 col-3 shadow"
-                          onClick={handleNavigateToEmployeesBy(`/employees/${employee.id}/show`)}
+                          onClick={handleNavigateToEmployeesBy(
+                            `/employees?age=${employee.rangeAgers}`
+                          )}
                         >
-                       
-                            <img
-                              style={{ height: "50px", borderRadius: "50%" }}
-                              src={employee.imageUrl}
-                              alt={employee.name}
-                            />
-                            <div className="fs-6 text-truncate">
-                              <strong>{employee.name}</strong>
-                            </div>
-                            <span className="">
-                              {formatDate(employee.createdAt)}
-                            </span>
+                          <p className="fs-1 fw-bold">{employee.count}</p>
+                          <div className="text-truncate">
+                            <small>{employee.rangeAge} años</small>
+                          </div>
                         </li>
                       );
                     })}
                 </ul>
               </div>
-              <Link
-                className="card-footer text-center text-dark text-decoration-none"
-                to="/employees"
-              >
-                <div className="">Ver todos los empleados</div>
-              </Link>
             </div>
           )}
         </div>
@@ -136,7 +125,7 @@ export const Dashboard = () => {
             </div>
           )}
         </div>
-        <div className="col-md-6 h-100"  style={{ pageBreakBefore: "always" }}>
+        <div className="col-md-6 h-100" style={{ pageBreakBefore: "always" }}>
           {loading ? (
             <div className="d-flex justify-content-center w-100 ">
               <Spinner />
@@ -211,6 +200,56 @@ export const Dashboard = () => {
                     })}
                 </ul>
               </div>
+            </div>
+          )}
+        </div>
+        <div className="h-100">
+          {loading ? (
+            <div className="d-flex justify-content-center w-100 ">
+              <Spinner />
+            </div>
+          ) : (
+            <div className="card m-1">
+              <div className="card-header d-flex align-items-center gap-3">
+                <h3 className="card-title">Ultimos Empleados </h3>
+                <span className="badge bg-danger ">6 Empleados</span>
+              </div>
+              <div className="card-body p-2">
+                <ul className="list-unstyled d-flex flex-wrap justify-content-evenly  gap-3">
+                  {!loading &&
+                    data &&
+                    data.lastsEmployees?.map((employee) => {
+                      return (
+                        <li
+                          style={{ width: "150px", cursor: "pointer" }}
+                          key={`employee-last-five-${employee.id}`}
+                          className="text-center border rounded-2 p-2 col-3 shadow"
+                          onClick={handleNavigateToEmployeesBy(
+                            `/employees/${employee.id}/show`
+                          )}
+                        >
+                          <img
+                            style={{ height: "50px", borderRadius: "50%" }}
+                            src={employee.imageUrl}
+                            alt={employee.name}
+                          />
+                          <div className="fs-6 text-truncate">
+                            <strong>{employee.name}</strong>
+                          </div>
+                          <span className="">
+                            {formatDate(employee.createdAt)}
+                          </span>
+                        </li>
+                      );
+                    })}
+                </ul>
+              </div>
+              <Link
+                className="card-footer text-center text-dark text-decoration-none"
+                to="/employees"
+              >
+                <div className="">Ver todos los empleados</div>
+              </Link>
             </div>
           )}
         </div>
