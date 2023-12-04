@@ -42,8 +42,6 @@ export const EmployeesContextProvider = ({ children }) => {
     try {
       const data = await apiUpdateEmployee(employeeData, employeeId);
 
-      console.log("data", data);
-
       if (employees && employees.length !== 0) {
         const newEmployees = generateNewsEmployeesFromUpdatedEmployee(
           data,

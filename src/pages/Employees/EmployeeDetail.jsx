@@ -91,6 +91,12 @@ export const EmployeeDetail = () => {
               </p>
             </div>
             <div className="d-flex">
+              <strong>Fecha de Nacimiento:</strong>
+              <p className="mx-3" id="address">
+                {formatDate(employee.dateBirthday)}
+              </p>
+            </div>
+            <div className="d-flex">
               <strong>Domicilio:</strong>
               <p className="mx-3" id="address">
                 {employee?.address}

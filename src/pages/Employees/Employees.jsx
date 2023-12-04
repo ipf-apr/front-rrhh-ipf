@@ -155,6 +155,11 @@ export const Employees = () => {
               <small>Habilidad: {skillName}</small>
             </li>
           )}
+          {search && search.age && (
+            <li>
+              <small>Rango Etario: { search.age}</small>
+            </li>
+          )}
         </ul>
         <div className="collapse d-print-none " id="collapseSearch">
           <div className="card mt-2">
@@ -201,7 +206,7 @@ export const Employees = () => {
                     onChange={handleInputChange}
                     value={search.promotion ?? ""}
                   >
-                    <option defaultValue="">
+                    <option value="">
                       -- Seleccionar Condición Promoción --
                     </option>
                     <option value="1">Habilitado</option>
@@ -211,16 +216,15 @@ export const Employees = () => {
                 <div>
                   <select
                     className="form-select"
-                    name="gender"
-                    id="sGender"
+                    name="age"
+                    id="sAge"
                     onChange={handleInputChange}
-                    value={search.gender ?? ""}
+                    value={search.age ?? ""}
                   >
-                    <option defaultValue="">-- Seleccionar Género --</option>
-                    <option value="f">Femenino</option>
-                    <option value="m">Masculino</option>
-                    <option value="x">No Binario</option>
-                    <option value="o">Otro</option>
+                    <option value="">-- Seleccionar Rango Etario --</option>
+                    <option value="18-25">de 18 a 25 años</option>
+                    <option value="26-30">de 26 a 30 años</option>
+                    <option value="30+">más de 30 años</option>
                   </select>
                 </div>
 
