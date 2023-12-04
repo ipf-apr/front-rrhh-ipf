@@ -73,7 +73,7 @@ export const Dashboard = () => {
                           style={{ cursor: "pointer" }}
                           className="text-center border rounded-2 p-2 col-3 shadow"
                           onClick={handleNavigateToEmployeesBy(
-                            `/employees?age=${employee.rangeAgers}`
+                            `/employees?age=${employee.rangeAge}`
                           )}
                         >
                           <p className="fs-1 fw-bold">{employee.count}</p>
@@ -125,7 +125,7 @@ export const Dashboard = () => {
             </div>
           )}
         </div>
-        <div className="col-md-6 h-100" style={{ pageBreakBefore: "always" }}>
+        <div className="col-md-6 h-100">
           {loading ? (
             <div className="d-flex justify-content-center w-100 ">
               <Spinner />
@@ -164,7 +164,7 @@ export const Dashboard = () => {
             </div>
           )}
         </div>
-        <div className="col-md-6 h-100">
+        <div className="col-md-6 h-100" style={{ pageBreakBefore: "always" }}>
           {loading ? (
             <div className="d-flex justify-content-center w-100 ">
               <Spinner />
