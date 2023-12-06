@@ -36,9 +36,9 @@ export const Dashboard = () => {
   });
 
   return (
-    <div className="container-fluid py-5 px-md-5 col">
+    <div  ref={componentRef} className="container-fluid py-5 px-md-5 col">
       <header className="d-flex align-items-center justify-content-between">
-        <h1>Página de inicio</h1>
+        <h1>Cantidad total de empleados {data?.totalEmployees}</h1>
         <div>
           <button
             className="btn btn-outline-primary d-print-none"
@@ -47,8 +47,8 @@ export const Dashboard = () => {
             Imprimir
           </button>
         </div>
-        <ShowErrors errors={error} />
       </header>
+        <ShowErrors errors={error} />
       <main ref={componentRef} className="row h-100">
         <div className="col-md-6 h-100">
           {loading ? (
@@ -66,7 +66,7 @@ export const Dashboard = () => {
                     data &&
                     data.employeesByRangeAge?.length > 0 &&
                     data.employeesByRangeAge?.map((employee) => {
-                      console.log(employee)
+                      console.log(employee);
                       return (
                         <li
                           key={`employee-by-gender-${employee.rangeAge}`}
