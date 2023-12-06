@@ -42,7 +42,16 @@ export const Employees = () => {
   const [categoryName, setCategoryName] = useState("");
   const [skillName, setSkillName] = useState("");
 
-  const { form: search, handleInputChange, reset, setForm } = useForm({});
+  const { form: search, handleInputChange, reset, setForm } = useForm({
+    lastName: searchParams.get("lastName") ?? "",
+    name: searchParams.get("name") ?? "",
+    dni: searchParams.get("dni") ?? "",
+    promotion: searchParams.get("promotion") ?? "",
+    age: searchParams.get("age") ?? "",
+    selectedJobPosition: searchParams.get("selectedJobPosition") ?? "",
+    selectedCategory: searchParams.get("selectedCategory") ?? "",
+    selectedSkill: searchParams.get("selectedSkill") ?? "",
+  });
 
   const handleSubmitSearch = (e) => {
     e.preventDefault();
